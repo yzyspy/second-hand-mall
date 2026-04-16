@@ -21,7 +21,7 @@ func NewDB() (*gorm.DB, error) {
 		TablePrefix:  "",
 	})
 	if err != nil {
-		panic(fmt.Sprintf("db init error dsn : %s %v", dsn, err))
+		panic(fmt.Sprintf("db init error dsn ,path: %v error:%v", c.SQLite.FilePath, err))
 	}
 	return con, nil
 }
