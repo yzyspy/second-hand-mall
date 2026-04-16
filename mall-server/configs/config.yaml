@@ -27,7 +27,7 @@ log:
   level: 4
   format: "json"
   output: "file"
-  output_file: "/data1/weibo/"
+  output_file: "/Users/yangzhongyu/Desktop/code/github/second-hand-mal/logs/"
   enable_hook: false
   #HookLevels: ["info", "warn", "error"]
   #Hook: "gorm"
