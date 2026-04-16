@@ -80,6 +80,7 @@ type Config struct {
 	RunMode    string     `yaml:"run_mode"`
 	VpnMySQL   MySQL      `yaml:"vpn_mysql"`
 	Redis      Redis      `yaml:"redis"`
+	SQLite     SQLite     `yaml:"sqlite"`
 	Consul     Consul     `yaml:"consul"`
 	GrpcClient GrpcClient `yaml:"grpc_client"`
 }
@@ -121,6 +122,11 @@ type MySQL struct {
 	Password   string `yaml:"password"`
 	DBName     string `yaml:"db_name"`
 	Parameters string `yaml:"parameters"`
+}
+
+type SQLite struct {
+	FilePath   string `yaml:"file_path"`  // 数据库文件路径，如 "data.db" 或 ":memory:"
+	Parameters string `yaml:"parameters"` // 可选参数，如 "cache=shared&mode=rwc"
 }
 
 type Redis struct {

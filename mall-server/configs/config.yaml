@@ -50,6 +50,9 @@ gorm:
   enable_auto_migrate: false
   enabled_monitor: false
 
+sqlite:
+  file_path: "/Users/yangzhongyu/Desktop/code/github/second-hand-mall/second-hand-mall.db"
+  parameters: ""
 
 vpn_mysql:
   host: "rm-dj12vt5h031cmg466.mysql.rds.aliyuncs.com"

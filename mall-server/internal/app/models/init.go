@@ -10,7 +10,7 @@ import (
 
 func NewDB() (*gorm.DB, error) {
 	c := config.C
-	dsn := buildDSN(&c.VpnMySQL)
+	dsn := buildDSN(&c.SQLite)
 	con, err := gormx.New(&gormx.Config{
 		DBType:       c.Gorm.DBType,
 		DSN:          dsn,
@@ -26,19 +26,17 @@ func NewDB() (*gorm.DB, error) {
 	return con, nil
 }
 
-func buildDSN(cfg *config.MySQL) string {
-	//c := mysql.NewConfig()
-	//c.User = cfg.User
-	//c.Passwd = cfg.Password
-	//c.Net = "tcp"
-	//c.Addr = fmt.Sprintf("%s:%d", cfg.Host, cfg.Port)
-	//c.DBName = cfg.DBName
-	//// 解析参数字符串为 map（如果需要）
-	//if cfg.Parameters != "" {
-	//	c.Params = parseParams(cfg.Parameters)
-	//}
-	//return c.FormatDSN()
-	return ""
+func buildDSN(cfg *config.SQLite) string {
+	dsn := cfg.FilePath
+	if cfg.Parameters != "" {
+		// 根据已有参数决定连接符
+		if strings.Contains(dsn, "?") {
+			dsn += "&" + cfg.Parameters
+		} else {
+			dsn += "?" + cfg.Parameters
+		}
+	}
+	return dsn
 }
 
 // 简单的参数字符串解析，生产环境建议使用 url.ParseQuery
