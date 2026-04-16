@@ -1,0 +1,70 @@
+# 运行模式 (debug: 调试, test: 测试, release: 正式)
+run_mode: "debug"
+www: ""
+swagger: false
+print_config: true
+
+http:
+  host: "0.0.0.0"
+  port: 10088
+  cert_file: ""
+  key_file: ""
+  shutdown_timeout: 30
+  max_content_length: 67108864
+  max_reqlogger_length: 1024
+  max_reslogger_length: 1024
+
+consul:
+  schema: http
+  host: api.consul.bee.to:30058
+
+grpc_client:
+  jaco-rc-decision-grpc-name: "jaco-rc-decision-grpc" # 线上在consul注册的服务名称
+  jaco-rc-decision-grpc-address: "dns:///jaco-rc-decision-grpc.beeto.svc:9090" # 测试环境使用的是DNS,没有使用consul, 线上不需要读取这个值
+
+
+log:
+  level: 4
+  format: "json"
+  output: "file"
+  output_file: "/data1/weibo/"
+  enable_hook: false
+  #HookLevels: ["info", "warn", "error"]
+  #Hook: "gorm"
+  #HookMaxThread: 1
+  #HookMaxBuffer: 512
+
+log_gormHook:
+  db_type: "mysql"
+  max_lifetime: 7200
+  max_open_conns: 10
+  max_idle_conns: 5
+
+gorm:
+  debug: true
+  db_type: "sqlite"
+  max_lifetime: 7200
+  max_open_conns: 150
+  max_idle_conns: 50
+  table_prefix: "v_"
+  enable_auto_migrate: false
+  enabled_monitor: false
+
+
+vpn_mysql:
+  host: "rm-dj12vt5h031cmg466.mysql.rds.aliyuncs.com"
+  port: 3306
+  user: "root"
+  password: "ShGWw#@F3NRyWYoVOLPf"
+  db_name: "whale_live"
+  parameters: "charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
+
+redis:
+  host: "r-dj10mlrscznz3eb3u6.redis.rds.aliyuncs.com"
+  port: 6379
+  mode: 1
+  pool_size: 50
+  min_idle: 2
+  idle_timeout: 10
+  db: 0
+

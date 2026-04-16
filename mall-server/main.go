@@ -5,6 +5,8 @@ import (
 	"github.com/urfave/cli/v2"
 	"log"
 	"mall-server/internal/app"
+	"mall-server/internal/app/models"
+	"mall-server/internal/app/router"
 	"mall-server/pkg/logger"
 	"os"
 )
@@ -23,6 +25,14 @@ func main() {
 		log.Fatalf("应用启动失败: %v", err)
 		panic("应用启动失败")
 	}
+
+	serviceContext := models.NewServiceContext(ctx)
+
+	log.Println("启动完成成功,监听 8080 端口")
+	logger.Infof("启动完成成功,监听 8080 端口")
+	//启动gin
+	r := router.App(ctx, serviceContext)
+	r.Run(":8080")
 }
 
 func newWebCmd(ctx context.Context) *cli.Command {
