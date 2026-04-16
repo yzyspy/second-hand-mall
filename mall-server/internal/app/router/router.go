@@ -26,6 +26,12 @@ func App(ctx context.Context, svc *models.ServiceContext) *gin.Engine {
 		})
 	})
 
+	// 用户登录接口
+	// curl -X POST -H "Content-Type: application/json" -d '{"username":"kane","password":"111"}' http://localhost:8080/user/login
+	r.POST("/user/login", func(c *gin.Context) {
+		service.LoginPsw(ctx, c, svc)
+	})
+
 	r.GET("/ping", func(c *gin.Context) {
 		logger.WithContext(c).Info("ping invoke111")
 		logger.Infof("ping invoke2222")
