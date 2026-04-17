@@ -8,6 +8,7 @@ import (
 	"log"
 	"mall-server/internal/app/dao"
 	"mall-server/internal/app/models"
+	"mall-server/pkg/jwtx"
 	"mall-server/pkg/logger"
 	"net/http"
 	"time"
@@ -52,6 +53,16 @@ func LoginPsw(ctx context.Context, c *gin.Context, svc *models.ServiceContext) {
 		return
 	}
 
+	// 生成 JWT token
+	token, err := jwtx.GenerateToken(user.ID, user.UserName)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "生成token失败",
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"code": 0,
 		"msg":  "登录成功",
@@ -59,6 +70,7 @@ func LoginPsw(ctx context.Context, c *gin.Context, svc *models.ServiceContext) {
 			"user_id":   user.ID,
 			"user_name": user.UserName,
 			"avatar":    user.Avatar,
+			"token":     token,
 		},
 	})
 }

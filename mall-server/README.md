@@ -28,6 +28,14 @@ go mod tidy
 
 ## 数据库设计
 
+启动redis,并开启redis的持久话功能
+```shell
+brew services restart redis
+redis-cli -h 127.0.0.1 -p 6379
+```
+
+
+
 ```sql
 -- 系统用户表
 CREATE TABLE IF NOT EXISTS "sys_users" (

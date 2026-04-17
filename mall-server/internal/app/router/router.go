@@ -17,6 +17,8 @@ func App(ctx context.Context, svc *models.ServiceContext) *gin.Engine {
 
 	r.Use(CORSMiddleware())
 
+	// ========== 公开接口（无需登录） ==========
+
 	//curl -X POST -H "Content-Type: application/json" -d '{"username":"kane","password":"111"}' http://localhost:8080/user/save
 
 	r.POST("/user/save", func(c *gin.Context) {
@@ -32,14 +34,6 @@ func App(ctx context.Context, svc *models.ServiceContext) *gin.Engine {
 		service.LoginPsw(ctx, c, svc)
 	})
 
-	r.GET("/ping", func(c *gin.Context) {
-		logger.WithContext(c).Info("ping invoke111")
-		logger.Infof("ping invoke2222")
-		c.JSON(200, gin.H{
-			"message": "Hello, World!",
-		})
-	})
-
 	r.GET("/actuator/health/readiness", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "Hello, readiness!",
@@ -49,6 +43,18 @@ func App(ctx context.Context, svc *models.ServiceContext) *gin.Engine {
 	r.GET("/actuator/health/liveness", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "Hello, liveness!",
+		})
+	})
+
+	// ========== 需要登录鉴权的接口 ==========
+	auth := r.Group("/")
+	auth.Use(AuthMiddleware())
+
+	auth.GET("/ping", func(c *gin.Context) {
+		logger.WithContext(c).Info("ping invoke111")
+		logger.Infof("ping invoke2222")
+		c.JSON(200, gin.H{
+			"message": "Hello, World!",
 		})
 	})
 
