@@ -27,7 +27,7 @@ log:
   level: 4
   format: "json"
   output: "file"
-  output_file: "/Users/yangzhongyu/Desktop/code/github/second-hand-mal/logs/"
+  output_file: "/Users/yangzhongyu/Desktop/code/github/second-hand-mall/logs/"
   enable_hook: false
   #HookLevels: ["info", "warn", "error"]
   #Hook: "gorm"
@@ -61,6 +61,14 @@ vpn_mysql:
   password: "ShGWw#@F3NRyWYoVOLPf"
   db_name: "whale_live"
   parameters: "charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
+
+cos:
+  secret_id: ""
+  secret_key: ""
+  region: "ap-guangzhou"
+  bucket: "cos-imge-1255898474"
+  app_id: "1255898474"
+  expire_seconds: 600
 
 redis:
   host: "r-dj10mlrscznz3eb3u6.redis.rds.aliyuncs.com"

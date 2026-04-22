@@ -1,0 +1,52 @@
+<!--pages/my/my.wxml-->
+<view class="my-container">
+  <!-- 用户信息区域 -->
+  <view class="user-section">
+    <view class="user-info" wx:if="{{isLoggedIn && userInfo}}">
+      <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+      <view class="user-detail">
+        <text class="nickname">{{userInfo.nickName}}</text>
+        <text class="edit-profile" bindtap="editProfile">编辑资料 ›</text>
+      </view>
+      <button class="logout-btn" bindtap="handleLogout">退出</button>
+    </view>
+    <view class="login-prompt" wx:else>
+      <button class="login-btn" bindtap="handleLogin">登录 / 注册</button>
+      <text class="login-tip">登录后可发布商品、收藏商品</text>
+    </view>
+  </view>
+
+  <!-- 统计数据 -->
+  <view class="stats-section card" wx:if="{{isLoggedIn}}">
+    <view class="stat-item">
+      <text class="stat-value">{{publishCount}}</text>
+      <text class="stat-label">发布</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-value">{{soldCount}}</text>
+      <text class="stat-label">卖出</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-value">{{boughtCount}}</text>
+      <text class="stat-label">买到</text>
+    </view>
+  </view>
+
+  <!-- 菜单列表 -->
+  <view class="menu-section card">
+    <block wx:for="{{menuItems}}" wx:key="action">
+      <view class="menu-item" bindtap="onMenuTap" data-action="{{item.action}}">
+        <text class="menu-icon">{{item.icon}}</text>
+        <text class="menu-title">{{item.title}}</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </block>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="version-info">
+    <text>二手商城 v1.0.0</text>
+  </view>
+</view>

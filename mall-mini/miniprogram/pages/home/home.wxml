@@ -1,0 +1,45 @@
+<!--pages/home/home.wxml-->
+<view class="home-container">
+  <!-- 搜索栏 -->
+  <view class="search-bar" bindtap="onSearch">
+    <view class="search-icon">
+      <text class="iconfont">🔍</text>
+    </view>
+    <text class="search-placeholder">搜索商品</text>
+  </view>
+
+  <!-- 商品列表 -->
+  <view class="product-list">
+    <block wx:for="{{products}}" wx:key="id">
+      <view class="product-card" bindtap="goToDetail" data-id="{{item.id}}">
+        <image class="product-image" src="{{item.images[0]}}" mode="aspectFill" />
+        <view class="product-info">
+          <view class="product-title">{{item.title}}</view>
+          <view class="product-price">
+            <text class="price-symbol">¥</text>
+            <text class="price-value">{{item.price}}</text>
+          </view>
+          <view class="product-meta">
+            <text class="product-location">{{item.location}}</text>
+            <text class="product-seller">{{item.seller}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 没有更多 -->
+  <view class="no-more" wx:if="{{!hasMore && products.length > 0}}">
+    <text>已经到底了~</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!loading && products.length === 0}}">
+    <text class="empty-text">暂无商品</text>
+  </view>
+</view>

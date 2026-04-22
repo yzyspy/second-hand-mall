@@ -22,11 +22,6 @@ func (SysUser) TableName() string {
 	return "sys_user"
 }
 
-func (u *SysUser) Save(tx *gorm.DB) error {
-	tx = tx.Save(u)
-	return tx.Error
-}
-
 //func GetUserByUserNameAndPsw(userName string, password string) (*SysUser, error) {
 //	//u := SysUser{}
 //	u := new(SysUser)

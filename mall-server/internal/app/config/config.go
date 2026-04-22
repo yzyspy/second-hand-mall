@@ -83,6 +83,7 @@ type Config struct {
 	SQLite     SQLite     `yaml:"sqlite"`
 	Consul     Consul     `yaml:"consul"`
 	GrpcClient GrpcClient `yaml:"grpc_client"`
+	Cos        Cos        `yaml:"cos"`
 }
 
 // // IsDebugMode 是否是debug模式
@@ -142,4 +143,14 @@ type Consul struct {
 type GrpcClient struct {
 	Jaco_rc_decision_grpc_name    string `yaml:"jaco-rc-decision-grpc-name"`
 	Jaco_rc_decision_grpc_address string `yaml:"jaco-rc-decision-grpc-address"`
+}
+
+// Cos 腾讯云COS配置参数
+type Cos struct {
+	SecretId      string `yaml:"secret_id"`
+	SecretKey     string `yaml:"secret_key"`
+	Region        string `yaml:"region"`
+	Bucket        string `yaml:"bucket"`
+	AppId         string `yaml:"app_id"`
+	ExpireSeconds int    `yaml:"expire_seconds"`
 }

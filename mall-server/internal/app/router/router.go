@@ -58,6 +58,12 @@ func App(ctx context.Context, svc *models.ServiceContext) *gin.Engine {
 		})
 	})
 
+	// 获取腾讯云 COS 上传签名（固定密钥方式）
+	r.POST("/api/upload/cos-signature", service.GetCosSignature)
+
+	// 获取腾讯云 COS 上传签名（STS 临时密钥方式）
+	r.POST("/api/upload/cos-signature-v2", service.GetCosSignatureV2)
+
 	return r
 }
 
