@@ -34,6 +34,12 @@ func App(ctx context.Context, svc *models.ServiceContext) *gin.Engine {
 		service.LoginPsw(ctx, c, svc)
 	})
 
+	// 微信小程序登录接口
+	// curl -X POST -H "Content-Type: application/json" -d '{"code":"wx_code","nick_name":"昵称","avatar":"url"}' http://localhost:8080/api/user/wx-login
+	r.POST("/api/user/wx-login", func(c *gin.Context) {
+		service.WxLogin(ctx, c, svc)
+	})
+
 	r.GET("/actuator/health/readiness", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "Hello, readiness!",
@@ -58,11 +64,17 @@ func App(ctx context.Context, svc *models.ServiceContext) *gin.Engine {
 		})
 	})
 
-	// 获取腾讯云 COS 上传签名（固定密钥方式）
-	r.POST("/api/upload/cos-signature", service.GetCosSignature)
+	// 发布商品（需要登录）
+	auth.POST("/api/product/publish", service.PublishProduct(svc))
 
-	// 获取腾讯云 COS 上传签名（STS 临时密钥方式）
-	r.POST("/api/upload/cos-signature-v2", service.GetCosSignatureV2)
+	// 获取七牛云上传凭证（公开接口，小程序会携带token）
+	r.POST("/api/upload/qiniu-token", service.GetUploadToken)
+
+	// 商品搜索接口
+	r.GET("/api/product/search", service.SearchProducts(svc))
+
+	// 商品详情接口
+	r.GET("/api/product/detail", service.GetProductDetail(svc))
 
 	return r
 }

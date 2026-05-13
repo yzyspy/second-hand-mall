@@ -1,5 +1,7 @@
 // pages/home/home.ts
 
+import { get } from '../../utils/request'
+
 interface ProductItem {
   id: number
   title: string
@@ -7,6 +9,8 @@ interface ProductItem {
   location: string
   images: string[]
   seller: string
+  avatar: string
+  buy_uid: number
   createTime: string
 }
 
@@ -52,46 +56,46 @@ Page<HomeData, WechatMiniprogram.IAnyObject>({
 
     this.setData({ loading: true })
 
-    // 模拟数据，实际应调用后端API
-    const mockProducts: ProductItem[] = [
-      {
-        id: 1,
-        title: 'iPhone 13 Pro 256G 暗夜绿',
-        price: 4599,
-        location: '北京朝阳区',
-        images: ['https://via.placeholder.com/200x200'],
-        seller: '小明',
-        createTime: '2024-01-15'
-      },
-      {
-        id: 2,
-        title: 'MacBook Pro 14寸 M2 Pro',
-        price: 12999,
-        location: '上海浦东新区',
-        images: ['https://via.placeholder.com/200x200'],
-        seller: '科技达人',
-        createTime: '2024-01-14'
-      },
-      {
-        id: 3,
-        title: 'Sony WH-1000XM5 降噪耳机',
-        price: 1899,
-        location: '深圳南山区',
-        images: ['https://via.placeholder.com/200x200'],
-        seller: '数码控',
-        createTime: '2024-01-13'
-      }
-    ]
+    try {
+      const response = await get<{ list: any[], total: number, page: number, page_size: number }>(
+        '/api/product/search',
+        {
+          page: this.data.page,
+          page_size: 10,
+          status: 0 // 只获取在售商品
+        }
+      )
 
-    // 模拟网络延迟
-    setTimeout(() => {
-      this.setData({
-        products: this.data.page === 1 ? mockProducts : [...this.data.products, ...mockProducts],
-        loading: false,
-        page: this.data.page + 1,
-        hasMore: this.data.page < 3
-      })
-    }, 500)
+      if (response.code === 0 && response.data) {
+        const { list } = response.data
+
+        // 转换数据格式
+        const products: ProductItem[] = list.map((item: any) => ({
+          id: item.id,
+          title: item.title,
+          price: item.price,
+          location: item.location,
+          images: item.images ? item.images.split(',').filter((img: string) => img) : [],
+          seller: item.seller || '匿名用户',
+          avatar: item.avatar || '',
+          buy_uid: item.buy_uid || 0,
+          createTime: item.create_time || ''
+        }))
+
+        this.setData({
+          products: this.data.page === 1 ? products : [...this.data.products, ...products],
+          loading: false,
+          page: this.data.page + 1,
+          hasMore: list.length >= 10
+        })
+      } else {
+        this.setData({ loading: false })
+      }
+    } catch (err) {
+      console.error('加载商品列表失败:', err)
+      this.setData({ loading: false })
+      wx.showToast({ title: '加载失败', icon: 'none' })
+    }
   },
 
   // 跳转到商品详情

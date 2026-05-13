@@ -1,16 +1,11 @@
 package gormx
 
 import (
-	"gorm.io/driver/sqlite"
-	"strings"
-	"time"
-
-	//mysqlDriver "github.com/go-sql-driver/mysql"
-	//"gorm.io/driver/mysql"
-	//"gorm.io/driver/postgres"
-	//"gorm.io/driver/sqlite"
+	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
+	"strings"
+	"time"
 )
 
 // Config GORM Config

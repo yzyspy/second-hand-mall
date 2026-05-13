@@ -1,6 +1,7 @@
 // pages/publish/publish.ts
 
-import { uploadToCos } from '../../utils/cos-upload'
+import { post } from '../../utils/request'
+import { uploadToQiniu } from '../../utils/qiniu-upload'
 
 interface UploadedImage {
   localPath: string
@@ -37,7 +38,20 @@ Page<PublishData, WechatMiniprogram.IAnyObject>({
   },
 
   onShow() {
-    // 页面显示
+    // 检查登录状态
+    const token = wx.getStorageSync('token')
+    if (!token) {
+      wx.showModal({
+        title: '请先登录',
+        content: '发布商品需要登录',
+        confirmText: '去登录',
+        success: (res) => {
+          if (res.confirm) {
+            wx.switchTab({ url: '/pages/my/my' })
+          }
+        }
+      })
+    }
   },
 
   // 选择图片
@@ -171,7 +185,7 @@ Page<PublishData, WechatMiniprogram.IAnyObject>({
       this.setData({ [`images[${i}].uploading`]: true })
 
       try {
-        const result = await uploadToCos(img.localPath)
+        const result = await uploadToQiniu(img.localPath)
         uploadedUrls.push(result.url)
         this.setData({
           [`images[${i}].remoteUrl`]: result.url,
@@ -182,6 +196,7 @@ Page<PublishData, WechatMiniprogram.IAnyObject>({
           [`images[${i}].uploading`]: false,
           [`images[${i}].uploadError`]: '上传失败'
         })
+        console.log("upload image error", err)
         throw err
       }
     }
@@ -214,11 +229,8 @@ Page<PublishData, WechatMiniprogram.IAnyObject>({
 
       console.log('提交商品数据:', productData)
 
-      // 3. 调用后端API保存商品 (需要后端实现对应接口)
-      // const result = await post('/api/product/publish', productData)
-
-      // 模拟成功
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      // 3. 调用后端API保存商品
+      await post('/api/product/publish', productData)
 
       wx.hideLoading()
       wx.showToast({ title: '发布成功', icon: 'success' })

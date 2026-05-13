@@ -11,6 +11,7 @@ type Product struct {
 	Location    string  `gorm:"column:location;type:varchar(100);not null;default:''" json:"location" comment:"交易地点"`
 	Status      int     `gorm:"column:status;type:int;not null;default:0" json:"status" comment:"状态:0在售,1已售出,2已下架"`
 	UserId      uint    `gorm:"column:user_id;type:int;not null;default:0" json:"user_id" comment:"发布者ID"`
+	BuyUid      uint    `gorm:"column:buy_uid;type:int;not null;default:0" json:"buy_uid" comment:"购买者ID,0表示未售出"`
 }
 
 func (Product) TableName() string {

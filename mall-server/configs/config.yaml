@@ -27,7 +27,7 @@ log:
   level: 4
   format: "json"
   output: "file"
-  output_file: "/Users/yangzhongyu/Desktop/code/github/second-hand-mall/logs/"
+  output_file: "./logs/"
   enable_hook: false
   #HookLevels: ["info", "warn", "error"]
   #Hook: "gorm"
@@ -51,7 +51,7 @@ gorm:
   enabled_monitor: false
 
 sqlite:
-  file_path: "/Users/yangzhongyu/Desktop/code/github/second-hand-mall/second-hand-mall.db"
+  file_path: "./second-hand-mall.db"
   parameters: ""
 
 vpn_mysql:
@@ -62,13 +62,16 @@ vpn_mysql:
   db_name: "whale_live"
   parameters: "charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
 
-cos:
-  secret_id: ""
+qiniu:
+  access_key: ""
   secret_key: ""
-  region: "ap-guangzhou"
-  bucket: "cos-imge-1255898474"
-  app_id: "1255898474"
-  expire_seconds: 600
+  bucket: "wetchat-mall"
+#  domain: "https://teauz56dn.hn-bkt.clouddn.com"
+  domain: "http://teauz56dn.hn-bkt.clouddn.com"
+
+wx_app:
+  app_id: "wx216df2b103d3dc85"
+  secret: ""
 
 redis:
   host: "r-dj10mlrscznz3eb3u6.redis.rds.aliyuncs.com"

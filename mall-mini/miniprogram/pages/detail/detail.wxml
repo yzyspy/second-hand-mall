@@ -1,0 +1,105 @@
+<!--pages/detail/detail.wxml-->
+<view class="container">
+  <!-- Loading -->
+  <view wx:if="{{loading}}" class="loading">
+    <view class="spinner"></view>
+    <text>加载中...</text>
+  </view>
+
+  <!-- Error -->
+  <view wx:if="{{error && !loading}}" class="error">
+    <text>{{error}}</text>
+    <button bindtap="loadProductDetail">重试</button>
+  </view>
+
+  <!-- Content -->
+  <scroll-view wx:if="{{!loading && !error}}" scroll-y="true" class="scroll-view">
+    <!-- Image Gallery -->
+    <view class="image-gallery">
+      <swiper autoplay="true" interval="5000" duration="500" circular="true">
+        <block wx:for="{{product.images}}" wx:key="*this">
+          <swiper-item>
+            <image src="{{item}}" mode="aspectFill" class="gallery-image" />
+          </swiper-item>
+        </block>
+      </swiper>
+      <button 
+        class="favorite-btn {{isFavorite ? 'favorite' : ''}}"
+        bindtap="toggleFavorite"
+      >
+        <text class="icon">{{isFavorite ? '❤️' : '🤍'}}</text>
+      </button>
+    </view>
+
+    <!-- Product Info -->
+    <view class="product-info">
+      <view class="header">
+        <view class="title-section">
+          <text class="title">{{product.title}}</text>
+          <view class="price-section">
+            <text class="price">¥{{product.price}}</text>
+            <text class="original-price" wx:if="{{product.originalPrice}}">¥{{product.originalPrice}}</text>
+          </view>
+        </view>
+        <button class="more-btn" bindtap="reportProduct">⋯</button>
+      </view>
+
+      <!-- Basic Info -->
+      <view class="basic-info">
+        <view class="info-item">
+          <text class="label">分类</text>
+          <text class="value">{{product.category}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">成色</text>
+          <text class="value">{{product.condition}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">地点</text>
+          <text class="value">{{product.location}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">浏览</text>
+          <text class="value">{{product.views}}</text>
+        </view>
+      </view>
+
+      <!-- Description -->
+      <view class="description">
+        <text class="section-title">商品描述</text>
+        <text class="description-text">{{product.description}}</text>
+      </view>
+
+      <!-- Seller Info -->
+      <view class="seller-section">
+        <text class="section-title">卖家信息</text>
+        <view class="seller-card" bindtap="contactSeller">
+          <image src="{{product.seller.avatar}}" mode="aspectFill" class="seller-avatar" />
+          <view class="seller-info">
+            <text class="seller-name">{{product.seller.name}}</text>
+            <view class="seller-rating">
+              <text class="stars">★★★★★</text>
+              <text class="rating-text">({{product.seller.rating}})</text>
+            </view>
+          </view>
+          <text class="arrow">›</text>
+        </view>
+      </view>
+
+      <!-- Time Info -->
+      <view class="time-info">
+        <text>发布于 {{product.createdAt}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- Bottom Action Bar -->
+  <view wx:if="{{!loading && !error}}" class="action-bar">
+    <button class="action-btn secondary" bindtap="toggleFavorite">
+      {{isFavorite ? '已收藏' : '收藏'}}
+    </button>
+    <button class="action-btn primary" bindtap="contactSeller">
+      联系卖家
+    </button>
+  </view>
+</view>

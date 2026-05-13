@@ -1,11 +1,18 @@
 这是二手交易平台服务端使用go + gorm + gin + sqlite实现
 
+nginx 安装路径 /usr/local/nginx
+重启nginx sudo /usr/local/nginx/sbin/nginx -s reload
+
+ubuntu 交叉编译
+```shell
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o mall-server-linux
+```
 
 ## 项目初始化
 ```shell
 go mod init mall-server
 
-go get gorm.io/driver/sqlite@v1.5.6
+go get github.com/glebarez/sqlite
 go get gorm.io/gorm@v1.30.0
 
 

@@ -1,6 +1,8 @@
 package dao
 
 import (
+	"fmt"
+
 	"gorm.io/gorm"
 )
 
@@ -12,7 +14,23 @@ type ProductSearchResult struct {
 	Location   string  `json:"location"`
 	Status     int     `json:"status"`
 	Seller     string  `json:"seller"`
+	Avatar     string  `json:"avatar"`
+	BuyUid     uint    `json:"buy_uid"`
 	CreateTime string  `json:"create_time"`
+}
+
+type ProductDetail struct {
+	ID          uint    `json:"id"`
+	Title       string  `json:"title"`
+	Description string  `json:"description"`
+	Price       float64 `json:"price"`
+	Images      string  `json:"images"`
+	Location    string  `json:"location"`
+	Status      int     `json:"status"`
+	BuyUid      uint    `json:"buy_uid"`
+	Seller      string  `json:"seller"`
+	Avatar      string  `json:"avatar"`
+	CreateTime  string  `json:"create_time"`
 }
 
 func SearchProducts(db *gorm.DB, keyword string, sort string, status *int, page, pageSize int) ([]ProductSearchResult, int64, error) {
@@ -23,7 +41,7 @@ func SearchProducts(db *gorm.DB, keyword string, sort string, status *int, page,
 		pageSize = 10
 	}
 
-	query := db.Model(&Product{}).Select("product.id, product.title, product.price, product.images, product.location, product.status, sys_user.nick_name as seller, product.created_at as create_time").
+	query := db.Model(&Product{}).Select("product.id, product.title, product.price, product.images, product.location, product.status, product.buy_uid, sys_user.nick_name as seller, sys_user.avatar, product.created_at as create_time").
 		Joins("LEFT JOIN sys_user ON product.user_id = sys_user.id")
 
 	if keyword != "" {
@@ -52,4 +70,18 @@ func SearchProducts(db *gorm.DB, keyword string, sort string, status *int, page,
 	}
 
 	return results, total, nil
+}
+
+func GetProductByID(db *gorm.DB, id uint) (*ProductDetail, error) {
+	var detail ProductDetail
+	err := db.Model(&Product{}).Select("product.id, product.title, product.description, product.price, product.images, product.location, product.status, product.buy_uid, sys_user.nick_name as seller, sys_user.avatar, product.created_at as create_time").
+		Joins("LEFT JOIN sys_user ON product.user_id = sys_user.id").
+		Where("product.id = ?", id).
+		First(&detail).Error
+
+	if err != nil {
+		return nil, fmt.Errorf("商品不存在")
+	}
+
+	return &detail, nil
 }

@@ -18,7 +18,9 @@ interface ApiResponse<T = any> {
   data?: T
 }
 
-const BASE_URL = 'http://localhost:8080'
+// 修改ip地址
+//const BASE_URL = 'http://localhost:8080'
+export const BASE_URL = "http://101.34.238.222:80"
 
 /**
  * 发起HTTP请求

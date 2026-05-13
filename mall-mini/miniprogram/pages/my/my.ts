@@ -1,5 +1,8 @@
 // pages/my/my.ts
 
+import { post } from '../../utils/request'
+import {BASE_URL} from '../../utils/request'
+
 interface MenuItem {
   icon: string
   title: string
@@ -7,11 +10,13 @@ interface MenuItem {
   action: string
 }
 
+interface UserInfo {
+  avatarUrl: string
+  nickName: string
+}
+
 interface MyData {
-  userInfo: {
-    avatarUrl: string
-    nickName: string
-  } | null
+  userInfo: UserInfo | null
   isLoggedIn: boolean
   menuItems: MenuItem[]
   publishCount: number
@@ -57,29 +62,47 @@ Page<MyData, WechatMiniprogram.IAnyObject>({
     })
   },
 
-  // 登录
+  // 微信授权登录
   async handleLogin() {
     try {
-      // 获取用户信息
-      const { userInfo } = await wx.getUserProfile({
-        desc: '用于完善用户资料'
+      // 1. 获取微信登录 code
+      const loginRes = await wx.login()
+      const code = loginRes.code
+
+      if (!code) {
+        wx.showToast({ title: '获取登录凭证失败', icon: 'none' })
+        return
+      }
+
+      // 2. 调用后端微信登录接口
+      wx.showLoading({ title: '登录中...', mask: true })
+      const result = await post('/api/user/wx-login', {
+        code: code
       })
+      wx.hideLoading()
 
-      // 调用后端登录接口
-      // const result = await post('/user/login', { ... })
-
-      // 模拟登录成功
-      wx.setStorageSync('userInfo', userInfo)
-      wx.setStorageSync('token', 'mock_token')
+      // 3. 保存登录信息
+      wx.setStorageSync('token', result.data.token)
+      wx.setStorageSync('userInfo', {
+        avatarUrl: result.data.avatar || '/images/default-avatar.png',
+        nickName: result.data.nick_name || '微信用户'
+      })
+      wx.setStorageSync('userId', result.data.user_id)
 
       this.setData({
-        userInfo,
+        userInfo: {
+          avatarUrl: result.data.avatar || '/images/default-avatar.png',
+          nickName: result.data.nick_name || '微信用户'
+        },
         isLoggedIn: true
       })
 
       wx.showToast({ title: '登录成功', icon: 'success' })
-    } catch (err) {
+    } catch (err: any) {
+      wx.hideLoading()
       console.log('登录失败', err)
+      console.log('' + BASE_URL)
+      wx.showToast({ title: err.msg || '登录失败', icon: 'none' })
     }
   },
 
@@ -92,6 +115,7 @@ Page<MyData, WechatMiniprogram.IAnyObject>({
         if (res.confirm) {
           wx.removeStorageSync('token')
           wx.removeStorageSync('userInfo')
+          wx.removeStorageSync('userId')
           this.setData({
             userInfo: null,
             isLoggedIn: false

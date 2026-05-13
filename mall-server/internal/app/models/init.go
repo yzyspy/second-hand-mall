@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gorm.io/gorm"
 	"mall-server/internal/app/config"
+	"mall-server/internal/app/dao"
 	"mall-server/internal/app/gormx"
 	"strings"
 )
@@ -23,6 +24,17 @@ func NewDB() (*gorm.DB, error) {
 	if err != nil {
 		panic(fmt.Sprintf("db init error dsn ,path: %v error:%v", c.SQLite.FilePath, err))
 	}
+
+	// 自动迁移用户表
+	if err := con.AutoMigrate(&dao.SysUser{}); err != nil {
+		panic(fmt.Sprintf("db auto migrate error: %v", err))
+	}
+
+	// 自动迁移商品表
+	if err := con.AutoMigrate(&dao.Product{}); err != nil {
+		panic(fmt.Sprintf("db auto migrate error: %v", err))
+	}
+
 	return con, nil
 }
 

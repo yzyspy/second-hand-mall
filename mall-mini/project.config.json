@@ -1,7 +1,8 @@
 {
   "description": "小程序项目配置文件",
   "packOptions": {
-    "ignore": []
+    "ignore": [],
+    "include": []
   },
   "setting": {
     "bundle": false,
@@ -39,16 +40,23 @@
     },
     "useCompilerPlugins": [
       "typescript"
-    ]
+    ],
+    "compileWorklet": false,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true
   },
   "compileType": "miniprogram",
   "libVersion": "3.3.4",
-  "appid": "wx0000000000000000",
+  "appid": "wx216df2b103d3dc85",
   "projectname": "mall-mini",
   "condition": {},
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2
   },
-  "miniprogramRoot": "miniprogram/"
+  "miniprogramRoot": "miniprogram/",
+  "simulatorPluginLibVersion": {}
 }

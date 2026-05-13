@@ -1,0 +1,78 @@
+<view class="search-container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <input
+      class="search-input"
+      placeholder="搜索商品"
+      value="{{keyword}}"
+      bindinput="onKeywordInput"
+      bindconfirm="onSearch"
+      confirm-type="search"
+    />
+    <view class="search-btn" bindtap="onSearch">搜索</view>
+  </view>
+
+  <!-- 排序筛选栏 -->
+  <view class="filter-bar">
+    <view class="filter-item">
+      <text class="filter-label">排序：</text>
+      <picker mode="selector" range="{{sortOptions}}" value="{{sortIndex}}" bindchange="onSortChange">
+        <view class="filter-picker">
+          {{sortOptions[sortIndex]}}
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+    <view class="filter-item">
+      <text class="filter-label">状态：</text>
+      <picker mode="selector" range="{{statusOptions}}" value="{{statusIndex}}" bindchange="onStatusChange">
+        <view class="filter-picker">
+          {{statusOptions[statusIndex]}}
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 商品列表 -->
+  <view class="product-list">
+    <block wx:for="{{products}}" wx:key="id">
+      <view class="product-card" bindtap="goToDetail" data-id="{{item.id}}">
+        <view class="img-wrap">
+          <image class="product-image" src="{{item.images.split(',')[0]}}" mode="aspectFill" />
+          <view class="price-badge">¥{{item.price}}</view>
+        </view>
+        <view class="product-info">
+          <view class="product-title">{{item.title}}</view>
+          <view class="product-meta">
+            <text class="product-location">📍 {{item.location}}</text>
+            <text class="product-seller">卖家：{{item.seller}}</text>
+          </view>
+          <view class="product-status">
+            <text class="status-tag status-{{item.status}}">{{item.status === 0 ? '在售' : item.status === 1 ? '已售出' : '已下架'}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 没有更多 -->
+  <view class="no-more" wx:if="{{!hasMore && products.length > 0}}">
+    <text>已经到底了~</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!loading && products.length === 0 && keyword}}">
+    <text class="empty-text">没有找到相关商品</text>
+  </view>
+
+  <!-- 未搜索状态 -->
+  <view class="empty-state" wx:if="{{!loading && products.length === 0 && !keyword}}">
+    <text class="empty-text">输入关键词搜索商品</text>
+  </view>
+</view>

@@ -83,7 +83,8 @@ type Config struct {
 	SQLite     SQLite     `yaml:"sqlite"`
 	Consul     Consul     `yaml:"consul"`
 	GrpcClient GrpcClient `yaml:"grpc_client"`
-	Cos        Cos        `yaml:"cos"`
+	Qiniu      Qiniu      `yaml:"qiniu"`
+	WxApp       WxApp      `yaml:"wx_app"`
 }
 
 // // IsDebugMode 是否是debug模式
@@ -145,12 +146,16 @@ type GrpcClient struct {
 	Jaco_rc_decision_grpc_address string `yaml:"jaco-rc-decision-grpc-address"`
 }
 
-// Cos 腾讯云COS配置参数
-type Cos struct {
-	SecretId      string `yaml:"secret_id"`
-	SecretKey     string `yaml:"secret_key"`
-	Region        string `yaml:"region"`
-	Bucket        string `yaml:"bucket"`
-	AppId         string `yaml:"app_id"`
-	ExpireSeconds int    `yaml:"expire_seconds"`
+// Qiniu 七牛云对象存储配置参数
+type Qiniu struct {
+	AccessKey string `yaml:"access_key"`
+	SecretKey string `yaml:"secret_key"`
+	Bucket    string `yaml:"bucket"`
+	Domain    string `yaml:"domain"` // CDN域名，如 https://cdn.example.com
+}
+
+// WxApp 微信小程序配置参数
+type WxApp struct {
+	AppId  string `yaml:"app_id"`
+	Secret string `yaml:"secret"`
 }
