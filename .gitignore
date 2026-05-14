@@ -2,4 +2,5 @@
 .idea/
 mall-server/.idea/
 logs
+configs
 .worktrees/
