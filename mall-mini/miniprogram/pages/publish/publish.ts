@@ -2,6 +2,21 @@
 
 import { post } from '../../utils/request'
 import { uploadToQiniu } from '../../utils/qiniu-upload'
+import regionsData from '../../data/china-regions'
+
+const provinceNames = regionsData.map(p => p.name)
+
+function getCityNames(pi: number): string[] {
+  return regionsData[pi].children.map(c => c.name)
+}
+
+function getDistrictNames(pi: number, ci: number): string[] {
+  return regionsData[pi].children[ci].children as string[]
+}
+
+function buildInitialRegionNames(): string[][] {
+  return [provinceNames, getCityNames(0), getDistrictNames(0, 0)]
+}
 
 interface UploadedImage {
   localPath: string
@@ -16,6 +31,8 @@ interface PublishData {
   description: string
   price: string
   location: string
+  regionNames: string[][]
+  regionIndexes: number[]
   categoryIndex: number
   categories: string[]
   submitting: boolean
@@ -28,6 +45,8 @@ Page<PublishData, WechatMiniprogram.IAnyObject>({
     description: '',
     price: '',
     location: '',
+    regionNames: buildInitialRegionNames(),
+    regionIndexes: [0, 0, 0],
     categoryIndex: 0,
     categories: ['电子产品', '服装鞋帽', '图书文具', '生活用品', '数码配件', '其他'],
     submitting: false
@@ -118,26 +137,43 @@ Page<PublishData, WechatMiniprogram.IAnyObject>({
     this.setData({ price: formatted })
   },
 
-  // 输入地点
-  onLocationInput(e: WechatMiniprogram.InputEvent) {
-    this.setData({ location: e.detail.value })
+  // 级联选择器列变化（滚动时实时更新联动列）
+  onRegionColumnChange(e: WechatMiniprogram.PickerColumnChange) {
+    const { column, value } = e.detail
+    const indexes = [...this.data.regionIndexes]
+    indexes[column] = value
+    if (column === 0) {
+      indexes[1] = 0
+      indexes[2] = 0
+      this.setData({
+        regionIndexes: indexes,
+        'regionNames[1]': getCityNames(value),
+        'regionNames[2]': getDistrictNames(value, 0)
+      })
+    } else if (column === 1) {
+      indexes[2] = 0
+      this.setData({
+        regionIndexes: indexes,
+        'regionNames[2]': getDistrictNames(indexes[0], value)
+      })
+    } else {
+      this.setData({ regionIndexes: indexes })
+    }
+  },
+
+  // 确认选择地区
+  onRegionChange(e: WechatMiniprogram.PickerChange) {
+    const [pi, ci, di] = e.detail.value as number[]
+    const province = regionsData[pi].name
+    const city = regionsData[pi].children[ci].name
+    const district = (regionsData[pi].children[ci].children as string[])[di]
+    const location = province === city ? `${province}${district}` : `${province}${city}${district}`
+    this.setData({ regionIndexes: [pi, ci, di], location })
   },
 
   // 选择分类
   onCategoryChange(e: WechatMiniprogram.PickerChange) {
     this.setData({ categoryIndex: Number(e.detail.value) })
-  },
-
-  // 获取当前位置
-  async getLocation() {
-    try {
-      const res = await wx.getLocation({ type: 'gcj02' })
-      // 这里可以调用逆地理编码API获取地址名称
-      // 暂时显示坐标
-      this.setData({ location: `${res.latitude.toFixed(4)}, ${res.longitude.toFixed(4)}` })
-    } catch (err) {
-      wx.showToast({ title: '获取位置失败', icon: 'none' })
-    }
   },
 
   // 验证表单
@@ -160,7 +196,7 @@ Page<PublishData, WechatMiniprogram.IAnyObject>({
     }
 
     if (!location.trim()) {
-      wx.showToast({ title: '请填写交易地点', icon: 'none' })
+      wx.showToast({ title: '请选择交易地点', icon: 'none' })
       return false
     }
 
@@ -242,6 +278,8 @@ Page<PublishData, WechatMiniprogram.IAnyObject>({
           description: '',
           price: '',
           location: '',
+          regionNames: buildInitialRegionNames(),
+          regionIndexes: [0, 0, 0],
           categoryIndex: 0
         })
       }, 1500)

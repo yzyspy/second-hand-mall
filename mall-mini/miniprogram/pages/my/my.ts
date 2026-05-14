@@ -35,8 +35,7 @@ Page<MyData, WechatMiniprogram.IAnyObject>({
       { icon: '❤️', title: '我的收藏', action: 'myFavorite' },
       { icon: '📍', title: '收货地址', action: 'myAddress' },
       { icon: '⚙️', title: '设置', action: 'settings' },
-      { icon: '📞', title: '联系客服', action: 'contactService' },
-      { icon: 'ℹ️', title: '关于我们', action: 'about' }
+      { icon: '📞', title: '联系客服', action: 'contactService' }
     ],
     publishCount: 0,
     soldCount: 0,

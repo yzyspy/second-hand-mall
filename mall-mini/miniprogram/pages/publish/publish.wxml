@@ -79,17 +79,18 @@
   <!-- 地点 -->
   <view class="form-section card">
     <view class="section-title">交易地点</view>
-    <view class="location-input-wrapper">
-      <input
-        class="location-input"
-        placeholder="输入交易地点"
-        value="{{location}}"
-        bindinput="onLocationInput"
-      />
-      <view class="location-btn" bindtap="getLocation">
-        <text>📍</text>
+    <picker
+      mode="multiSelector"
+      range="{{regionNames}}"
+      value="{{regionIndexes}}"
+      bindcolumnchange="onRegionColumnChange"
+      bindchange="onRegionChange"
+    >
+      <view class="picker-display">
+        <text class="{{location ? '' : 'picker-placeholder'}}">{{location || '请选择省/市/区县'}}</text>
+        <text class="picker-arrow">›</text>
       </view>
-    </view>
+    </picker>
   </view>
 
   <!-- 提交按钮 -->

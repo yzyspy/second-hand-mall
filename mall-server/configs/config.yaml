@@ -63,15 +63,15 @@ vpn_mysql:
   parameters: "charset=utf8mb4&parseTime=True&loc=Local&allowNativePasswords=true"
 
 qiniu:
-  access_key: ""
-  secret_key: ""
+  access_key: "RLHodnT7l6GFI0AkbpjQOBF2w-DmQTKrTLS4uRpf"
+  secret_key: "4UpNCVzYPKwWd0Sf86m0QoT822spUI-c9T3aCoxZ"
   bucket: "wetchat-mall"
 #  domain: "https://teauz56dn.hn-bkt.clouddn.com"
   domain: "http://teauz56dn.hn-bkt.clouddn.com"
 
 wx_app:
-  app_id: "wx216df2b103d3dc85"
-  secret: ""
+  app_id: "wxbd1df8ccc39e6937"
+  secret: "e20034a9dbe4ddbcad23e3b303883338"
 
 redis:
   host: "r-dj10mlrscznz3eb3u6.redis.rds.aliyuncs.com"

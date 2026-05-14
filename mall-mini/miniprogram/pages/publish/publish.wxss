@@ -152,21 +152,9 @@
   color: #c6ced6;
 }
 
-/* 地点输入 */
-.location-input-wrapper {
-  display: flex;
-  align-items: center;
-}
-
-.location-input {
-  flex: 1;
-  font-size: 28rpx;
-}
-
-.location-btn {
-  padding: 10rpx 16rpx;
-  background: #f0f4f7;
-  border-radius: 8rpx;
+/* 地点选择 */
+.picker-placeholder {
+  color: #c0c4cc;
 }
 
 /* 提交按钮 */
