@@ -73,5 +73,5 @@ type UpdateProductRequest struct {
 // ChangeProductStatusRequest 变更商品状态请求
 type ChangeProductStatusRequest struct {
 	ID     uint `json:"id" binding:"required"`
-	Status int  `json:"status"`
+	Status int  `json:"status" binding:"required"`
 }
