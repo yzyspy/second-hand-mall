@@ -100,3 +100,10 @@ export function get<T = any>(url: string, data?: any): Promise<ApiResponse<T>> {
 export function post<T = any>(url: string, data?: any): Promise<ApiResponse<T>> {
   return request<T>({ url, method: 'POST', data })
 }
+
+/**
+ * PUT请求
+ */
+export function put<T = any>(url: string, data?: any): Promise<ApiResponse<T>> {
+  return request<T>({ url, method: 'PUT', data })
+}
