@@ -1,0 +1,38 @@
+<!--pages/myPublish/myPublish.wxml-->
+<view class="container">
+  <view wx:if="{{products.length === 0 && !loading}}" class="empty">
+    <text class="empty-text">还没有发布的商品</text>
+  </view>
+
+  <view wx:for="{{products}}" wx:key="id" class="product-card">
+    <view class="product-info">
+      <image
+        wx:if="{{item.firstImage}}"
+        class="product-thumb"
+        src="{{item.firstImage}}"
+        mode="aspectFill"
+      />
+      <view wx:else class="product-thumb placeholder" />
+      <view class="product-meta">
+        <text class="product-title">{{item.title}}</text>
+        <view class="product-bottom">
+          <text class="product-price">¥{{item.price}}</text>
+          <text class="status-tag {{item.statusClass}}">{{item.statusText}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="product-actions">
+      <block wx:if="{{item.status === 0}}">
+        <view class="action-btn btn-edit" bindtap="onEditTap" data-id="{{item.id}}">编辑</view>
+        <view class="action-btn btn-sold" bindtap="onMarkSold" data-id="{{item.id}}">标记已售</view>
+        <view class="action-btn btn-delist" bindtap="onDelist" data-id="{{item.id}}">下架</view>
+      </block>
+      <block wx:else>
+        <view class="action-btn btn-delete" bindtap="onDelete" data-id="{{item.id}}">删除</view>
+      </block>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="footer-tip">加载中...</view>
+  <view wx:elif="{{!hasMore && products.length > 0}}" class="footer-tip">没有更多了</view>
+</view>
