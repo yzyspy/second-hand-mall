@@ -66,6 +66,9 @@ func App(ctx context.Context, svc *models.ServiceContext) *gin.Engine {
 
 	// 发布商品（需要登录）
 	auth.POST("/api/product/publish", service.PublishProduct(svc))
+	auth.GET("/api/product/mine", service.GetMyProducts(svc))
+	auth.PUT("/api/product/update", service.UpdateProduct(svc))
+	auth.POST("/api/product/change-status", service.ChangeProductStatus(svc))
 
 	// 获取七牛云上传凭证（公开接口，小程序会携带token）
 	r.POST("/api/upload/qiniu-token", service.GetUploadToken)
