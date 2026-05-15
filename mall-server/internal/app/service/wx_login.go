@@ -41,7 +41,7 @@ func WxLogin(ctx context.Context, c *gin.Context, svc *models.ServiceContext) {
 		return
 	}
 	logger.WithContext(c).Infof("code2Session1 success: %v", wxResp)
-	log.Println("code2Session2 success: %v", wxResp)
+	log.Printf("code2Session2 success: %v", wxResp)
 	logger.Infof("code2Session3 success: %v", wxResp)
 
 	if wxResp.ErrCode != 0 {
