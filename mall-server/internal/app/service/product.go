@@ -139,3 +139,110 @@ func PublishProduct(svc *models.ServiceContext) gin.HandlerFunc {
 		})
 	}
 }
+
+// GetMyProducts 获取当前用户发布的商品列表
+func GetMyProducts(svc *models.ServiceContext) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userID, exists := c.Get("user_id")
+		if !exists {
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "未登录"})
+			return
+		}
+
+		var req GetMyProductsRequest
+		if err := c.ShouldBindQuery(&req); err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "参数错误"})
+			return
+		}
+		if req.Page < 1 {
+			req.Page = 1
+		}
+		if req.PageSize < 1 || req.PageSize > 50 {
+			req.PageSize = 10
+		}
+
+		results, total, err := dao.GetMyProducts(svc.DB, userID.(uint), req.Page, req.PageSize)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "查询失败"})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"code": 0,
+			"msg":  "success",
+			"data": gin.H{
+				"list":      results,
+				"total":     total,
+				"page":      req.Page,
+				"page_size": req.PageSize,
+			},
+		})
+	}
+}
+
+// UpdateProduct 更新商品内容
+func UpdateProduct(svc *models.ServiceContext) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userID, exists := c.Get("user_id")
+		if !exists {
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "未登录"})
+			return
+		}
+
+		var req UpdateProductRequest
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "参数错误: " + err.Error()})
+			return
+		}
+
+		// title 取 description 前 50 字，与 publish 保持一致
+		title := req.Description
+		runes := []rune(title)
+		if len(runes) > 50 {
+			title = string(runes[:50])
+		}
+
+		updates := map[string]interface{}{
+			"title":       title,
+			"description": req.Description,
+			"price":       req.Price,
+			"location":    req.Location,
+			"images":      strings.Join(req.Images, ","),
+		}
+
+		if err := dao.UpdateProduct(svc.DB, req.ID, userID.(uint), updates); err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "更新成功"})
+	}
+}
+
+// ChangeProductStatus 变更商品状态
+func ChangeProductStatus(svc *models.ServiceContext) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		userID, exists := c.Get("user_id")
+		if !exists {
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "未登录"})
+			return
+		}
+
+		var req ChangeProductStatusRequest
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "参数错误: " + err.Error()})
+			return
+		}
+		if req.Status != 1 && req.Status != 2 {
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "状态值无效，只允许 1(已售) 或 2(下架)"})
+			return
+		}
+
+		if err := dao.ChangeProductStatus(svc.DB, req.ID, userID.(uint), req.Status); err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "操作成功"})
+	}
+}
