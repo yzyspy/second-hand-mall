@@ -44,3 +44,34 @@ type PublishProductRequest struct {
 type ProductDetailRequest struct {
 	ID uint `form:"id" binding:"required"`
 }
+
+// MyProductItem 我的商品列表项
+type MyProductItem struct {
+	ID         uint    `json:"id"`
+	Title      string  `json:"title"`
+	Price      float64 `json:"price"`
+	Images     string  `json:"images"`
+	Status     int     `json:"status"`
+	CreateTime string  `json:"create_time"`
+}
+
+// GetMyProductsRequest 获取我的商品列表请求
+type GetMyProductsRequest struct {
+	Page     int `form:"page"`
+	PageSize int `form:"page_size"`
+}
+
+// UpdateProductRequest 更新商品请求
+type UpdateProductRequest struct {
+	ID          uint     `json:"id" binding:"required"`
+	Description string   `json:"description" binding:"required"`
+	Price       float64  `json:"price" binding:"required"`
+	Location    string   `json:"location" binding:"required"`
+	Images      []string `json:"images" binding:"required"`
+}
+
+// ChangeProductStatusRequest 变更商品状态请求
+type ChangeProductStatusRequest struct {
+	ID     uint `json:"id" binding:"required"`
+	Status int  `json:"status"`
+}
