@@ -6,7 +6,8 @@
     "pages/publish/publish",
     "pages/my/my",
     "pages/myPublish/myPublish",
-    "pages/productEdit/productEdit"
+    "pages/productEdit/productEdit",
+    "pages/myFavorite/myFavorite"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -1,0 +1,39 @@
+<view class="container">
+  <view wx:if="{{items.length === 0 && !loading}}" class="empty">
+    <text class="empty-text">还没有收藏的商品</text>
+  </view>
+
+  <view
+    wx:for="{{items}}"
+    wx:key="id"
+    class="product-card"
+    bindtap="goToDetail"
+    data-id="{{item.id}}"
+  >
+    <image
+      wx:if="{{item.firstImage}}"
+      class="product-thumb"
+      src="{{item.firstImage}}"
+      mode="aspectFill"
+    />
+    <view wx:else class="product-thumb placeholder" />
+
+    <view class="product-meta">
+      <text class="product-title">{{item.title}}</text>
+      <text class="product-location">{{item.location}}</text>
+      <view class="product-bottom">
+        <text class="product-price">¥{{item.price}}</text>
+        <text class="seller-name">{{item.seller}}</text>
+      </view>
+    </view>
+
+    <view
+      class="unfavorite-btn"
+      catchtap="onUnfavorite"
+      data-id="{{item.id}}"
+    >❤️</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="footer-tip">加载中...</view>
+  <view wx:elif="{{!hasMore && items.length > 0}}" class="footer-tip">没有更多了</view>
+</view>
