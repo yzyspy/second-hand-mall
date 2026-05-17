@@ -75,3 +75,14 @@ type ChangeProductStatusRequest struct {
 	ID     uint `json:"id" binding:"required"`
 	Status int  `json:"status" binding:"required"`
 }
+
+// FavoriteToggleRequest 收藏/取消收藏请求
+type FavoriteToggleRequest struct {
+	ProductID uint `json:"product_id" binding:"required"`
+}
+
+// FavoriteListRequest 我的收藏列表请求
+type FavoriteListRequest struct {
+	Page     int `form:"page"`
+	PageSize int `form:"page_size"`
+}

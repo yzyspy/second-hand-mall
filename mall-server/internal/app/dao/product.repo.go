@@ -31,6 +31,7 @@ type ProductDetail struct {
 	Seller      string  `json:"seller"`
 	Avatar      string  `json:"avatar"`
 	CreateTime  string  `json:"create_time"`
+	IsFavorited bool    `json:"is_favorited"`
 }
 
 func SearchProducts(db *gorm.DB, keyword string, sort string, status *int, page, pageSize int) ([]ProductSearchResult, int64, error) {

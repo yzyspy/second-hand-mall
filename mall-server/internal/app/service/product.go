@@ -55,29 +55,25 @@ func GetProductDetail(svc *models.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		idStr := c.Query("id")
 		if idStr == "" {
-			c.JSON(http.StatusOK, gin.H{
-				"code": -1,
-				"msg":  "参数错误",
-			})
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "参数错误"})
 			return
 		}
 
 		id, err := strconv.ParseUint(idStr, 10, 32)
 		if err != nil {
-			c.JSON(http.StatusOK, gin.H{
-				"code": -1,
-				"msg":  "参数错误",
-			})
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "参数错误"})
 			return
 		}
 
 		detail, err := dao.GetProductByID(svc.DB, uint(id))
 		if err != nil {
-			c.JSON(http.StatusOK, gin.H{
-				"code": -1,
-				"msg":  "商品不存在",
-			})
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "商品不存在"})
 			return
+		}
+
+		if userIDVal, exists := c.Get("user_id"); exists {
+			isFav, _ := dao.IsFavorited(svc.DB, userIDVal.(uint), uint(id))
+			detail.IsFavorited = isFav
 		}
 
 		c.JSON(http.StatusOK, gin.H{
