@@ -11,7 +11,12 @@ import (
 // ToggleFavoriteHandler POST /api/favorite/toggle
 func ToggleFavoriteHandler(svc *models.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		userID, _ := c.Get("user_id")
+		userIDVal, exists := c.Get("user_id")
+		if !exists {
+			c.JSON(http.StatusUnauthorized, gin.H{"code": -1, "msg": "未登录"})
+			return
+		}
+		userID := userIDVal.(uint)
 
 		var req FavoriteToggleRequest
 		if err := c.ShouldBindJSON(&req); err != nil {
@@ -19,7 +24,7 @@ func ToggleFavoriteHandler(svc *models.ServiceContext) gin.HandlerFunc {
 			return
 		}
 
-		isFav, err := dao.ToggleFavorite(svc.DB, userID.(uint), req.ProductID)
+		isFav, err := dao.ToggleFavorite(svc.DB, userID, req.ProductID)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "操作失败"})
 			return
@@ -36,7 +41,12 @@ func ToggleFavoriteHandler(svc *models.ServiceContext) gin.HandlerFunc {
 // GetFavoriteListHandler GET /api/favorite/list
 func GetFavoriteListHandler(svc *models.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		userID, _ := c.Get("user_id")
+		userIDVal, exists := c.Get("user_id")
+		if !exists {
+			c.JSON(http.StatusUnauthorized, gin.H{"code": -1, "msg": "未登录"})
+			return
+		}
+		userID := userIDVal.(uint)
 
 		var req FavoriteListRequest
 		if err := c.ShouldBindQuery(&req); err != nil {
@@ -50,7 +60,7 @@ func GetFavoriteListHandler(svc *models.ServiceContext) gin.HandlerFunc {
 			req.PageSize = 10
 		}
 
-		results, total, err := dao.GetFavoriteList(svc.DB, userID.(uint), req.Page, req.PageSize)
+		results, total, err := dao.GetFavoriteList(svc.DB, userID, req.Page, req.PageSize)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "查询失败"})
 			return
