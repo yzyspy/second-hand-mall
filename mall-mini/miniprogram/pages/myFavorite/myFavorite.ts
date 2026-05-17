@@ -95,7 +95,7 @@ Page<MyFavoriteData, WechatMiniprogram.IAnyObject>({
   },
 
   async onUnfavorite(e: WechatMiniprogram.TouchEvent) {
-    const { id } = e.currentTarget.dataset
+    const id = Number(e.currentTarget.dataset.id)
     try {
       await post('/api/favorite/toggle', { product_id: id })
       const items = this.data.items.filter(item => item.id !== id)
