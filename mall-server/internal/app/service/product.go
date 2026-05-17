@@ -1,6 +1,7 @@
 package service
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -72,8 +73,13 @@ func GetProductDetail(svc *models.ServiceContext) gin.HandlerFunc {
 		}
 
 		if userIDVal, exists := c.Get("user_id"); exists {
-			isFav, _ := dao.IsFavorited(svc.DB, userIDVal.(uint), uint(id))
-			detail.IsFavorited = isFav
+			if userID, ok := userIDVal.(uint); ok {
+				if isFav, err := dao.IsFavorited(svc.DB, userID, uint(id)); err != nil {
+					log.Printf("IsFavorited query failed for user %d product %d: %v", userID, uint(id), err)
+				} else {
+					detail.IsFavorited = isFav
+				}
+			}
 		}
 
 		c.JSON(http.StatusOK, gin.H{
