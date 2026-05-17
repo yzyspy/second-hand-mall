@@ -70,6 +70,10 @@ func App(ctx context.Context, svc *models.ServiceContext) *gin.Engine {
 	auth.PUT("/api/product/update", service.UpdateProduct(svc))
 	auth.POST("/api/product/change-status", service.ChangeProductStatus(svc))
 
+	// 收藏功能（需要登录）
+	auth.POST("/api/favorite/toggle", service.ToggleFavoriteHandler(svc))
+	auth.GET("/api/favorite/list", service.GetFavoriteListHandler(svc))
+
 	// 获取七牛云上传凭证（公开接口，小程序会携带token）
 	r.POST("/api/upload/qiniu-token", service.GetUploadToken)
 
@@ -77,7 +81,7 @@ func App(ctx context.Context, svc *models.ServiceContext) *gin.Engine {
 	r.GET("/api/product/search", service.SearchProducts(svc))
 
 	// 商品详情接口
-	r.GET("/api/product/detail", service.GetProductDetail(svc))
+	r.GET("/api/product/detail", OptionalAuthMiddleware(), service.GetProductDetail(svc))
 
 	return r
 }
