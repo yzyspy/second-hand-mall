@@ -35,6 +35,11 @@ func NewDB() (*gorm.DB, error) {
 		panic(fmt.Sprintf("db auto migrate error: %v", err))
 	}
 
+	// 自动迁移收藏表
+	if err := con.AutoMigrate(&dao.UserFavorite{}); err != nil {
+		panic(fmt.Sprintf("db auto migrate error: %v", err))
+	}
+
 	return con, nil
 }
 
