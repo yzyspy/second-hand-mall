@@ -81,18 +81,21 @@ Page<SearchData, WechatMiniprogram.IAnyObject>({
     this.setData({ loading: true })
 
     try {
+      const params: Record<string, string | number> = {
+        keyword: this.data.keyword,
+        sort: this.data.sort,
+        page: this.data.page,
+        page_size: 10
+      }
+      if (this.data.status !== null) {
+        params.status = this.data.status
+      }
       const res = await get<{
         list: ProductItem[]
         total: number
         page: number
         page_size: number
-      }>('/api/product/search', {
-        keyword: this.data.keyword,
-        sort: this.data.sort,
-        status: this.data.status,
-        page: this.data.page,
-        page_size: 10
-      })
+      }>('/api/product/search', params)
 
       if (res.code === 0 && res.data) {
         const newList = res.data.list || []

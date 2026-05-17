@@ -34,7 +34,8 @@ Page<HomeData, WechatMiniprogram.IAnyObject>({
   },
 
   onShow() {
-    // 页面显示时刷新数据
+    this.setData({ page: 1, hasMore: true, products: [] })
+    this.loadProducts()
   },
 
   onPullDownRefresh() {
