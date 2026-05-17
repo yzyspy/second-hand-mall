@@ -40,7 +40,8 @@ func TestIsFavorited(t *testing.T) {
 	assert.NoError(t, err)
 	assert.False(t, isFav)
 
-	_, _ = ToggleFavorite(db, 1, 10)
+	_, err = ToggleFavorite(db, 1, 10)
+	assert.NoError(t, err, "setup: adding favorite should succeed")
 
 	isFav, err = IsFavorited(db, 1, 10)
 	assert.NoError(t, err)
@@ -53,12 +54,12 @@ func TestGetFavoriteList_OnlyInSale(t *testing.T) {
 	// 插入一个在售商品（status=0）和一个已售商品（status=1）
 	p1 := Product{Title: "在售商品", Price: 100, Status: 0, UserId: 99}
 	p2 := Product{Title: "已售商品", Price: 200, Status: 1, UserId: 99}
-	db.Create(&p1)
-	db.Create(&p2)
+	assert.NoError(t, db.Create(&p1).Error)
+	assert.NoError(t, db.Create(&p2).Error)
 
 	// 都收藏
-	db.Create(&UserFavorite{UserID: 1, ProductID: p1.ID})
-	db.Create(&UserFavorite{UserID: 1, ProductID: p2.ID})
+	assert.NoError(t, db.Create(&UserFavorite{UserID: 1, ProductID: p1.ID}).Error)
+	assert.NoError(t, db.Create(&UserFavorite{UserID: 1, ProductID: p2.ID}).Error)
 
 	results, total, err := GetFavoriteList(db, 1, 1, 10)
 	assert.NoError(t, err)
