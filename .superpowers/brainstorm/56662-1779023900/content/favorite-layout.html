@@ -1,0 +1,99 @@
+<h2>「我的收藏」页面布局方案</h2>
+<p class="subtitle">选择一个你更喜欢的布局风格</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8f9fa;padding:16px;">
+      <div style="font-size:11px;color:#666;margin-bottom:8px;font-weight:600;letter-spacing:1px;">方案 A · 竖向列表</div>
+      <!-- List style mockup -->
+      <div style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08);">
+        <div style="display:flex;padding:10px;border-bottom:1px solid #f0f0f0;align-items:center;gap:10px;">
+          <div style="width:64px;height:64px;background:#e8e8e8;border-radius:6px;flex-shrink:0;"></div>
+          <div style="flex:1;min-width:0;">
+            <div style="height:10px;background:#333;border-radius:4px;width:80%;margin-bottom:6px;"></div>
+            <div style="height:8px;background:#ddd;border-radius:4px;width:60%;margin-bottom:8px;"></div>
+            <div style="color:#e54d42;font-size:13px;font-weight:700;">¥ 299</div>
+          </div>
+          <div style="font-size:18px;color:#e54d42;">♥</div>
+        </div>
+        <div style="display:flex;padding:10px;border-bottom:1px solid #f0f0f0;align-items:center;gap:10px;">
+          <div style="width:64px;height:64px;background:#e0eaf4;border-radius:6px;flex-shrink:0;"></div>
+          <div style="flex:1;min-width:0;">
+            <div style="height:10px;background:#333;border-radius:4px;width:70%;margin-bottom:6px;"></div>
+            <div style="height:8px;background:#ddd;border-radius:4px;width:50%;margin-bottom:8px;"></div>
+            <div style="color:#e54d42;font-size:13px;font-weight:700;">¥ 128</div>
+          </div>
+          <div style="font-size:18px;color:#e54d42;">♥</div>
+        </div>
+        <div style="display:flex;padding:10px;align-items:center;gap:10px;">
+          <div style="width:64px;height:64px;background:#e8f4e8;border-radius:6px;flex-shrink:0;"></div>
+          <div style="flex:1;min-width:0;">
+            <div style="height:10px;background:#333;border-radius:4px;width:90%;margin-bottom:6px;"></div>
+            <div style="height:8px;background:#ddd;border-radius:4px;width:55%;margin-bottom:8px;"></div>
+            <div style="color:#e54d42;font-size:13px;font-weight:700;">¥ 59</div>
+          </div>
+          <div style="font-size:18px;color:#e54d42;">♥</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>竖向列表</h3>
+      <p>每行一条商品，图片+标题+价格+取消收藏。信息密度高，适合文字较多的商品标题。与「我的发布」页风格一致。</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8f9fa;padding:16px;">
+      <div style="font-size:11px;color:#666;margin-bottom:8px;font-weight:600;letter-spacing:1px;">方案 B · 双列瀑布流</div>
+      <!-- Grid style mockup -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08);">
+          <div style="height:72px;background:#e8e8e8;position:relative;">
+            <div style="position:absolute;right:6px;top:6px;font-size:14px;color:#e54d42;">♥</div>
+          </div>
+          <div style="padding:8px;">
+            <div style="height:8px;background:#333;border-radius:3px;width:85%;margin-bottom:4px;"></div>
+            <div style="height:7px;background:#ddd;border-radius:3px;width:60%;margin-bottom:6px;"></div>
+            <div style="color:#e54d42;font-size:12px;font-weight:700;">¥ 299</div>
+          </div>
+        </div>
+        <div style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08);">
+          <div style="height:90px;background:#e0eaf4;position:relative;">
+            <div style="position:absolute;right:6px;top:6px;font-size:14px;color:#e54d42;">♥</div>
+          </div>
+          <div style="padding:8px;">
+            <div style="height:8px;background:#333;border-radius:3px;width:75%;margin-bottom:4px;"></div>
+            <div style="height:7px;background:#ddd;border-radius:3px;width:50%;margin-bottom:6px;"></div>
+            <div style="color:#e54d42;font-size:12px;font-weight:700;">¥ 128</div>
+          </div>
+        </div>
+        <div style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08);">
+          <div style="height:80px;background:#e8f4e8;position:relative;">
+            <div style="position:absolute;right:6px;top:6px;font-size:14px;color:#e54d42;">♥</div>
+          </div>
+          <div style="padding:8px;">
+            <div style="height:8px;background:#333;border-radius:3px;width:90%;margin-bottom:4px;"></div>
+            <div style="height:7px;background:#ddd;border-radius:3px;width:65%;margin-bottom:6px;"></div>
+            <div style="color:#e54d42;font-size:12px;font-weight:700;">¥ 59</div>
+          </div>
+        </div>
+        <div style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08);">
+          <div style="height:68px;background:#f4e8e8;position:relative;">
+            <div style="position:absolute;right:6px;top:6px;font-size:14px;color:#e54d42;">♥</div>
+          </div>
+          <div style="padding:8px;">
+            <div style="height:8px;background:#333;border-radius:3px;width:80%;margin-bottom:4px;"></div>
+            <div style="height:7px;background:#ddd;border-radius:3px;width:55%;margin-bottom:6px;"></div>
+            <div style="color:#e54d42;font-size:12px;font-weight:700;">¥ 88</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>双列瀑布流</h3>
+      <p>两列网格展示，图片更突出，屏幕利用率更高。与首页风格一致，视觉感更强，适合以图片为核心的浏览体验。</p>
+    </div>
+  </div>
+
+</div>
