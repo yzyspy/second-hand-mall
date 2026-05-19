@@ -20,18 +20,20 @@ type ProductSearchResult struct {
 }
 
 type ProductDetail struct {
-	ID          uint    `json:"id"`
-	Title       string  `json:"title"`
-	Description string  `json:"description"`
-	Price       float64 `json:"price"`
-	Images      string  `json:"images"`
-	Location    string  `json:"location"`
-	Status      int     `json:"status"`
-	BuyUid      uint    `json:"buy_uid"`
-	Seller      string  `json:"seller"`
-	Avatar      string  `json:"avatar"`
-	CreateTime  string  `json:"create_time"`
-	IsFavorited bool    `json:"is_favorited"`
+	ID           uint    `json:"id"`
+	Title        string  `json:"title"`
+	Description  string  `json:"description"`
+	Price        float64 `json:"price"`
+	Images       string  `json:"images"`
+	Location     string  `json:"location"`
+	Status       int     `json:"status"`
+	BuyUid       uint    `json:"buy_uid"`
+	Seller       string  `json:"seller"`
+	Avatar       string  `json:"avatar"`
+	CreateTime   string  `json:"create_time"`
+	ContactType  string  `json:"contact_type"`
+	ContactValue string  `json:"contact_value"`
+	IsFavorited  bool    `json:"is_favorited"`
 }
 
 func SearchProducts(db *gorm.DB, keyword string, sort string, status *int, page, pageSize int) ([]ProductSearchResult, int64, error) {
@@ -75,7 +77,8 @@ func SearchProducts(db *gorm.DB, keyword string, sort string, status *int, page,
 
 func GetProductByID(db *gorm.DB, id uint) (*ProductDetail, error) {
 	var detail ProductDetail
-	err := db.Model(&Product{}).Select("product.id, product.title, product.description, product.price, product.images, product.location, product.status, product.buy_uid, sys_user.nick_name as seller, sys_user.avatar, product.created_at as create_time").
+	err := db.Model(&Product{}).
+		Select("product.id, product.title, product.description, product.price, product.images, product.location, product.status, product.buy_uid, sys_user.nick_name as seller, sys_user.avatar, product.created_at as create_time, product.contact_type, product.contact_value").
 		Joins("LEFT JOIN sys_user ON product.user_id = sys_user.id").
 		Where("product.id = ?", id).
 		First(&detail).Error
