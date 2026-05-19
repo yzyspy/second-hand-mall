@@ -73,7 +73,7 @@
       <!-- Seller Info -->
       <view class="seller-section">
         <text class="section-title">卖家信息</text>
-        <view class="seller-card" bindtap="contactSeller">
+        <view class="seller-card">
           <image src="{{product.seller.avatar}}" mode="aspectFill" class="seller-avatar" />
           <view class="seller-info">
             <text class="seller-name">{{product.seller.name}}</text>
@@ -86,6 +86,15 @@
         </view>
       </view>
 
+      <!-- 联系方式 -->
+      <view class="contact-section" wx:if="{{product.contactValue}}">
+        <text class="section-title">联系卖家</text>
+        <view class="contact-info-row">
+          <text class="contact-type-tag">{{product.contactType === 'phone' ? '手机号' : product.contactType === 'wechat' ? '微信' : 'QQ'}}</text>
+          <text class="contact-value-text">{{product.contactValue}}</text>
+        </view>
+      </view>
+
       <!-- Time Info -->
       <view class="time-info">
         <text>发布于 {{product.createdAt}}</text>
@@ -95,11 +104,8 @@
 
   <!-- Bottom Action Bar -->
   <view wx:if="{{!loading && !error}}" class="action-bar">
-    <button class="action-btn secondary" bindtap="toggleFavorite">
+    <button class="action-btn primary" bindtap="toggleFavorite">
       {{isFavorite ? '已收藏' : '收藏'}}
-    </button>
-    <button class="action-btn primary" bindtap="contactSeller">
-      联系卖家
     </button>
   </view>
 </view>

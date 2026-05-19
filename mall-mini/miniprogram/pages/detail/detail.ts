@@ -21,6 +21,8 @@ interface Product {
   seller: Seller
   createdAt: string
   views: number
+  contactType: string
+  contactValue: string
 }
 
 Page({
@@ -38,7 +40,9 @@ Page({
       location: '',
       seller: { id: '', name: '微信用户', avatar: '', rating: 4.5 },
       createdAt: '',
-      views: 0
+      views: 0,
+      contactType: '',
+      contactValue: ''
     },
     isFavorite: false,
     loading: true,
@@ -92,7 +96,9 @@ Page({
             rating: 4.8
           },
           createdAt: data.create_time ? data.create_time.substring(0, 10) : '',
-          views: Math.floor(Math.random() * 500) + 50
+          views: Math.floor(Math.random() * 500) + 50,
+          contactType: data.contact_type || '',
+          contactValue: data.contact_value || ''
         }
 
         this.setData({
@@ -131,10 +137,6 @@ Page({
       console.error('收藏操作失败:', err)
       wx.showToast({ title: '操作失败，请重试', icon: 'none' })
     }
-  },
-
-  contactSeller() {
-    wx.showToast({ title: '功能开发中', icon: 'none' })
   },
 
   reportProduct() {

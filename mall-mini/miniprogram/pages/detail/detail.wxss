@@ -331,3 +331,32 @@
 .action-btn.secondary:active {
   background-color: #e0e0e0;
 }
+
+/* 联系方式区块 */
+.contact-section {
+  margin: 24rpx 0;
+  padding: 24rpx;
+  background: #fff;
+  border-radius: 16rpx;
+}
+
+.contact-info-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 12rpx;
+}
+
+.contact-type-tag {
+  background: #fff3f0;
+  color: #fa5151;
+  font-size: 24rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.contact-value-text {
+  font-size: 30rpx;
+  color: #333;
+  font-weight: 500;
+}
