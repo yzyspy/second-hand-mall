@@ -187,7 +187,7 @@ Page<PublishData, WechatMiniprogram.IAnyObject>({
     this.setData({ contactType: types[e.currentTarget.dataset.index] })
   },
 
-  onContactValueInput(e: WechatMiniprogram.Input) {
+  onContactValueInput(e: WechatMiniprogram.InputEvent) {
     this.setData({ contactValue: e.detail.value })
   },
 
@@ -302,7 +302,9 @@ Page<PublishData, WechatMiniprogram.IAnyObject>({
           location: '',
           regionNames: buildInitialRegionNames(),
           regionIndexes: [0, 0, 0],
-          categoryIndex: 0
+          categoryIndex: 0,
+          contactValue: '',
+          contactType: 'phone' as const
         })
       }, 1500)
 
