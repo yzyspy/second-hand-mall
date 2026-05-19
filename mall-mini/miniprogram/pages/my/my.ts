@@ -70,7 +70,6 @@ Page<MyData, WechatMiniprogram.IAnyObject>({
       wx.showToast({ title: '登录成功', icon: 'success' })
     } catch (err: any) {
       console.log('登录失败', err)
-      console.log('' + BASE_URL)
       wx.showToast({ title: err.message || '登录失败', icon: 'none' })
     } finally {
       wx.hideLoading()
