@@ -36,6 +36,9 @@ interface PublishData {
   categoryIndex: number
   categories: string[]
   submitting: boolean
+  contactType: 'phone' | 'wechat' | 'qq'
+  contactValue: string
+  contactTypes: string[]
 }
 
 Page<PublishData, WechatMiniprogram.IAnyObject>({
@@ -49,7 +52,10 @@ Page<PublishData, WechatMiniprogram.IAnyObject>({
     regionIndexes: [0, 0, 0],
     categoryIndex: 0,
     categories: ['电子产品', '服装鞋帽', '图书文具', '生活用品', '数码配件', '其他'],
-    submitting: false
+    submitting: false,
+    contactType: 'phone',
+    contactValue: '',
+    contactTypes: ['手机号', '微信', 'QQ'],
   },
 
   onLoad() {
@@ -176,6 +182,15 @@ Page<PublishData, WechatMiniprogram.IAnyObject>({
     this.setData({ categoryIndex: Number(e.detail.value) })
   },
 
+  onContactTypeSelect(e: WechatMiniprogram.TouchEvent) {
+    const types: Array<'phone' | 'wechat' | 'qq'> = ['phone', 'wechat', 'qq']
+    this.setData({ contactType: types[e.currentTarget.dataset.index] })
+  },
+
+  onContactValueInput(e: WechatMiniprogram.Input) {
+    this.setData({ contactValue: e.detail.value })
+  },
+
   // 验证表单
   validateForm(): boolean {
     const { images, description, price, location } = this.data
@@ -197,6 +212,11 @@ Page<PublishData, WechatMiniprogram.IAnyObject>({
 
     if (!location.trim()) {
       wx.showToast({ title: '请选择交易地点', icon: 'none' })
+      return false
+    }
+
+    if (!this.data.contactValue.trim()) {
+      wx.showToast({ title: '请填写联系方式', icon: 'none' })
       return false
     }
 
@@ -260,7 +280,9 @@ Page<PublishData, WechatMiniprogram.IAnyObject>({
         price: parseFloat(this.data.price),
         location: this.data.location,
         category: this.data.categories[this.data.categoryIndex],
-        images: imageUrls
+        images: imageUrls,
+        contact_type: this.data.contactType,
+        contact_value: this.data.contactValue,
       }
 
       console.log('提交商品数据:', productData)
