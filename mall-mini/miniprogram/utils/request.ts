@@ -79,7 +79,8 @@ export async function silentReLogin(): Promise<void> {
  * 内部实现，支持重试标志避免 401 死循环
  */
 async function _request<T = any>(options: RequestOptions, isRetry: boolean): Promise<ApiResponse<T>> {
-  const { url, method = 'GET', data, header = {}, showLoading = false, showError = true } = options
+  const { url, method = 'GET', data, header: rawHeader = {}, showLoading = false, showError = true } = options
+  const header = { ...rawHeader }
 
   if (showLoading) {
     wx.showLoading({ title: '加载中...', mask: true })
@@ -109,10 +110,15 @@ async function _request<T = any>(options: RequestOptions, isRetry: boolean): Pro
         if (res.statusCode === 401 && !isRetry) {
           try {
             await silentReLogin()
-            resolve(await _request<T>(options, true))
           } catch {
             wx.showToast({ title: '登录已过期，请重新登录', icon: 'none' })
             reject(new Error('登录已过期'))
+            return
+          }
+          try {
+            resolve(await _request<T>(options, true))
+          } catch (retryErr) {
+            reject(retryErr)
           }
           return
         }
