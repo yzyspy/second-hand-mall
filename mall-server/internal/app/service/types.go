@@ -32,12 +32,14 @@ type SearchProductRequest struct {
 
 // PublishProductRequest 发布商品请求
 type PublishProductRequest struct {
-	Title       string   `json:"title" binding:"required"`
-	Description string   `json:"description" binding:"required"`
-	Price       float64  `json:"price" binding:"required"`
-	Location    string   `json:"location" binding:"required"`
-	Category    string   `json:"category"`
-	Images      []string `json:"images" binding:"required"`
+	Title        string   `json:"title" binding:"required"`
+	Description  string   `json:"description" binding:"required"`
+	Price        float64  `json:"price" binding:"required"`
+	Location     string   `json:"location" binding:"required"`
+	Category     string   `json:"category"`
+	Images       []string `json:"images" binding:"required"`
+	ContactType  string   `json:"contact_type" binding:"required,oneof=phone wechat qq"`
+	ContactValue string   `json:"contact_value" binding:"required"`
 }
 
 // ProductDetailRequest 商品详情请求
@@ -63,11 +65,13 @@ type GetMyProductsRequest struct {
 
 // UpdateProductRequest 更新商品请求
 type UpdateProductRequest struct {
-	ID          uint     `json:"id" binding:"required"`
-	Description string   `json:"description" binding:"required"`
-	Price       float64  `json:"price" binding:"required"`
-	Location    string   `json:"location" binding:"required"`
-	Images      []string `json:"images" binding:"required"`
+	ID           uint     `json:"id" binding:"required"`
+	Description  string   `json:"description" binding:"required"`
+	Price        float64  `json:"price" binding:"required"`
+	Location     string   `json:"location" binding:"required"`
+	Images       []string `json:"images" binding:"required"`
+	ContactType  string   `json:"contact_type" binding:"required,oneof=phone wechat qq"`
+	ContactValue string   `json:"contact_value" binding:"required"`
 }
 
 // ChangeProductStatusRequest 变更商品状态请求

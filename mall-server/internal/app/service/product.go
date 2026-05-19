@@ -114,14 +114,16 @@ func PublishProduct(svc *models.ServiceContext) gin.HandlerFunc {
 		imagesStr := strings.Join(req.Images, ",")
 
 		product := dao.Product{
-			Title:       req.Title,
-			Description: req.Description,
-			Price:       req.Price,
-			Images:      imagesStr,
-			Location:    req.Location,
-			Status:      0,
-			UserId:      userID.(uint),
-			BuyUid:      0,
+			Title:        req.Title,
+			Description:  req.Description,
+			Price:        req.Price,
+			Images:       imagesStr,
+			Location:     req.Location,
+			Status:       0,
+			UserId:       userID.(uint),
+			BuyUid:       0,
+			ContactType:  req.ContactType,
+			ContactValue: req.ContactValue,
 		}
 
 		if err := svc.DB.Create(&product).Error; err != nil {
@@ -205,11 +207,13 @@ func UpdateProduct(svc *models.ServiceContext) gin.HandlerFunc {
 		}
 
 		updates := map[string]interface{}{
-			"title":       title,
-			"description": req.Description,
-			"price":       req.Price,
-			"location":    req.Location,
-			"images":      strings.Join(req.Images, ","),
+			"title":         title,
+			"description":   req.Description,
+			"price":         req.Price,
+			"location":      req.Location,
+			"images":        strings.Join(req.Images, ","),
+			"contact_type":  req.ContactType,
+			"contact_value": req.ContactValue,
 		}
 
 		if err := dao.UpdateProduct(svc.DB, req.ID, userID.(uint), updates); err != nil {
