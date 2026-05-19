@@ -1,6 +1,6 @@
 // pages/my/my.ts
 
-import { silentReLogin, BASE_URL } from '../../utils/request'
+import { silentReLogin } from '../../utils/request'
 
 interface MenuItem {
   icon: string
