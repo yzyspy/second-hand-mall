@@ -24,6 +24,58 @@ interface ApiResponse<T = any> {
 }
 
 /**
+ * 静默微信重登录，获取新 token 并写入 storage。
+ * 失败时清除 storage 中的认证信息并抛出错误。
+ * 直接使用 wx.request 而非 request() 封装，避免 token 注入和错误 toast 干扰重登录流程。
+ */
+export async function silentReLogin(): Promise<void> {
+  const clearAuth = () => {
+    wx.removeStorageSync('token')
+    wx.removeStorageSync('userInfo')
+    wx.removeStorageSync('userId')
+  }
+
+  const loginRes = await new Promise<WechatMiniprogram.LoginSuccessCallbackResult>(
+    (resolve, reject) => wx.login({ success: resolve, fail: reject })
+  )
+
+  if (!loginRes.code) {
+    clearAuth()
+    throw new Error('获取登录凭证失败')
+  }
+
+  const res = await new Promise<WechatMiniprogram.RequestSuccessCallbackResult>(
+    (resolve, reject) =>
+      wx.request({
+        url: BASE_URL + '/api/user/wx-login',
+        method: 'POST',
+        data: { code: loginRes.code },
+        header: { 'Content-Type': 'application/json' },
+        success: resolve,
+        fail: reject,
+      })
+  )
+
+  const response = res.data as ApiResponse<{ token: string; avatar: string; nick_name: string; user_id: number }>
+
+  if (response.code !== 0) {
+    clearAuth()
+    throw new Error(response.msg || '登录失败')
+  }
+
+  if (!response.data) {
+    throw new Error('登录响应数据缺失')
+  }
+
+  wx.setStorageSync('token', response.data.token)
+  wx.setStorageSync('userInfo', {
+    avatarUrl: response.data.avatar || '/images/default-avatar.png',
+    nickName: response.data.nick_name || '微信用户',
+  })
+  wx.setStorageSync('userId', response.data.user_id)
+}
+
+/**
  * 内部实现，支持重试标志避免 401 死循环
  */
 async function _request<T = any>(options: RequestOptions, isRetry: boolean): Promise<ApiResponse<T>> {
@@ -116,56 +168,4 @@ export function post<T = any>(url: string, data?: any): Promise<ApiResponse<T>> 
  */
 export function put<T = any>(url: string, data?: any): Promise<ApiResponse<T>> {
   return request<T>({ url, method: 'PUT', data })
-}
-
-/**
- * 静默微信重登录，获取新 token 并写入 storage。
- * 失败时清除 storage 中的认证信息并抛出错误。
- * 直接使用 wx.request 而非 request() 封装，避免 token 注入和错误 toast 干扰重登录流程。
- */
-export async function silentReLogin(): Promise<void> {
-  const clearAuth = () => {
-    wx.removeStorageSync('token')
-    wx.removeStorageSync('userInfo')
-    wx.removeStorageSync('userId')
-  }
-
-  const loginRes = await new Promise<WechatMiniprogram.LoginSuccessCallbackResult>(
-    (resolve, reject) => wx.login({ success: resolve, fail: reject })
-  )
-
-  if (!loginRes.code) {
-    clearAuth()
-    throw new Error('获取登录凭证失败')
-  }
-
-  const res = await new Promise<WechatMiniprogram.RequestSuccessCallbackResult>(
-    (resolve, reject) =>
-      wx.request({
-        url: BASE_URL + '/api/user/wx-login',
-        method: 'POST',
-        data: { code: loginRes.code },
-        header: { 'Content-Type': 'application/json' },
-        success: resolve,
-        fail: reject,
-      })
-  )
-
-  const response = res.data as ApiResponse<{ token: string; avatar: string; nick_name: string; user_id: number }>
-
-  if (response.code !== 0) {
-    clearAuth()
-    throw new Error(response.msg || '登录失败')
-  }
-
-  if (!response.data) {
-    throw new Error('登录响应数据缺失')
-  }
-
-  wx.setStorageSync('token', response.data.token)
-  wx.setStorageSync('userInfo', {
-    avatarUrl: response.data.avatar || '/images/default-avatar.png',
-    nickName: response.data.nick_name || '微信用户',
-  })
-  wx.setStorageSync('userId', response.data.user_id)
 }
