@@ -24,22 +24,20 @@ interface ApiResponse<T = any> {
 }
 
 /**
- * 发起HTTP请求
+ * 内部实现，支持重试标志避免 401 死循环
  */
-export function request<T = any>(options: RequestOptions): Promise<ApiResponse<T>> {
+async function _request<T = any>(options: RequestOptions, isRetry: boolean): Promise<ApiResponse<T>> {
   const { url, method = 'GET', data, header = {}, showLoading = false, showError = true } = options
 
   if (showLoading) {
     wx.showLoading({ title: '加载中...', mask: true })
   }
 
-  // 自动注入JWT token
   const token = wx.getStorageSync('token')
   if (token) {
     header['Authorization'] = `Bearer ${token}`
   }
 
-  // 设置Content-Type
   if (!header['Content-Type'] && method !== 'GET') {
     header['Content-Type'] = 'application/json'
   }
@@ -50,25 +48,32 @@ export function request<T = any>(options: RequestOptions): Promise<ApiResponse<T
       method,
       data,
       header,
-      success: (res) => {
+      success: async (res) => {
         if (showLoading) {
           wx.hideLoading()
         }
 
+        // 401: token 过期，尝试静默重登录（只重试一次）
+        if (res.statusCode === 401 && !isRetry) {
+          try {
+            await silentReLogin()
+            resolve(await _request<T>(options, true))
+          } catch {
+            wx.showToast({ title: '登录已过期，请重新登录', icon: 'none' })
+            reject(new Error('登录已过期'))
+          }
+          return
+        }
+
         const response = res.data as ApiResponse<T>
 
-        // 业务成功
         if (response.code === 0) {
           resolve(response)
           return
         }
 
-        // 业务失败
         if (showError) {
-          wx.showToast({
-            title: response.msg || '请求失败',
-            icon: 'none'
-          })
+          wx.showToast({ title: response.msg || '请求失败', icon: 'none' })
         }
         reject(response)
       },
@@ -76,17 +81,20 @@ export function request<T = any>(options: RequestOptions): Promise<ApiResponse<T
         if (showLoading) {
           wx.hideLoading()
         }
-
         if (showError) {
-          wx.showToast({
-            title: '网络请求失败',
-            icon: 'none'
-          })
+          wx.showToast({ title: '网络请求失败', icon: 'none' })
         }
         reject(err)
-      }
+      },
     })
   })
+}
+
+/**
+ * 发起HTTP请求
+ */
+export function request<T = any>(options: RequestOptions): Promise<ApiResponse<T>> {
+  return _request<T>(options, false)
 }
 
 /**
