@@ -39,7 +39,7 @@ type PublishProductRequest struct {
 	Category     string   `json:"category"`
 	Images       []string `json:"images" binding:"required"`
 	ContactType  string   `json:"contact_type" binding:"required,oneof=phone wechat qq"`
-	ContactValue string   `json:"contact_value" binding:"required"`
+	ContactValue string   `json:"contact_value" binding:"required,max=100"`
 }
 
 // ProductDetailRequest 商品详情请求
@@ -71,7 +71,7 @@ type UpdateProductRequest struct {
 	Location     string   `json:"location" binding:"required"`
 	Images       []string `json:"images" binding:"required"`
 	ContactType  string   `json:"contact_type" binding:"required,oneof=phone wechat qq"`
-	ContactValue string   `json:"contact_value" binding:"required"`
+	ContactValue string   `json:"contact_value" binding:"required,max=100"`
 }
 
 // ChangeProductStatusRequest 变更商品状态请求
