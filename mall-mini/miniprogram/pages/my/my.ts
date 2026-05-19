@@ -1,7 +1,6 @@
 // pages/my/my.ts
 
-import { post } from '../../utils/request'
-import {BASE_URL} from '../../utils/request'
+import { silentReLogin, BASE_URL } from '../../utils/request'
 
 interface MenuItem {
   icon: string
@@ -63,45 +62,18 @@ Page<MyData, WechatMiniprogram.IAnyObject>({
 
   // 微信授权登录
   async handleLogin() {
+    wx.showLoading({ title: '登录中...', mask: true })
     try {
-      // 1. 获取微信登录 code
-      const loginRes = await wx.login()
-      const code = loginRes.code
-
-      if (!code) {
-        wx.showToast({ title: '获取登录凭证失败', icon: 'none' })
-        return
-      }
-
-      // 2. 调用后端微信登录接口
-      wx.showLoading({ title: '登录中...', mask: true })
-      const result = await post('/api/user/wx-login', {
-        code: code
-      })
-      wx.hideLoading()
-
-      // 3. 保存登录信息
-      wx.setStorageSync('token', result.data.token)
-      wx.setStorageSync('userInfo', {
-        avatarUrl: result.data.avatar || '/images/default-avatar.png',
-        nickName: result.data.nick_name || '微信用户'
-      })
-      wx.setStorageSync('userId', result.data.user_id)
-
-      this.setData({
-        userInfo: {
-          avatarUrl: result.data.avatar || '/images/default-avatar.png',
-          nickName: result.data.nick_name || '微信用户'
-        },
-        isLoggedIn: true
-      })
-
+      await silentReLogin()
+      const userInfo = wx.getStorageSync('userInfo')
+      this.setData({ userInfo, isLoggedIn: true })
       wx.showToast({ title: '登录成功', icon: 'success' })
     } catch (err: any) {
-      wx.hideLoading()
       console.log('登录失败', err)
       console.log('' + BASE_URL)
-      wx.showToast({ title: err.msg || '登录失败', icon: 'none' })
+      wx.showToast({ title: err.message || '登录失败', icon: 'none' })
+    } finally {
+      wx.hideLoading()
     }
   },
 
