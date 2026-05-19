@@ -21,6 +21,9 @@ interface EditData {
   categoryIndex: number
   categories: string[]
   submitting: boolean
+  contactType: 'phone' | 'wechat' | 'qq'
+  contactValue: string
+  contactTypes: string[]
 }
 
 const provinceNames = regionsData.map(p => p.name)
@@ -80,7 +83,10 @@ Page<EditData, WechatMiniprogram.IAnyObject>({
     regionIndexes: [0, 0, 0],
     categoryIndex: 0,
     categories: CATEGORIES,
-    submitting: false
+    submitting: false,
+    contactType: 'phone',
+    contactValue: '',
+    contactTypes: ['手机号', '微信', 'QQ'],
   },
 
   async onLoad(options: Record<string, string>) {
@@ -120,7 +126,9 @@ Page<EditData, WechatMiniprogram.IAnyObject>({
         location: p.location || '',
         regionNames,
         regionIndexes: [pi, ci, di],
-        categoryIndex
+        categoryIndex,
+        contactType: (p.contact_type as 'phone' | 'wechat' | 'qq') || 'phone',
+        contactValue: p.contact_value || '',
       })
     } catch (err) {
       wx.showToast({ title: '加载商品失败', icon: 'none' })
@@ -180,6 +188,15 @@ Page<EditData, WechatMiniprogram.IAnyObject>({
     this.setData({ categoryIndex: Number(e.detail.value) })
   },
 
+  onContactTypeSelect(e: WechatMiniprogram.TouchEvent) {
+    const types: Array<'phone' | 'wechat' | 'qq'> = ['phone', 'wechat', 'qq']
+    this.setData({ contactType: types[e.currentTarget.dataset.index] })
+  },
+
+  onContactValueInput(e: WechatMiniprogram.InputEvent) {
+    this.setData({ contactValue: e.detail.value })
+  },
+
   onRegionColumnChange(e: WechatMiniprogram.PickerColumnChange) {
     const { column, value } = e.detail
     const indexes = [...this.data.regionIndexes]
@@ -230,6 +247,10 @@ Page<EditData, WechatMiniprogram.IAnyObject>({
       wx.showToast({ title: '请选择交易地点', icon: 'none' })
       return false
     }
+    if (!this.data.contactValue.trim()) {
+      wx.showToast({ title: '请填写联系方式', icon: 'none' })
+      return false
+    }
     return true
   },
 
@@ -270,7 +291,9 @@ Page<EditData, WechatMiniprogram.IAnyObject>({
         description: this.data.description,
         price: parseFloat(this.data.price),
         location: this.data.location,
-        images: imageUrls
+        images: imageUrls,
+        contact_type: this.data.contactType,
+        contact_value: this.data.contactValue,
       })
       wx.hideLoading()
       wx.showToast({ title: '保存成功', icon: 'success' })

@@ -139,3 +139,34 @@
 
 .submit-btn:active { background: #06ad56; }
 .submit-btn.disabled { background: #cdd7df; }
+
+/* 联系方式 */
+.contact-type-row {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 20rpx;
+}
+
+.contact-type-btn {
+  flex: 1;
+  text-align: center;
+  padding: 14rpx 0;
+  border: 2rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.contact-type-btn.active {
+  border-color: #fa5151;
+  color: #fa5151;
+}
+
+.contact-input {
+  border: 1rpx solid #e0e0e0;
+  border-radius: 8rpx;
+  padding: 16rpx 20rpx;
+  font-size: 28rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
