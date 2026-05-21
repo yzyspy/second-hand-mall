@@ -7,8 +7,10 @@ import (
 // GetAdminByUsername 根据用户名查询管理员
 func GetAdminByUsername(db *gorm.DB, username string) (*AdminUser, error) {
 	var admin AdminUser
-	err := db.Where("username = ?", username).First(&admin).Error
-	return &admin, err
+	if err := db.Where("username = ?", username).First(&admin).Error; err != nil {
+		return nil, err
+	}
+	return &admin, nil
 }
 
 // AdminListUsersResult 用户列表查询结果
@@ -54,7 +56,9 @@ func AdminListUsers(db *gorm.DB, keyword string, isBanned *bool, page, pageSize 
 	results := make([]AdminListUsersResult, 0, len(users))
 	for _, u := range users {
 		var count int64
-		db.Model(&Product{}).Where("user_id = ? AND deleted_at IS NULL", u.ID).Count(&count)
+		if err := db.Model(&Product{}).Where("user_id = ? AND deleted_at IS NULL", u.ID).Count(&count).Error; err != nil {
+			return nil, 0, err
+		}
 		results = append(results, AdminListUsersResult{
 			ID:           u.ID,
 			UserName:     u.UserName,
@@ -76,8 +80,12 @@ func AdminGetUserDetail(db *gorm.DB, id uint) (*AdminListUsersResult, error) {
 		return nil, err
 	}
 	var productCount, favoriteCount int64
-	db.Model(&Product{}).Where("user_id = ? AND deleted_at IS NULL", id).Count(&productCount)
-	db.Model(&UserFavorite{}).Where("user_id = ?", id).Count(&favoriteCount)
+	if err := db.Model(&Product{}).Where("user_id = ? AND deleted_at IS NULL", id).Count(&productCount).Error; err != nil {
+		return nil, err
+	}
+	if err := db.Model(&UserFavorite{}).Where("user_id = ?", id).Count(&favoriteCount).Error; err != nil {
+		return nil, err
+	}
 
 	return &AdminListUsersResult{
 		ID:           u.ID,
