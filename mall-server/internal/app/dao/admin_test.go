@@ -31,7 +31,9 @@ func TestAdminUserCreate(t *testing.T) {
 
 func TestAdminUserUsernameUnique(t *testing.T) {
 	db := newTestDB(t)
-	db.Create(&AdminUser{Username: "dup", PasswordHash: "h1"})
+	if err := db.Create(&AdminUser{Username: "dup", PasswordHash: "h1"}).Error; err != nil {
+		t.Fatalf("setup insert failed: %v", err)
+	}
 	err := db.Create(&AdminUser{Username: "dup", PasswordHash: "h2"}).Error
 	if err == nil {
 		t.Fatal("expected unique constraint violation")
