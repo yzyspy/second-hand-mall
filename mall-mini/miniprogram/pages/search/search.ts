@@ -1,4 +1,5 @@
 import { get } from '../../utils/request'
+import regionsData from '../../data/china-regions'
 
 interface ProductItem {
   id: number
@@ -15,6 +16,19 @@ interface SearchData {
   keyword: string
   sort: string
   status: number | null
+  selectedCategory: string
+  selectedProvince: string
+  selectedCity: string
+  selectedDistrict: string
+  showCategoryPanel: boolean
+  showRegionPanel: boolean
+  regionStep: number
+  regionProvinceIndex: number
+  regionCityIndex: number
+  regionCities: string[]
+  regionDistricts: string[]
+  provinces: string[]
+  categories: string[]
   products: ProductItem[]
   loading: boolean
   page: number
@@ -30,6 +44,19 @@ Page<SearchData, WechatMiniprogram.IAnyObject>({
     keyword: '',
     sort: 'time_desc',
     status: null,
+    selectedCategory: '',
+    selectedProvince: '',
+    selectedCity: '',
+    selectedDistrict: '',
+    showCategoryPanel: false,
+    showRegionPanel: false,
+    regionStep: 0,
+    regionProvinceIndex: 0,
+    regionCityIndex: 0,
+    regionCities: [],
+    regionDistricts: [],
+    provinces: regionsData.map(p => p.name),
+    categories: ['电子产品', '服装鞋帽', '图书文具', '生活用品', '数码配件', '其他'],
     products: [],
     loading: false,
     page: 1,
@@ -85,11 +112,16 @@ Page<SearchData, WechatMiniprogram.IAnyObject>({
         keyword: this.data.keyword,
         sort: this.data.sort,
         page: this.data.page,
-        page_size: 10
+        page_size: 10,
       }
       if (this.data.status !== null) {
         params.status = this.data.status
       }
+      if (this.data.selectedCategory) params.category = this.data.selectedCategory
+      if (this.data.selectedProvince) params.province = this.data.selectedProvince
+      if (this.data.selectedCity)     params.city     = this.data.selectedCity
+      if (this.data.selectedDistrict) params.district = this.data.selectedDistrict
+
       const res = await get<{
         list: ProductItem[]
         total: number
@@ -110,6 +142,75 @@ Page<SearchData, WechatMiniprogram.IAnyObject>({
     } finally {
       this.setData({ loading: false })
     }
+  },
+
+  onOpenCategoryPanel() {
+    this.setData({ showCategoryPanel: true })
+  },
+
+  onCloseCategoryPanel() {
+    this.setData({ showCategoryPanel: false })
+  },
+
+  onSelectCategory(e: WechatMiniprogram.TouchEvent) {
+    const value: string = e.currentTarget.dataset.value
+    this.setData({ selectedCategory: value, showCategoryPanel: false, page: 1, hasMore: true, products: [] })
+    this.search()
+  },
+
+  onClearCategory(_e: WechatMiniprogram.TouchEvent) {
+    this.setData({ selectedCategory: '', page: 1, hasMore: true, products: [] })
+    this.search()
+  },
+
+  onOpenRegionPanel() {
+    this.setData({ showRegionPanel: true, regionStep: 0 })
+  },
+
+  onCloseRegionPanel() {
+    this.setData({ showRegionPanel: false })
+  },
+
+  onSelectProvince(e: WechatMiniprogram.TouchEvent) {
+    const pi: number = e.currentTarget.dataset.index
+    const province = regionsData[pi]
+    this.setData({
+      selectedProvince: province.name,
+      selectedCity: '',
+      selectedDistrict: '',
+      regionProvinceIndex: pi,
+      regionCities: province.children.map((c: any) => c.name),
+      regionStep: 1,
+    })
+  },
+
+  onSelectCity(e: WechatMiniprogram.TouchEvent) {
+    const ci: number = e.currentTarget.dataset.index
+    const pi = this.data.regionProvinceIndex
+    const city = regionsData[pi].children[ci]
+    this.setData({
+      selectedCity: city.name,
+      selectedDistrict: '',
+      regionCityIndex: ci,
+      regionDistricts: city.children as string[],
+      regionStep: 2,
+    })
+  },
+
+  onSelectDistrict(e: WechatMiniprogram.TouchEvent) {
+    const district: string = e.currentTarget.dataset.district
+    this.setData({ selectedDistrict: district, showRegionPanel: false, page: 1, hasMore: true, products: [] })
+    this.search()
+  },
+
+  onConfirmRegion() {
+    this.setData({ showRegionPanel: false, page: 1, hasMore: true, products: [] })
+    this.search()
+  },
+
+  onClearRegion(_e: WechatMiniprogram.TouchEvent) {
+    this.setData({ selectedProvince: '', selectedCity: '', selectedDistrict: '', page: 1, hasMore: true, products: [] })
+    this.search()
   },
 
   goToDetail(e: WechatMiniprogram.TouchEvent) {
