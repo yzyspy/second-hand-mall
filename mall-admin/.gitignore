@@ -1,0 +1,25 @@
+# Go
+mall-admin
+*.exe
+*.test
+*.out
+vendor/
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Environment
+.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.tmp
