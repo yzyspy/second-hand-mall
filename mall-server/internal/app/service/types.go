@@ -26,6 +26,10 @@ type SearchProductRequest struct {
 	Keyword  string `form:"keyword"`
 	Sort     string `form:"sort"`
 	Status   *int   `form:"status"`
+	Category string `form:"category"`
+	Province string `form:"province"`
+	City     string `form:"city"`
+	District string `form:"district"`
 	Page     int    `form:"page"`
 	PageSize int    `form:"page_size"`
 }
@@ -37,6 +41,9 @@ type PublishProductRequest struct {
 	Price        float64  `json:"price" binding:"required"`
 	Location     string   `json:"location" binding:"required"`
 	Category     string   `json:"category"`
+	Province     string   `json:"province"`
+	City         string   `json:"city"`
+	District     string   `json:"district"`
 	Images       []string `json:"images" binding:"required"`
 	ContactType  string   `json:"contact_type" binding:"required,oneof=phone wechat qq"`
 	ContactValue string   `json:"contact_value" binding:"required,max=100"`
@@ -69,6 +76,10 @@ type UpdateProductRequest struct {
 	Description  string   `json:"description" binding:"required"`
 	Price        float64  `json:"price" binding:"required"`
 	Location     string   `json:"location" binding:"required"`
+	Category     string   `json:"category"`
+	Province     string   `json:"province"`
+	City         string   `json:"city"`
+	District     string   `json:"district"`
 	Images       []string `json:"images" binding:"required"`
 	ContactType  string   `json:"contact_type" binding:"required,oneof=phone wechat qq"`
 	ContactValue string   `json:"contact_value" binding:"required,max=100"`

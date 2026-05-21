@@ -274,12 +274,20 @@ Page<PublishData, WechatMiniprogram.IAnyObject>({
       const imageUrls = await this.uploadImages()
 
       // 2. 构建商品数据
+      const [pi, ci, di] = this.data.regionIndexes
+      const province = regionsData[pi].name
+      const city = regionsData[pi].children[ci].name
+      const district = (regionsData[pi].children[ci].children as string[])[di]
+
       const productData = {
         title: this.data.description.substring(0, 50), // 取描述前50字作为标题
         description: this.data.description,
         price: parseFloat(this.data.price),
         location: this.data.location,
         category: this.data.categories[this.data.categoryIndex],
+        province,
+        city,
+        district,
         images: imageUrls,
         contact_type: this.data.contactType,
         contact_value: this.data.contactValue,

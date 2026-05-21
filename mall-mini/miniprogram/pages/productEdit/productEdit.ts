@@ -286,11 +286,20 @@ Page<EditData, WechatMiniprogram.IAnyObject>({
     wx.showLoading({ title: '保存中...', mask: true })
     try {
       const imageUrls = await this.uploadImages()
+      const [pi, ci, di] = this.data.regionIndexes
+      const province = regionsData[pi].name
+      const city = regionsData[pi].children[ci].name
+      const district = (regionsData[pi].children[ci].children as string[])[di]
+
       await put('/api/product/update', {
         id: this.data.productId,
         description: this.data.description,
         price: parseFloat(this.data.price),
         location: this.data.location,
+        category: CATEGORIES[this.data.categoryIndex],
+        province,
+        city,
+        district,
         images: imageUrls,
         contact_type: this.data.contactType,
         contact_value: this.data.contactValue,

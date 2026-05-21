@@ -8,6 +8,26 @@
     <text class="search-placeholder">搜索商品</text>
   </view>
 
+  <!-- 筛选芯片栏 -->
+  <view class="chip-filter-bar">
+    <view
+      class="filter-chip {{selectedCategory ? 'active' : ''}}"
+      bindtap="onOpenCategoryPanel"
+    >
+      <text>{{selectedCategory || '全部分类'}}</text>
+      <text wx:if="{{selectedCategory}}" catchtap="onClearCategory"> ✕</text>
+      <text wx:else> ▾</text>
+    </view>
+    <view
+      class="filter-chip {{selectedProvince ? 'active' : ''}}"
+      bindtap="onOpenRegionPanel"
+    >
+      <text>{{selectedDistrict || selectedCity || selectedProvince || '全部地区'}}</text>
+      <text wx:if="{{selectedProvince}}" catchtap="onClearRegion"> ✕</text>
+      <text wx:else> ▾</text>
+    </view>
+  </view>
+
   <!-- 商品列表 -->
   <view class="product-list">
     <block wx:for="{{products}}" wx:key="id">
@@ -40,5 +60,65 @@
   <!-- 空状态 -->
   <view class="empty-state" wx:if="{{!loading && products.length === 0}}">
     <text class="empty-text">暂无商品</text>
+  </view>
+
+  <!-- 分类面板遮罩 -->
+  <view wx:if="{{showCategoryPanel}}" class="panel-mask" bindtap="onCloseCategoryPanel" />
+  <!-- 分类面板 -->
+  <view wx:if="{{showCategoryPanel}}" class="category-panel">
+    <view
+      class="category-item {{!selectedCategory ? 'selected' : ''}}"
+      bindtap="onSelectCategory"
+      data-value=""
+    >全部</view>
+    <view
+      wx:for="{{categories}}"
+      wx:key="index"
+      class="category-item {{item === selectedCategory ? 'selected' : ''}}"
+      bindtap="onSelectCategory"
+      data-value="{{item}}"
+    >{{item}}</view>
+  </view>
+
+  <!-- 地区面板遮罩 -->
+  <view wx:if="{{showRegionPanel}}" class="panel-mask" bindtap="onCloseRegionPanel" />
+  <!-- 地区面板 -->
+  <view wx:if="{{showRegionPanel}}" class="region-panel">
+    <view class="region-header">
+      <text class="region-breadcrumb">
+        {{selectedProvince || '请选择省份'}}{{selectedCity ? ' / ' + selectedCity : ''}}
+      </text>
+      <view wx:if="{{regionStep > 0}}" class="region-confirm-btn" bindtap="onConfirmRegion">确认</view>
+    </view>
+    <!-- 省列表 -->
+    <scroll-view wx:if="{{regionStep === 0}}" scroll-y class="region-list">
+      <view
+        wx:for="{{provinces}}"
+        wx:key="index"
+        class="region-item {{item === selectedProvince ? 'selected' : ''}}"
+        bindtap="onSelectProvince"
+        data-index="{{index}}"
+      >{{item}}</view>
+    </scroll-view>
+    <!-- 市列表 -->
+    <scroll-view wx:if="{{regionStep === 1}}" scroll-y class="region-list">
+      <view
+        wx:for="{{regionCities}}"
+        wx:key="index"
+        class="region-item {{item === selectedCity ? 'selected' : ''}}"
+        bindtap="onSelectCity"
+        data-index="{{index}}"
+      >{{item}}</view>
+    </scroll-view>
+    <!-- 县区列表 -->
+    <scroll-view wx:if="{{regionStep === 2}}" scroll-y class="region-list">
+      <view
+        wx:for="{{regionDistricts}}"
+        wx:key="index"
+        class="region-item {{item === selectedDistrict ? 'selected' : ''}}"
+        bindtap="onSelectDistrict"
+        data-district="{{item}}"
+      >{{item}}</view>
+    </scroll-view>
   </view>
 </view>

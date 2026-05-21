@@ -209,3 +209,112 @@
   color: #999;
   font-size: 28rpx;
 }
+
+/* 筛选芯片栏 */
+.chip-filter-bar {
+  display: flex;
+  gap: 16rpx;
+  padding: 16rpx 24rpx;
+  background: #fff;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.filter-chip {
+  display: flex;
+  align-items: center;
+  padding: 10rpx 20rpx;
+  border: 2rpx solid #e0e0e0;
+  border-radius: 32rpx;
+  font-size: 26rpx;
+  color: #666;
+  background: #fafafa;
+}
+
+.filter-chip.active {
+  border-color: #fa5151;
+  color: #fa5151;
+  background: #fff3f0;
+}
+
+/* 面板遮罩 */
+.panel-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+}
+
+/* 分类面板 */
+.category-panel {
+  position: fixed;
+  top: 280rpx;
+  left: 0;
+  right: 0;
+  background: #fff;
+  z-index: 100;
+  padding: 8rpx 0;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.12);
+}
+
+.category-item {
+  padding: 24rpx 32rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.category-item.selected {
+  color: #fa5151;
+  font-weight: 500;
+}
+
+/* 地区面板 */
+.region-panel {
+  position: fixed;
+  top: 280rpx;
+  left: 0;
+  right: 0;
+  height: 600rpx;
+  background: #fff;
+  z-index: 100;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+
+.region-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 32rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  flex-shrink: 0;
+}
+
+.region-breadcrumb {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.region-confirm-btn {
+  font-size: 28rpx;
+  color: #fa5151;
+  padding: 8rpx 16rpx;
+}
+
+.region-list {
+  flex: 1;
+}
+
+.region-item {
+  padding: 24rpx 32rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.region-item.selected {
+  color: #fa5151;
+  font-weight: 500;
+}
