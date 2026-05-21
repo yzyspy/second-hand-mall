@@ -13,6 +13,7 @@ type ProductSearchResult struct {
 	Images     string  `json:"images"`
 	Location   string  `json:"location"`
 	Status     int     `json:"status"`
+	Category   string  `json:"category"`
 	Seller     string  `json:"seller"`
 	Avatar     string  `json:"avatar"`
 	BuyUid     uint    `json:"buy_uid"`
@@ -28,6 +29,10 @@ type ProductDetail struct {
 	Location     string  `json:"location"`
 	Status       int     `json:"status"`
 	BuyUid       uint    `json:"buy_uid"`
+	Category     string  `json:"category"`
+	Province     string  `json:"province"`
+	City         string  `json:"city"`
+	District     string  `json:"district"`
 	Seller       string  `json:"seller"`
 	Avatar       string  `json:"avatar"`
 	CreateTime   string  `json:"create_time"`
@@ -36,7 +41,9 @@ type ProductDetail struct {
 	IsFavorited  bool    `json:"is_favorited"`
 }
 
-func SearchProducts(db *gorm.DB, keyword string, sort string, status *int, page, pageSize int) ([]ProductSearchResult, int64, error) {
+func SearchProducts(db *gorm.DB, keyword, sort string, status *int,
+	category, province, city, district string,
+	page, pageSize int) ([]ProductSearchResult, int64, error) {
 	if page < 1 {
 		page = 1
 	}
@@ -44,7 +51,8 @@ func SearchProducts(db *gorm.DB, keyword string, sort string, status *int, page,
 		pageSize = 10
 	}
 
-	query := db.Model(&Product{}).Select("product.id, product.title, product.price, product.images, product.location, product.status, product.buy_uid, sys_user.nick_name as seller, sys_user.avatar, product.created_at as create_time").
+	query := db.Model(&Product{}).
+		Select("product.id, product.title, product.price, product.images, product.location, product.status, product.category, product.buy_uid, sys_user.nick_name as seller, sys_user.avatar, product.created_at as create_time").
 		Joins("LEFT JOIN sys_user ON product.user_id = sys_user.id")
 
 	if keyword != "" {
@@ -52,6 +60,18 @@ func SearchProducts(db *gorm.DB, keyword string, sort string, status *int, page,
 	}
 	if status != nil {
 		query = query.Where("product.status = ?", *status)
+	}
+	if category != "" {
+		query = query.Where("product.category = ?", category)
+	}
+	if province != "" {
+		query = query.Where("product.province = ?", province)
+	}
+	if city != "" {
+		query = query.Where("product.city = ?", city)
+	}
+	if district != "" {
+		query = query.Where("product.district = ?", district)
 	}
 
 	var total int64
@@ -78,7 +98,7 @@ func SearchProducts(db *gorm.DB, keyword string, sort string, status *int, page,
 func GetProductByID(db *gorm.DB, id uint) (*ProductDetail, error) {
 	var detail ProductDetail
 	err := db.Model(&Product{}).
-		Select("product.id, product.title, product.description, product.price, product.images, product.location, product.status, product.buy_uid, sys_user.nick_name as seller, sys_user.avatar, product.created_at as create_time, product.contact_type, product.contact_value").
+		Select("product.id, product.title, product.description, product.price, product.images, product.location, product.status, product.buy_uid, product.category, product.province, product.city, product.district, sys_user.nick_name as seller, sys_user.avatar, product.created_at as create_time, product.contact_type, product.contact_value").
 		Joins("LEFT JOIN sys_user ON product.user_id = sys_user.id").
 		Where("product.id = ?", id).
 		First(&detail).Error
@@ -100,7 +120,7 @@ func GetMyProducts(db *gorm.DB, userID uint, page, pageSize int) ([]ProductSearc
 	}
 
 	query := db.Model(&Product{}).
-		Select("product.id, product.title, product.price, product.images, product.location, product.status, product.buy_uid, sys_user.nick_name as seller, sys_user.avatar, product.created_at as create_time").
+		Select("product.id, product.title, product.price, product.images, product.location, product.status, product.category, product.buy_uid, sys_user.nick_name as seller, sys_user.avatar, product.created_at as create_time").
 		Joins("LEFT JOIN sys_user ON product.user_id = sys_user.id").
 		Where("product.user_id = ?", userID)
 

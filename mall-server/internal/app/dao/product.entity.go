@@ -12,6 +12,10 @@ type Product struct {
 	Status       int     `gorm:"column:status;type:int;not null;default:0" json:"status" comment:"状态:0在售,1已售出,2已下架"`
 	UserId       uint    `gorm:"column:user_id;type:int;not null;default:0" json:"user_id" comment:"发布者ID"`
 	BuyUid       uint    `gorm:"column:buy_uid;type:int;not null;default:0" json:"buy_uid" comment:"购买者ID,0表示未售出"`
+	Category     string  `gorm:"column:category;type:varchar(50);not null;default:''" json:"category" comment:"商品分类"`
+	Province     string  `gorm:"column:province;type:varchar(50);not null;default:''" json:"province" comment:"省"`
+	City         string  `gorm:"column:city;type:varchar(50);not null;default:''" json:"city" comment:"市"`
+	District     string  `gorm:"column:district;type:varchar(50);not null;default:''" json:"district" comment:"县区"`
 	ContactType  string  `gorm:"column:contact_type;type:varchar(10);not null;default:''" json:"contact_type" comment:"联系方式类型:phone/wechat/qq"`
 	ContactValue string  `gorm:"column:contact_value;type:varchar(100);not null;default:''" json:"contact_value" comment:"联系方式值"`
 }

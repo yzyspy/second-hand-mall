@@ -29,7 +29,7 @@ func SearchProducts(svc *models.ServiceContext) gin.HandlerFunc {
 			req.PageSize = 10
 		}
 
-		results, total, err := dao.SearchProducts(svc.DB, req.Keyword, req.Sort, req.Status, req.Page, req.PageSize)
+		results, total, err := dao.SearchProducts(svc.DB, req.Keyword, req.Sort, req.Status, req.Category, req.Province, req.City, req.District, req.Page, req.PageSize)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{
 				"code": -1,
@@ -119,6 +119,10 @@ func PublishProduct(svc *models.ServiceContext) gin.HandlerFunc {
 			Price:        req.Price,
 			Images:       imagesStr,
 			Location:     req.Location,
+			Category:     req.Category,
+			Province:     req.Province,
+			City:         req.City,
+			District:     req.District,
 			Status:       0,
 			UserId:       userID.(uint),
 			BuyUid:       0,
@@ -211,6 +215,10 @@ func UpdateProduct(svc *models.ServiceContext) gin.HandlerFunc {
 			"description":   req.Description,
 			"price":         req.Price,
 			"location":      req.Location,
+			"category":      req.Category,
+			"province":      req.Province,
+			"city":          req.City,
+			"district":      req.District,
 			"images":        strings.Join(req.Images, ","),
 			"contact_type":  req.ContactType,
 			"contact_value": req.ContactValue,
