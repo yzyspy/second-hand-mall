@@ -40,6 +40,11 @@ func NewDB() (*gorm.DB, error) {
 		panic(fmt.Sprintf("db auto migrate error: %v", err))
 	}
 
+	// 自动迁移管理员表
+	if err := con.AutoMigrate(&dao.AdminUser{}); err != nil {
+		panic(fmt.Sprintf("db auto migrate error: %v", err))
+	}
+
 	return con, nil
 }
 

@@ -18,6 +18,7 @@ type SysUser struct {
 	Remarks       string `gorm:"column:remarks;type:varchar(255);not null;default:''" json:"remarks" comment:"备注"`
 	RoleId        int    `gorm:"column:role_id;type:int;not null;default:0" json:"role_id" comment:"角色ID"`
 	NickName      string `gorm:"column:nick_name;type:varchar(50);not null;default:''" json:"nick_name" comment:"昵称"`
+	IsBanned      bool   `gorm:"column:is_banned;type:boolean;not null;default:false" json:"is_banned" comment:"是否封禁"`
 }
 
 // 设置表名称
