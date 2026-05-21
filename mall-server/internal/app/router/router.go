@@ -83,13 +83,37 @@ func App(ctx context.Context, svc *models.ServiceContext) *gin.Engine {
 	// 商品详情接口
 	r.GET("/api/product/detail", OptionalAuthMiddleware(), service.GetProductDetail(svc))
 
+	// ========== Admin 接口（独立鉴权）==========
+	r.POST("/admin/login", service.AdminLogin(svc))
+
+	adminGroup := r.Group("/admin")
+	adminGroup.Use(AdminAuthMiddleware())
+	{
+		adminGroup.GET("/users", service.AdminListUsers(svc))
+		adminGroup.GET("/users/:id", service.AdminGetUserDetail(svc))
+		adminGroup.POST("/users/:id/ban", service.AdminBanUser(svc))
+		adminGroup.POST("/users/:id/unban", service.AdminUnbanUser(svc))
+
+		adminGroup.GET("/products", service.AdminListProducts(svc))
+		adminGroup.GET("/products/:id", service.AdminGetProductDetail(svc))
+		adminGroup.POST("/products/:id/delist", service.AdminDelistProduct(svc))
+	}
+
 	return r
 }
 
 func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// http://localhost:5173  是前端vue项目的node启动的地址和端口
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+		origin := c.Request.Header.Get("Origin")
+		allowed := map[string]bool{
+			"http://localhost:5173": true,
+			"http://localhost:5174": true,
+		}
+		if allowed[origin] {
+			c.Writer.Header().Set("Access-Control-Allow-Origin", origin)
+		} else {
+			c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+		}
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
@@ -98,7 +122,6 @@ func CORSMiddleware() gin.HandlerFunc {
 			c.AbortWithStatus(204)
 			return
 		}
-
 		c.Next()
 	}
 }

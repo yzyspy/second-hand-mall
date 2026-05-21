@@ -106,6 +106,14 @@ func WxLogin(ctx context.Context, c *gin.Context, svc *models.ServiceContext) {
 		}
 	}
 
+	if user.IsBanned {
+		c.JSON(http.StatusForbidden, gin.H{
+			"code": -1,
+			"msg":  "账号已被封禁，请联系管理员",
+		})
+		return
+	}
+
 	// 生成 JWT token
 	token, err := jwtx.GenerateToken(user.ID, user.UserName)
 	if err != nil {

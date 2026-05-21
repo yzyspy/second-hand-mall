@@ -2,13 +2,17 @@ package main
 
 import (
 	"context"
-	"github.com/urfave/cli/v2"
+	"fmt"
 	"log"
+	"os"
+
+	"github.com/urfave/cli/v2"
+	"golang.org/x/crypto/bcrypt"
 	"mall-server/internal/app"
+	"mall-server/internal/app/dao"
 	"mall-server/internal/app/models"
 	"mall-server/internal/app/router"
 	"mall-server/pkg/logger"
-	"os"
 )
 
 func main() {
@@ -19,6 +23,7 @@ func main() {
 	app.Usage = "mall api Service"
 	app.Commands = []*cli.Command{
 		newWebCmd(ctx),
+		newAdminCmd(ctx),
 	}
 	err := app.Run(os.Args)
 	if err != nil {
@@ -50,6 +55,43 @@ func newWebCmd(ctx context.Context) *cli.Command {
 		Action: func(c *cli.Context) error {
 			return app.Run(ctx,
 				app.SetConfigFile(c.String("config")))
+		},
+	}
+}
+
+func newAdminCmd(ctx context.Context) *cli.Command {
+	return &cli.Command{
+		Name:  "admin",
+		Usage: "Admin management commands",
+		Subcommands: []*cli.Command{
+			{
+				Name:  "create-admin",
+				Usage: "Create a new admin user",
+				Flags: []cli.Flag{
+					&cli.StringFlag{Name: "config", Aliases: []string{"c"}, Usage: "Config file", Required: true},
+					&cli.StringFlag{Name: "username", Aliases: []string{"u"}, Usage: "Admin username", Required: true},
+					&cli.StringFlag{Name: "password", Aliases: []string{"p"}, Usage: "Admin password", Required: true},
+				},
+				Action: func(c *cli.Context) error {
+					if err := app.Run(ctx, app.SetConfigFile(c.String("config"))); err != nil {
+						return err
+					}
+					svc := models.NewServiceContext(ctx)
+					hash, err := bcrypt.GenerateFromPassword([]byte(c.String("password")), bcrypt.DefaultCost)
+					if err != nil {
+						return fmt.Errorf("hash password: %w", err)
+					}
+					admin := dao.AdminUser{
+						Username:     c.String("username"),
+						PasswordHash: string(hash),
+					}
+					if err := svc.DB.Create(&admin).Error; err != nil {
+						return fmt.Errorf("create admin: %w", err)
+					}
+					log.Printf("管理员 %q 创建成功 (ID=%d)\n", admin.Username, admin.ID)
+					return nil
+				},
+			},
 		},
 	}
 }
