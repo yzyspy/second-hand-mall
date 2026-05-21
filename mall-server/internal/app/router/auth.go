@@ -78,3 +78,27 @@ func OptionalAuthMiddleware() gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+// AdminAuthMiddleware 管理员 JWT 鉴权中间件
+func AdminAuthMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		authHeader := c.GetHeader("Authorization")
+		if authHeader == "" {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"code": -1, "msg": "未登录"})
+			return
+		}
+		parts := strings.SplitN(authHeader, " ", 2)
+		if len(parts) != 2 || parts[0] != "Bearer" {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"code": -1, "msg": "token 格式错误"})
+			return
+		}
+		claims, err := jwtx.ParseAdminToken(parts[1])
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"code": -1, "msg": "token 无效或已过期"})
+			return
+		}
+		c.Set("admin_id", claims.AdminID)
+		c.Set("admin_name", claims.Username)
+		c.Next()
+	}
+}
