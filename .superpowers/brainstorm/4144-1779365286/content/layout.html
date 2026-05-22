@@ -1,0 +1,56 @@
+<h2>管理后台整体布局</h2>
+<p class="subtitle">选择一个整体框架结构，影响导航方式和内容区域大小</p>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:20px;background:#f8f9fa;">
+      <div style="display:flex;height:220px;border:2px solid #dee2e6;border-radius:6px;overflow:hidden;font-size:12px;">
+        <!-- Sidebar -->
+        <div style="width:80px;background:#1d2d44;color:#fff;display:flex;flex-direction:column;padding:12px 0;">
+          <div style="padding:8px 12px;font-weight:bold;font-size:11px;border-bottom:1px solid #2d4060;margin-bottom:8px;">⚙ 二手商城</div>
+          <div style="padding:6px 12px;background:#2d4060;color:#7eb3e0;font-size:10px;">👥 用户管理</div>
+          <div style="padding:6px 12px;color:#8fa8c8;font-size:10px;">📦 商品管理</div>
+          <div style="margin-top:auto;padding:6px 12px;color:#8fa8c8;font-size:10px;">🚪 退出</div>
+        </div>
+        <!-- Main area -->
+        <div style="flex:1;display:flex;flex-direction:column;">
+          <div style="height:36px;background:#fff;border-bottom:1px solid #e9ecef;display:flex;align-items:center;padding:0 16px;justify-content:space-between;">
+            <span style="font-size:11px;color:#6c757d;">用户管理</span>
+            <span style="font-size:10px;color:#6c757d;">admin ▾</span>
+          </div>
+          <div style="flex:1;background:#f5f6fa;padding:12px;">
+            <div style="background:#fff;border-radius:4px;height:100%;display:flex;align-items:center;justify-content:center;color:#adb5bd;font-size:11px;">内容区域</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — 左侧固定导航栏</h3>
+      <p>深色侧边栏 + 顶部面包屑。最常见的 admin 布局，导航条目多时扩展方便。Element Plus 官方 Admin 模板默认结构。</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="padding:20px;background:#f8f9fa;">
+      <div style="display:flex;flex-direction:column;height:220px;border:2px solid #dee2e6;border-radius:6px;overflow:hidden;font-size:12px;">
+        <!-- Top nav -->
+        <div style="height:40px;background:#1d2d44;color:#fff;display:flex;align-items:center;padding:0 16px;gap:20px;flex-shrink:0;">
+          <span style="font-weight:bold;font-size:11px;margin-right:8px;">⚙ 二手商城后台</span>
+          <span style="font-size:10px;background:#2d4060;padding:4px 10px;border-radius:3px;">👥 用户管理</span>
+          <span style="font-size:10px;color:#8fa8c8;">📦 商品管理</span>
+          <span style="margin-left:auto;font-size:10px;color:#8fa8c8;">admin ▾</span>
+        </div>
+        <!-- Content -->
+        <div style="flex:1;background:#f5f6fa;padding:12px;">
+          <div style="background:#fff;border-radius:4px;height:100%;display:flex;align-items:center;justify-content:center;color:#adb5bd;font-size:11px;">内容区域（更宽）</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — 顶部水平导航栏</h3>
+      <p>导航放顶部，内容区域更宽。适合导航条目少（2-3个）的场景。随着功能增加后期不好扩展。</p>
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:16px;">点击选择你更喜欢的布局，或在终端直接告诉我 A 或 B。</p>

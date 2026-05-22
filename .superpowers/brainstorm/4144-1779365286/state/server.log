@@ -1,0 +1,5 @@
+{"type":"server-started","port":63774,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:63774","screen_dir":"/Users/yangzhongyu/Desktop/code/github/second-hand-mall/.superpowers/brainstorm/4144-1779365286/content","state_dir":"/Users/yangzhongyu/Desktop/code/github/second-hand-mall/.superpowers/brainstorm/4144-1779365286/state"}
+{"type":"screen-added","file":"/Users/yangzhongyu/Desktop/code/github/second-hand-mall/.superpowers/brainstorm/4144-1779365286/content/layout.html"}
+{"type":"screen-added","file":"/Users/yangzhongyu/Desktop/code/github/second-hand-mall/.superpowers/brainstorm/4144-1779365286/content/waiting.html"}
+{"type":"screen-added","file":"/Users/yangzhongyu/Desktop/code/github/second-hand-mall/.superpowers/brainstorm/4144-1779365286/content/admin-wireframe.html"}
+{"type":"server-stopped","reason":"idle timeout"}
