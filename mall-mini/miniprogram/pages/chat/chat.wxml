@@ -1,0 +1,24 @@
+<view class="page">
+  <scroll-view class="msg-list" scroll-y scroll-with-animation>
+    <view
+      wx:for="{{messages}}"
+      wx:key="id"
+      id="msg-{{item.id}}"
+      class="msg-row {{item.sender_id === myId ? 'right' : 'left'}}"
+    >
+      <view class="bubble">{{item.content}}</view>
+    </view>
+  </scroll-view>
+
+  <view class="input-bar">
+    <input
+      class="input"
+      value="{{inputContent}}"
+      placeholder="说点什么..."
+      confirm-type="send"
+      bind:input="onInputChange"
+      bind:confirm="onSend"
+    />
+    <button class="send-btn" bind:tap="onSend">发送</button>
+  </view>
+</view>
