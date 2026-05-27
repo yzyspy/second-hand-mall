@@ -34,8 +34,15 @@ func ChatSend(svc *models.ServiceContext) gin.HandlerFunc {
 			return
 		}
 		sellerID := product.UserId
+		var actualBuyerID uint
+		if buyerID == sellerID {
+			// Current user is the seller; the receiver is the buyer
+			actualBuyerID = req.ReceiverID
+		} else {
+			actualBuyerID = buyerID
+		}
 
-		conv, err := dao.FindOrCreateConversation(svc.DB, req.ProductID, buyerID, sellerID)
+		conv, err := dao.FindOrCreateConversation(svc.DB, req.ProductID, actualBuyerID, sellerID)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "创建会话失败"})
 			return
@@ -142,6 +149,17 @@ func ChatMessages(svc *models.ServiceContext) gin.HandlerFunc {
 			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "参数错误"})
 			return
 		}
+		// Verify user is a participant in this conversation
+		var conv dao.Conversation
+		if err := svc.DB.First(&conv, req.ConvID).Error; err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "会话不存在"})
+			return
+		}
+		myID := c.MustGet("user_id").(uint)
+		if conv.BuyerID != myID && conv.SellerID != myID {
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "无权访问"})
+			return
+		}
 		msgs, err := dao.ListMessages(svc.DB, req.ConvID, req.LastID)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "查询失败"})
@@ -172,6 +190,16 @@ func ChatMarkRead(svc *models.ServiceContext) gin.HandlerFunc {
 		convID64, err := strconv.ParseUint(convIDStr, 10, 64)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "参数错误"})
+			return
+		}
+		// Verify user is a participant
+		var conv dao.Conversation
+		if err := svc.DB.First(&conv, uint(convID64)).Error; err != nil {
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "会话不存在"})
+			return
+		}
+		if conv.BuyerID != userID.(uint) && conv.SellerID != userID.(uint) {
+			c.JSON(http.StatusOK, gin.H{"code": -1, "msg": "无权访问"})
 			return
 		}
 		if err := dao.MarkRead(svc.DB, uint(convID64), userID.(uint)); err != nil {
