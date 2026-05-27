@@ -30,8 +30,10 @@ func SaveMessage(db *gorm.DB, conversationID, senderID uint, content string) (*M
 	if len([]rune(preview)) > 30 {
 		preview = string([]rune(preview)[:30]) + "…"
 	}
-	db.Model(&Conversation{}).Where("id = ?", conversationID).
-		Updates(map[string]interface{}{"last_message": preview, "last_at": time.Now()})
+	if err := db.Model(&Conversation{}).Where("id = ?", conversationID).
+		Updates(map[string]interface{}{"last_message": preview, "last_at": time.Now()}).Error; err != nil {
+		return nil, err
+	}
 	return msg, nil
 }
 

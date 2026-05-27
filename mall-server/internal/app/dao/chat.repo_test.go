@@ -99,3 +99,23 @@ func TestListMessages_IncrementalByLastID(t *testing.T) {
 		t.Fatalf("unexpected messages: %+v", msgs)
 	}
 }
+
+func TestListConversations(t *testing.T) {
+	db := newTestDB(t)
+	conv, _ := dao.FindOrCreateConversation(db, 1, 2, 3)
+	dao.SaveMessage(db, conv.ID, 2, "hey") // sender=2, unread for user 3
+
+	rows, err := dao.ListConversations(db, 3)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(rows) != 1 {
+		t.Fatalf("expected 1 conversation, got %d", len(rows))
+	}
+	if rows[0].UnreadCount != 1 {
+		t.Fatalf("expected 1 unread, got %d", rows[0].UnreadCount)
+	}
+	if rows[0].LastMessage != "hey" {
+		t.Fatalf("expected last_message='hey', got '%s'", rows[0].LastMessage)
+	}
+}
