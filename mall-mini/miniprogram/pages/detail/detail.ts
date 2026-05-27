@@ -139,6 +139,15 @@ Page({
     }
   },
 
+  goToChat() {
+    const productId = this.data.product.id
+    const sellerId = this.data.product.seller.id
+    if (!productId || !sellerId) return
+    wx.navigateTo({
+      url: `/pages/chat/chat?product_id=${productId}&receiver_id=${sellerId}`
+    })
+  },
+
   reportProduct() {
     wx.showActionSheet({
       itemList: ['虚假信息', '骚扰信息', '违法违规'],

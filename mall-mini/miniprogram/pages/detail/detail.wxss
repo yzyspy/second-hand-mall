@@ -360,3 +360,13 @@
   color: #333;
   font-weight: 500;
 }
+
+.chat-btn-wrap { padding: 20rpx 32rpx; }
+.chat-btn {
+  background: #07C160;
+  color: #fff;
+  border-radius: 48rpx;
+  font-size: 30rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+}

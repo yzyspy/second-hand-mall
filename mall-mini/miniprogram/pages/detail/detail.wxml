@@ -86,6 +86,11 @@
         </view>
       </view>
 
+      <!-- 发起私信 -->
+      <view class="chat-btn-wrap">
+        <button class="chat-btn" bind:tap="goToChat">发消息给卖家</button>
+      </view>
+
       <!-- 联系方式 -->
       <view class="contact-section" wx:if="{{product.contactValue}}">
         <text class="section-title">联系卖家</text>
