@@ -74,6 +74,13 @@ func App(ctx context.Context, svc *models.ServiceContext) *gin.Engine {
 	auth.POST("/api/favorite/toggle", service.ToggleFavoriteHandler(svc))
 	auth.GET("/api/favorite/list", service.GetFavoriteListHandler(svc))
 
+	// 私信功能（需要登录）
+	auth.POST("/api/chat/send", service.ChatSend(svc))
+	auth.GET("/api/chat/unread-count", service.ChatUnreadCount(svc))
+	auth.GET("/api/chat/conversations", service.ChatConversations(svc))
+	auth.GET("/api/chat/messages", service.ChatMessages(svc))
+	auth.PUT("/api/chat/read/:conv_id", service.ChatMarkRead(svc))
+
 	// 获取七牛云上传凭证（公开接口，小程序会携带token）
 	r.POST("/api/upload/qiniu-token", service.GetUploadToken)
 
