@@ -1,0 +1,25 @@
+<view class="container">
+  <view wx:if="{{conversations.length === 0}}" class="empty">暂无消息</view>
+
+  <view
+    wx:for="{{conversations}}"
+    wx:key="conversation_id"
+    class="conv-item"
+    data-conv-id="{{item.conversation_id}}"
+    data-product-id="{{item.product.id}}"
+    data-receiver-id="{{item.other_user.id}}"
+    bind:tap="goToChat"
+  >
+    <image class="avatar" src="{{item.other_user.avatar}}" mode="aspectFill" />
+    <view class="conv-body">
+      <view class="conv-top">
+        <text class="nickname">{{item.other_user.nickname}}</text>
+        <text class="time">{{item.last_at}}</text>
+      </view>
+      <view class="conv-bottom">
+        <text class="preview">{{item.last_message}}</text>
+        <view wx:if="{{item.unread_count > 0}}" class="badge">{{item.unread_count}}</view>
+      </view>
+    </view>
+  </view>
+</view>
