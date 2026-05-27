@@ -101,3 +101,53 @@ type FavoriteListRequest struct {
 	Page     int `form:"page"`
 	PageSize int `form:"page_size"`
 }
+
+// ===== Chat types =====
+
+type SendMessageRequest struct {
+	ProductID  uint   `json:"product_id" binding:"required"`
+	ReceiverID uint   `json:"receiver_id" binding:"required"`
+	Content    string `json:"content" binding:"required,max=500"`
+}
+
+type SendMessageResponse struct {
+	ConversationID uint `json:"conversation_id"`
+	MessageID      uint `json:"message_id"`
+}
+
+type UnreadCountResponse struct {
+	Count int64 `json:"count"`
+}
+
+type ProductBrief struct {
+	ID    uint   `json:"id"`
+	Title string `json:"title"`
+	Cover string `json:"cover"`
+}
+
+type UserBrief struct {
+	ID       uint   `json:"id"`
+	Nickname string `json:"nickname"`
+	Avatar   string `json:"avatar"`
+}
+
+type ConversationItem struct {
+	ConversationID uint         `json:"conversation_id"`
+	Product        ProductBrief `json:"product"`
+	OtherUser      UserBrief    `json:"other_user"`
+	LastMessage    string       `json:"last_message"`
+	LastAt         string       `json:"last_at"`
+	UnreadCount    int64        `json:"unread_count"`
+}
+
+type MessageItem struct {
+	ID        uint   `json:"id"`
+	SenderID  uint   `json:"sender_id"`
+	Content   string `json:"content"`
+	CreatedAt string `json:"created_at"`
+}
+
+type MessagesQueryRequest struct {
+	ConvID uint `form:"conv_id" binding:"required"`
+	LastID uint `form:"last_id"`
+}
