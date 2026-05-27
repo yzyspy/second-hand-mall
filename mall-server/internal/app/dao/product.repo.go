@@ -22,6 +22,7 @@ type ProductSearchResult struct {
 
 type ProductDetail struct {
 	ID           uint    `json:"id"`
+	UserID       uint    `json:"user_id"`
 	Title        string  `json:"title"`
 	Description  string  `json:"description"`
 	Price        float64 `json:"price"`
@@ -98,7 +99,7 @@ func SearchProducts(db *gorm.DB, keyword, sort string, status *int,
 func GetProductByID(db *gorm.DB, id uint) (*ProductDetail, error) {
 	var detail ProductDetail
 	err := db.Model(&Product{}).
-		Select("product.id, product.title, product.description, product.price, product.images, product.location, product.status, product.buy_uid, product.category, product.province, product.city, product.district, sys_user.nick_name as seller, sys_user.avatar, product.created_at as create_time, product.contact_type, product.contact_value").
+		Select("product.id, product.user_id, product.title, product.description, product.price, product.images, product.location, product.status, product.buy_uid, product.category, product.province, product.city, product.district, sys_user.nick_name as seller, sys_user.avatar, product.created_at as create_time, product.contact_type, product.contact_value").
 		Joins("LEFT JOIN sys_user ON product.user_id = sys_user.id").
 		Where("product.id = ?", id).
 		First(&detail).Error

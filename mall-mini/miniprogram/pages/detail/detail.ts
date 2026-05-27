@@ -90,7 +90,7 @@ Page({
           condition: '九成新',
           location: data.location || '',
           seller: {
-            id: String(data.id),
+            id: String(data.user_id || 0),
             name: data.seller || '微信用户',
             avatar: data.avatar || '',
             rating: 4.8
