@@ -4,10 +4,12 @@
     "pages/detail/detail",
     "pages/search/search",
     "pages/publish/publish",
+    "pages/chat-list/chat-list",
     "pages/my/my",
     "pages/myPublish/myPublish",
     "pages/productEdit/productEdit",
-    "pages/myFavorite/myFavorite"
+    "pages/myFavorite/myFavorite",
+    "pages/chat/chat"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -32,6 +34,12 @@
         "text": "发布",
         "iconPath": "images/publish.png",
         "selectedIconPath": "images/publish-active.png"
+      },
+      {
+        "pagePath": "pages/chat-list/chat-list",
+        "text": "消息",
+        "iconPath": "images/chat.png",
+        "selectedIconPath": "images/chat-active.png"
       },
       {
         "pagePath": "pages/my/my",
