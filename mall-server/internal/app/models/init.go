@@ -45,6 +45,16 @@ func NewDB() (*gorm.DB, error) {
 		panic(fmt.Sprintf("db auto migrate error: %v", err))
 	}
 
+	// 自动迁移会话表
+	if err := con.AutoMigrate(&dao.Conversation{}); err != nil {
+		panic(fmt.Sprintf("db auto migrate error: %v", err))
+	}
+
+	// 自动迁移消息表
+	if err := con.AutoMigrate(&dao.Message{}); err != nil {
+		panic(fmt.Sprintf("db auto migrate error: %v", err))
+	}
+
 	return con, nil
 }
 
