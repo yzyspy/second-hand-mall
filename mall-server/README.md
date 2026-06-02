@@ -30,7 +30,7 @@ go mod tidy
 
 增加启动参数, 参见 newWebCmd 方法
 ```shell
-./mall-server web -config configs/config.yaml
+sudo nohup ./mall-server-linux web -config configs/config.yaml
 ```
 
 ## 数据库设计

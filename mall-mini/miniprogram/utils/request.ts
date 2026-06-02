@@ -3,9 +3,9 @@
  * 封装wx.request，支持Promise，自动注入JWT token
  */
 // 修改ip地址
-//export const BASE_URL = 'http://localhost:8080'
+export const BASE_URL = 'http://localhost:8080'
 //export const BASE_URL = "http://101.34.238.222:80"
-export const BASE_URL = "https://yangzhongyu.site"
+//export const BASE_URL = "https://yangzhongyu.site"
 //export const IMG_BASE_URL = "https://wwww.yangzhongyu.site"
 
 interface RequestOptions {
