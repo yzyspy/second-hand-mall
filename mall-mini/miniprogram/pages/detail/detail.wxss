@@ -368,5 +368,5 @@
   border-radius: 48rpx;
   font-size: 30rpx;
   height: 88rpx;
-  line-height: 88rpx;
+  line-height: 65rpx;
 }
