@@ -30,7 +30,7 @@ go mod tidy
 
 增加启动参数, 参见 newWebCmd 方法
 ```shell
-sudo nohup ./mall-server-linux web -config configs/config.yaml
+sudo nohup ./mall-server-linux web -config configs/config.yaml > /dev/null 2>&1 &
 ```
 
 ## 数据库设计
@@ -40,7 +40,7 @@ sudo nohup ./mall-server-linux web -config configs/config.yaml
 brew services restart redis
 redis-cli -h 127.0.0.1 -p 6379
 ```
-
+    
 
 
 ```sql

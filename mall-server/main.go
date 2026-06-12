@@ -3,16 +3,15 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
-	"os"
-
 	"github.com/urfave/cli/v2"
 	"golang.org/x/crypto/bcrypt"
+	"log"
 	"mall-server/internal/app"
 	"mall-server/internal/app/dao"
 	"mall-server/internal/app/models"
 	"mall-server/internal/app/router"
 	"mall-server/pkg/logger"
+	"os"
 )
 
 func main() {
