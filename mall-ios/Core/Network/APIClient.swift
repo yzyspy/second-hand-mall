@@ -5,7 +5,6 @@ enum APIError: Error {
     case serverError(Int)
 }
 
-@MainActor
 final class APIClient {
     static let shared = APIClient()
 
@@ -19,7 +18,7 @@ final class APIClient {
             throw APIError.invalidResponse
         }
         let (data, response) = try await URLSession.shared.data(from: url)
-        guard let http = response as? HTTPURLResponse, http.statusCode == 200 else {
+        guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
             let code = (response as? HTTPURLResponse)?.statusCode ?? -1
             print("[APIClient] error: HTTP \(code) for \(path)")
             throw APIError.serverError(code)
