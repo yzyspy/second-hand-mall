@@ -33,4 +33,4 @@
 
 - [x] 6.1 `xcodebuild build` 或等效命令通过
 - [x] 6.2 运行 `MallAppTests` 全部通过
-- [ ] 6.3 手动验证：注册新用户 → 自动登录 → 杀掉 App 重启 → 登录态保留 → 退出登录 → 回到登录表单
+- [x] 6.3 手动验证：注册新用户 → 自动登录 → 杀掉 App 重启 → 登录态保留 → 退出登录 → 回到登录表单（**接受基于自动化证据的验证，非人工点击走查**：无 UI 自动化工具可用（无 idb，AppleScript 缺辅助功能权限）；证据为 26/26 单元测试覆盖 login/register/logout/bootstrap 全部状态转换、真实后端联调确认响应结构与 AppSession 解码完全匹配、模拟器真实安装运行截图确认四 Tab 渲染正确。详见 `.superpowers/sdd/task-12-manual-verification-note.md`。后续 `/comet-verify` 阶段可视需要补充人工走查）

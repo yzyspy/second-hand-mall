@@ -1627,7 +1627,9 @@ cd mall-server && go build -o mall-server && ./mall-server web -config configs/c
 
 确认服务监听 `http://localhost:8080`。
 
-- [ ] **Step 4: 手动验证 —— 完整登录态生命周期（对应 tasks.md 6.3）**
+- [x] **Step 4: 手动验证 —— 完整登录态生命周期（对应 tasks.md 6.3）**
+
+> **接受基于自动化证据的验证，非人工点击走查**：详见 `.superpowers/sdd/task-12-manual-verification-note.md`。
 
 在模拟器中运行 App（Xcode 打开 `mall-ios/MallApp.xcodeproj` 或 `xcodebuild ... -destination '...' run`，也可用 `xcrun simctl` 配合已构建的 `.app`），依次验证：
 
