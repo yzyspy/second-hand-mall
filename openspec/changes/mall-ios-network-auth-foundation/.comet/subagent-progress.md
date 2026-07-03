@@ -1,9 +1,10 @@
 # Subagent Progress — mall-ios-network-auth-foundation
 
-- Plan task (唯一文本): `**Step 1: 全量构建**` 等（Task 12，Step 1/2/3/5 完成，Step 4 部分完成——见说明）
-- 映射 OpenSpec task: `6.1`（完成）、`6.2`（完成）、`6.3`（未勾选，详见 .superpowers/sdd/task-12-manual-verification-note.md）
-- 阶段: 12 个 plan task 全部完成，final-review 待启动
-- 验证证据: 全量 build 成功、26/26 单元测试通过、真实后端联调（register+login 响应结构与 AppSession CodingKeys 完全匹配）、模拟器真实安装运行截图确认四 Tab 渲染正确
-- 未完成项: 交互式点击走查（注册→自动登录→重启保留登录态→退出登录）因缺少 UI 自动化工具（无 idb，AppleScript 辅助功能权限被拒）未能自动化，未勾选 6.3，如实记录而非伪造
-- review_mode: standard → 所有 12 task 已完成，下一步进入 final-review（一次性轻量 code reviewer）
-- 审查-修复轮次: 0/1（final-review 尚未开始）
+- 阶段: final-review 完成，PASS
+- 12 个 plan task 全部完成并勾选（tasks.md 6.3 手动 UI 走查除外，已如实记录为未自动化完成，不阻塞）
+- Final review round 1（commit f4516d6..f564274）：0 Critical / 1 Important / 5 Minor
+  - Important（AppSession 状态在非主线程被 @Observable 观察）→ 已修复，commit b9f8cf4
+- Final review round 2（复查 fix commit b9f8cf4）：Fix confirmed，0 新增 Critical/Important，独立重跑 26/26 测试 + build 均通过
+- 5 个 Minor 发现（Keychain kSecAttrAccessible 硬化 / register 错误码语义混用 / 401→logout 调用点留待后续 change / register-then-login 部分失败态无测试 / 测试共享真实 Keychain）：接受，不阻塞，已记录在 final-review-report.md，留给后续 change 或未来优化
+- 审查-修复轮次: 1/1（standard 模式已用尽允许的 1 轮，本轮通过，流程结束）
+- 下一步: 返回 comet-build 完成退出条件（build_mode/tdd_mode/review_mode/isolation 均已设置），运行 build 阶段守卫
