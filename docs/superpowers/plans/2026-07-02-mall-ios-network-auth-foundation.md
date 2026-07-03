@@ -1312,7 +1312,7 @@ git commit -m "feat(ios): call AppSession.bootstrap() on app launch"
 - Produces: `ChatListView`（供 `ContentView` 引用）、`ChatListViewModel`（占位，真实实现留给后续 change）。
 - 不写单元测试（纯 SwiftUI 视图布局 + 占位 ViewModel，无逻辑分支）。
 
-- [ ] **Step 1: 创建 `ChatListViewModel`**
+- [x] **Step 1: 创建 `ChatListViewModel`**
 
 创建 `mall-ios/Features/Chat/ViewModel/ChatListViewModel.swift`（与现有 `HomeViewModel`/`PublishViewModel` 占位模式一致）：
 
@@ -1325,7 +1325,7 @@ final class ChatListViewModel {
 }
 ```
 
-- [ ] **Step 2: 创建 `ChatListView`**
+- [x] **Step 2: 创建 `ChatListView`**
 
 创建 `mall-ios/Features/Chat/View/ChatListView.swift`：
 
@@ -1341,7 +1341,7 @@ struct ChatListView: View {
 }
 ```
 
-- [ ] **Step 3: 修改 `ContentView.swift` 扩展为四 Tab**
+- [x] **Step 3: 修改 `ContentView.swift` 扩展为四 Tab**
 
 图标对齐 mall-mini `app.json` 的 Tab 顺序（首页/发布/消息/我的）：
 
@@ -1372,7 +1372,7 @@ struct ContentView: View {
 }
 ```
 
-- [ ] **Step 4: 构建验证**
+- [x] **Step 4: 构建验证**
 
 ```bash
 cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' build
@@ -1380,7 +1380,7 @@ cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -schem
 
 预期：`** BUILD SUCCEEDED **`。
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd mall-ios && git add Features/Chat ContentView.swift MallApp.xcodeproj

@@ -13,8 +13,8 @@
 
 ## 3. 四 Tab 壳与消息占位
 
-- [ ] 3.1 新增 `Features/Chat/View/ChatListView.swift` 与 `Features/Chat/ViewModel/ChatListViewModel.swift`（占位）
-- [ ] 3.2 修改 `ContentView.swift`：扩展为四 Tab（首页/发布/消息/我的），图标对齐 mall-mini `app.json`
+- [x] 3.1 新增 `Features/Chat/View/ChatListView.swift` 与 `Features/Chat/ViewModel/ChatListViewModel.swift`（占位）
+- [x] 3.2 修改 `ContentView.swift`：扩展为四 Tab（首页/发布/消息/我的），图标对齐 mall-mini `app.json`
 
 ## 4. 我的（Profile）真实登录/注册
 
