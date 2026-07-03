@@ -22,6 +22,7 @@
 		DF2365526B83629AAA193C1B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3192CE8E52538E9F9ACE197D /* HomeView.swift */; };
 		E2A8E0732B6853BA7AD2FF0A /* PublishViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30217FFF8B66A55347B6263 /* PublishViewModel.swift */; };
 		E4522DEDBFE73C1FD91DC729 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3553884F638E3696CE2F6ACF /* ProfileViewModel.swift */; };
+		E94D9C61B2DCC6A86FDDAE39 /* APIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A613D40C7ABE586097A97B6F /* APIClientTests.swift */; };
 		ED66BB484CA8EEC49CA7E199 /* SmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E20DF4C4C1493BDCC1A4AA /* SmokeTests.swift */; };
 		F4DB27C568FA93321DDCBF4E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297DDB6CB0C4DFF11C20612 /* ContentView.swift */; };
 		F5A38386C2E7DB63B9CC14FB /* TokenStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC0D5FEAF564C8BBEB70F27 /* TokenStoreTests.swift */; };
@@ -54,6 +55,7 @@
 		7FDF069D3F5A53EE3720C8F8 /* ApiResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResponseTests.swift; sourceTree = "<group>"; };
 		958EC6B605941705DAF2AF5C /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		9EFD530406AE6C730E63D536 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
+		A613D40C7ABE586097A97B6F /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
 		B8C0814EBA8BCFA493C3A67E /* MallApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MallApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA5A6CCDB663C097ED91A6B2 /* MockURLProtocolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocolTests.swift; sourceTree = "<group>"; };
 		E3E7F5F57DBCC0CE37AE4131 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 		58C76F751FE99E963F59D3E6 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				A613D40C7ABE586097A97B6F /* APIClientTests.swift */,
 				7FDF069D3F5A53EE3720C8F8 /* ApiResponseTests.swift */,
 			);
 			path = Network;
@@ -351,6 +354,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E94D9C61B2DCC6A86FDDAE39 /* APIClientTests.swift in Sources */,
 				CD960834E9CC4BC949556945 /* ApiResponseTests.swift in Sources */,
 				D6965E2B7FE6D8C06AD94B93 /* MockURLProtocol.swift in Sources */,
 				2626D57B59B6C728AE7E9A17 /* MockURLProtocolTests.swift in Sources */,
