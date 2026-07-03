@@ -1417,7 +1417,7 @@ git commit -m "feat(ios): add Chat tab placeholder, expand TabView to four tabs"
 - Consumed by: Task 11（`ProfileView`）。
 - 不写单元测试（表单校验逻辑是 `AppSession` 已测试路径的薄封装；覆盖范围按设计文档限定在 `APIClient`/`AppSession`，不含 ViewModel/View）。
 
-- [ ] **Step 1: 重写 `ProfileViewModel.swift`**
+- [x] **Step 1: 重写 `ProfileViewModel.swift`**
 
 ```swift
 import Observation
@@ -1472,11 +1472,11 @@ final class ProfileViewModel {
 }
 ```
 
-- [ ] **Step 2: 构建验证（`ProfileView` 尚未更新，暂时会因引用旧 `title` 属性报错，属预期，留到 Task 11 一并解决）**
+- [x] **Step 2: 构建验证（`ProfileView` 尚未更新，暂时会因引用旧 `title` 属性报错，属预期，留到 Task 11 一并解决）**
 
 跳过独立构建，Task 11 完成后一起验证（`ProfileViewModel`/`ProfileView` 是同一功能的两半，中间态不具备独立可编译性——参照 writing-plans "Task Right-Sizing" 原则，这两个文件在同一次 commit 中一起提交）。
 
-- [ ] **Step 3: 不单独 commit，与 Task 11 合并提交**
+- [x] **Step 3: 不单独 commit，与 Task 11 合并提交**
 
 ---
 
@@ -1488,7 +1488,7 @@ final class ProfileViewModel {
 **Interfaces:**
 - Consumes: `ProfileViewModel`（Task 10）的全部属性与方法。
 
-- [ ] **Step 1: 重写 `ProfileView.swift`**
+- [x] **Step 1: 重写 `ProfileView.swift`**
 
 ```swift
 import SwiftUI
@@ -1574,7 +1574,7 @@ struct ProfileView: View {
 }
 ```
 
-- [ ] **Step 2: 运行完整测试套件验证无回归**
+- [x] **Step 2: 运行完整测试套件验证无回归**
 
 ```bash
 cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' test
@@ -1582,7 +1582,7 @@ cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -schem
 
 预期：全部测试通过（`SmokeTests`、`MockURLProtocolTests`、`TokenStoreTests`、`ApiResponseTests`、`APIClientTests`、`AppSessionTests`）。
 
-- [ ] **Step 3: 构建验证**
+- [x] **Step 3: 构建验证**
 
 ```bash
 cd mall-ios && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' build
@@ -1590,7 +1590,7 @@ cd mall-ios && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destinatio
 
 预期：`** BUILD SUCCEEDED **`。
 
-- [ ] **Step 4: Commit（Task 10 + Task 11 一并提交）**
+- [x] **Step 4: Commit（Task 10 + Task 11 一并提交）**
 
 ```bash
 cd mall-ios && git add Features/Profile/ViewModel/ProfileViewModel.swift Features/Profile/View/ProfileView.swift MallApp.xcodeproj

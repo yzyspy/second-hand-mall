@@ -18,16 +18,16 @@
 
 ## 4. 我的（Profile）真实登录/注册
 
-- [ ] 4.1 重写 `Features/Profile/ViewModel/ProfileViewModel.swift`：未登录态表单状态、`errorMessage` 驱动的错误反馈
-- [ ] 4.2 重写 `Features/Profile/View/ProfileView.swift`：未登录态登录/注册表单切换 UI
-- [ ] 4.3 实现已登录态：个人信息卡片（占位头像 + 用户名）+ 退出登录按钮（含二次确认）
+- [x] 4.1 重写 `Features/Profile/ViewModel/ProfileViewModel.swift`：未登录态表单状态、`errorMessage` 驱动的错误反馈
+- [x] 4.2 重写 `Features/Profile/View/ProfileView.swift`：未登录态登录/注册表单切换 UI
+- [x] 4.3 实现已登录态：个人信息卡片（占位头像 + 用户名）+ 退出登录按钮（含二次确认）
 
 ## 5. 测试
 
 - [x] 5.1 新增 `MallAppTests` XCTest target（写入 `project.yml`）
-- [ ] 5.2 编写自定义 `URLProtocol` 用于拦截网络请求 mock
-- [ ] 5.3 测试 `APIClient`：信封解码成功路径、`code != 0` 抛错、HTTP 401 → `.unauthorized`、`/user/save` 非信封响应解析
-- [ ] 5.4 测试 `AppSession`：`login`/`register`/`logout` 状态流转，以及 `bootstrap()` 从持久化存储恢复登录态
+- [x] 5.2 编写自定义 `URLProtocol` 用于拦截网络请求 mock
+- [x] 5.3 测试 `APIClient`：信封解码成功路径、`code != 0` 抛错、HTTP 401 → `.unauthorized`、`/user/save` 非信封响应解析
+- [x] 5.4 测试 `AppSession`：`login`/`register`/`logout` 状态流转，以及 `bootstrap()` 从持久化存储恢复登录态
 
 ## 6. 验证
 
