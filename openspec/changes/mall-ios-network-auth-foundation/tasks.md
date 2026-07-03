@@ -2,7 +2,7 @@
 
 - [x] 1.1 新增 `Core/Network/ApiResponse.swift`：`ApiResponse<T: Decodable>` 信封结构
 - [x] 1.2 重写 `Core/Network/APIError.swift`：`.server(code:msg:)` / `.unauthorized` / `.transport(Error)` / `.decoding(Error)`
-- [ ] 1.3 重写 `Core/Network/APIClient.swift`：`request<T: Decodable>(path:method:body:requiresAuth:)`，处理鉴权注入、信封解析、错误映射
+- [x] 1.3 重写 `Core/Network/APIClient.swift`：`request<T: Decodable>(path:method:body:requiresAuth:)`，处理鉴权注入、信封解析、错误映射
 - [ ] 1.4 在 `APIClient` 中新增独立的 `register(username:password:) async throws -> String` 方法（非信封解析）
 
 ## 2. 账号会话

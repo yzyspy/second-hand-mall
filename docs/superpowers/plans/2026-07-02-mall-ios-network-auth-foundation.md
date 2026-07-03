@@ -569,7 +569,7 @@ git commit -m "feat(ios): add ApiResponse envelope, HTTPMethod, and APIError typ
   （`init` 非 private，允许测试注入自定义 `URLSession`/`baseURL`；`register` 方法在 Task 6 追加。）
 - Consumed by: Task 6（`register` 复用同一个类）、Task 7（`AppSession`）。
 
-- [ ] **Step 1: 写失败的测试**
+- [x] **Step 1: 写失败的测试**
 
 创建 `mall-ios/MallAppTests/Core/Network/APIClientTests.swift`：
 
@@ -729,7 +729,7 @@ final class APIClientTests: XCTestCase {
 }
 ```
 
-- [ ] **Step 2: 运行测试确认编译失败**
+- [x] **Step 2: 运行测试确认编译失败**
 
 ```bash
 cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:MallAppTests/APIClientTests
@@ -737,7 +737,7 @@ cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -schem
 
 预期：编译失败，报 `APIClient` 没有 `init(session:baseURL:)` 或 `request` 方法。
 
-- [ ] **Step 3: 实现 `APIClient.request<T>`**
+- [x] **Step 3: 实现 `APIClient.request<T>`**
 
 把 `mall-ios/Core/Network/APIClient.swift` 替换为：
 
@@ -823,7 +823,7 @@ final class APIClient {
 }
 ```
 
-- [ ] **Step 4: 运行测试确认通过**
+- [x] **Step 4: 运行测试确认通过**
 
 ```bash
 cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:MallAppTests/APIClientTests
@@ -831,7 +831,7 @@ cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -schem
 
 预期：`Test Suite 'APIClientTests' passed`，8 个测试全部通过。
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd mall-ios && git add Core/Network/APIClient.swift MallAppTests/Core/Network/APIClientTests.swift MallApp.xcodeproj
