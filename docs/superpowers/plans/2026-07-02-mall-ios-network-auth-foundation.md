@@ -1603,7 +1603,7 @@ git commit -m "feat(ios): implement Profile login/register form and logged-in st
 
 **Files:** 无新增/修改文件，仅验证。
 
-- [ ] **Step 1: 全量构建**
+- [x] **Step 1: 全量构建**
 
 ```bash
 cd mall-ios && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' build
@@ -1611,7 +1611,7 @@ cd mall-ios && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destinatio
 
 预期：`** BUILD SUCCEEDED **`。（对应 tasks.md 6.1）
 
-- [ ] **Step 2: 运行全部单元测试**
+- [x] **Step 2: 运行全部单元测试**
 
 ```bash
 cd mall-ios && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' test
@@ -1619,7 +1619,7 @@ cd mall-ios && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destinatio
 
 预期：`** TEST SUCCEEDED **`，涵盖 `SmokeTests`（1）、`MockURLProtocolTests`（1）、`TokenStoreTests`（4）、`ApiResponseTests`（3）、`APIClientTests`（10）、`AppSessionTests`（7），共 26 个测试全部通过。（对应 tasks.md 6.2）
 
-- [ ] **Step 3: 手动验证 —— 启动后端**
+- [x] **Step 3: 手动验证 —— 启动后端**
 
 ```bash
 cd mall-server && go build -o mall-server && ./mall-server web -config configs/config.yaml
@@ -1639,7 +1639,7 @@ cd mall-server && go build -o mall-server && ./mall-server web -config configs/c
 6. 点击"退出登录"，在二次确认弹窗中点击"退出登录"。
 7. 预期：界面回退到登录/注册表单；再次杀掉重启 App，确认登录态未被误恢复（Keychain 中 token 已清除）。
 
-- [ ] **Step 5: 记录验证结果**
+- [x] **Step 5: 记录验证结果**
 
 若手动验证全部通过，此计划的实现阶段完成，可以进入 Comet `verify` 阶段（`comet-verify`）做正式验证收尾；若发现偏差，参照 `superpowers:systematic-debugging` 定位根因后回到对应 Task 修复并重新提交。
 

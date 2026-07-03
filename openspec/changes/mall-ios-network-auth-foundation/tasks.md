@@ -31,6 +31,6 @@
 
 ## 6. 验证
 
-- [ ] 6.1 `xcodebuild build` 或等效命令通过
-- [ ] 6.2 运行 `MallAppTests` 全部通过
+- [x] 6.1 `xcodebuild build` 或等效命令通过
+- [x] 6.2 运行 `MallAppTests` 全部通过
 - [ ] 6.3 手动验证：注册新用户 → 自动登录 → 杀掉 App 重启 → 登录态保留 → 退出登录 → 回到登录表单
