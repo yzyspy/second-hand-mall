@@ -986,7 +986,7 @@ git commit -m "feat(ios): add APIClient.register for non-envelope /user/save end
   `UserDefaults` 键名固定为 `"session.userId"` / `"session.username"` / `"session.avatar"`（后续任务和测试直接引用这三个字符串常量）。
 - Consumed by: Task 8（`MallApp.swift` 调用 `bootstrap()`）、Task 10（`ProfileViewModel`）。
 
-- [ ] **Step 1: 写失败的测试**
+- [x] **Step 1: 写失败的测试**
 
 创建 `mall-ios/MallAppTests/Core/Auth/AppSessionTests.swift`：
 
@@ -1134,7 +1134,7 @@ final class AppSessionTests: XCTestCase {
 }
 ```
 
-- [ ] **Step 2: 运行测试确认编译失败**
+- [x] **Step 2: 运行测试确认编译失败**
 
 ```bash
 cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:MallAppTests/AppSessionTests
@@ -1142,7 +1142,7 @@ cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -schem
 
 预期：编译失败，报 `cannot find 'AppSession' in scope`。
 
-- [ ] **Step 3: 实现 `AppSession`**
+- [x] **Step 3: 实现 `AppSession`**
 
 创建 `mall-ios/Core/Auth/AppSession.swift`：
 
@@ -1240,7 +1240,7 @@ final class AppSession {
 }
 ```
 
-- [ ] **Step 4: 运行测试确认通过**
+- [x] **Step 4: 运行测试确认通过**
 
 ```bash
 cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:MallAppTests/AppSessionTests
@@ -1248,7 +1248,7 @@ cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -schem
 
 预期：`Test Suite 'AppSessionTests' passed`，7 个测试全部通过。
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd mall-ios && git add Core/Auth/AppSession.swift MallAppTests/Core/Auth/AppSessionTests.swift MallApp.xcodeproj
