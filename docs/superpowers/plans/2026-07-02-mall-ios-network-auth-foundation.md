@@ -154,7 +154,7 @@ git commit -m "test(ios): add MallAppTests target via xcodegen"
 **Interfaces:**
 - Produces: `MockURLProtocol`，静态属性 `requestHandler: ((URLRequest) throws -> (HTTPURLResponse, Data))?`，供后续 `APIClientTests`/`AppSessionTests` 通过 `URLSessionConfiguration.protocolClasses = [MockURLProtocol.self]` 注入。
 
-- [ ] **Step 1: 创建 `MockURLProtocol`**
+- [x] **Step 1: 创建 `MockURLProtocol`**
 
 ```swift
 import Foundation
@@ -191,7 +191,7 @@ final class MockURLProtocol: URLProtocol {
 }
 ```
 
-- [ ] **Step 2: 编写自测确认拦截生效**
+- [x] **Step 2: 编写自测确认拦截生效**
 
 ```swift
 import XCTest
@@ -221,7 +221,7 @@ final class MockURLProtocolTests: XCTestCase {
 }
 ```
 
-- [ ] **Step 3: 运行测试验证通过**
+- [x] **Step 3: 运行测试验证通过**
 
 ```bash
 cd mall-ios && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:MallAppTests/MockURLProtocolTests
@@ -229,7 +229,7 @@ cd mall-ios && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destinatio
 
 预期：`Test Suite 'MockURLProtocolTests' passed`。
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 cd mall-ios && git add MallAppTests/Support/MockURLProtocol.swift MallAppTests/Support/MockURLProtocolTests.swift
