@@ -855,7 +855,7 @@ git commit -m "feat(ios): implement APIClient.request generic envelope handling"
   ```
 - Consumed by: Task 7（`AppSession.register`）。
 
-- [ ] **Step 1: 写失败的测试**
+- [x] **Step 1: 写失败的测试**
 
 在 `mall-ios/MallAppTests/Core/Network/APIClientTests.swift` 的 `APIClientTests` 类末尾（`}` 之前）追加：
 
@@ -891,13 +891,13 @@ git commit -m "feat(ios): implement APIClient.request generic envelope handling"
     }
 ```
 
-- [ ] **Step 2: 运行测试确认失败（编译错误：`register` 不存在）**
+- [x] **Step 2: 运行测试确认失败（编译错误：`register` 不存在）**
 
 ```bash
 cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:MallAppTests/APIClientTests
 ```
 
-- [ ] **Step 3: 实现 `register`**
+- [x] **Step 3: 实现 `register`**
 
 在 `mall-ios/Core/Network/APIClient.swift` 的 `APIClient` 类内、`request<T>` 方法之后追加：
 
@@ -942,7 +942,7 @@ cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -schem
     }
 ```
 
-- [ ] **Step 4: 运行测试确认通过**
+- [x] **Step 4: 运行测试确认通过**
 
 ```bash
 cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:MallAppTests/APIClientTests
@@ -950,7 +950,7 @@ cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -schem
 
 预期：`Test Suite 'APIClientTests' passed`，10 个测试全部通过。
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd mall-ios && git add Core/Network/APIClient.swift MallAppTests/Core/Network/APIClientTests.swift MallApp.xcodeproj
