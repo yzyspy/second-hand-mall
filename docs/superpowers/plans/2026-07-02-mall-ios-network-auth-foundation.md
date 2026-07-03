@@ -1265,7 +1265,7 @@ git commit -m "feat(ios): add AppSession with login/register/logout/bootstrap"
 **Interfaces:**
 - Consumes: `AppSession.shared.bootstrap()`（Task 7）。
 
-- [ ] **Step 1: 修改 `MallApp.swift`**
+- [x] **Step 1: 修改 `MallApp.swift`**
 
 ```swift
 import SwiftUI
@@ -1284,7 +1284,7 @@ struct MallApp: App {
 }
 ```
 
-- [ ] **Step 2: 构建验证**
+- [x] **Step 2: 构建验证**
 
 ```bash
 cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' build
@@ -1292,7 +1292,7 @@ cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -schem
 
 预期：`** BUILD SUCCEEDED **`。
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd mall-ios && git add MallApp.swift MallApp.xcodeproj
