@@ -409,7 +409,7 @@ git commit -m "feat(ios): add TokenStore Keychain wrapper"
   ```
 - Consumed by: Task 5（`APIClient.request`/`register`）。
 
-- [ ] **Step 1: 写失败的测试**
+- [x] **Step 1: 写失败的测试**
 
 创建 `mall-ios/MallAppTests/Core/Network/ApiResponseTests.swift`：
 
@@ -453,7 +453,7 @@ final class ApiResponseTests: XCTestCase {
 }
 ```
 
-- [ ] **Step 2: 运行测试确认编译失败**
+- [x] **Step 2: 运行测试确认编译失败**
 
 ```bash
 cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:MallAppTests/ApiResponseTests
@@ -461,7 +461,7 @@ cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -schem
 
 预期：编译失败，报 `cannot find type 'ApiResponse' in scope`（及 `HTTPMethod`）。
 
-- [ ] **Step 3: 创建 `ApiResponse.swift`**
+- [x] **Step 3: 创建 `ApiResponse.swift`**
 
 ```swift
 import Foundation
@@ -479,7 +479,7 @@ struct ApiResponse<T: Decodable>: Decodable {
 struct EmptyResponse: Decodable {}
 ```
 
-- [ ] **Step 4: 创建 `HTTPMethod.swift`**
+- [x] **Step 4: 创建 `HTTPMethod.swift`**
 
 ```swift
 /// HTTP 方法集合。本 change 只用到 .get/.post；.put/.delete 一并定义，
@@ -492,7 +492,7 @@ enum HTTPMethod: String {
 }
 ```
 
-- [ ] **Step 5: 创建 `APIError.swift`**
+- [x] **Step 5: 创建 `APIError.swift`**
 
 ```swift
 import Foundation
@@ -510,7 +510,7 @@ enum APIError: Error {
 }
 ```
 
-- [ ] **Step 6: 从 `APIClient.swift` 移除旧的内联 `APIError` 定义与占位 `get` 方法**
+- [x] **Step 6: 从 `APIClient.swift` 移除旧的内联 `APIError` 定义与占位 `get` 方法**
 
 把 `mall-ios/Core/Network/APIClient.swift` 整个文件内容替换为最小占位（`APIClient` 主体在 Task 5 重写，这一步只是清掉与新 `APIError.swift` 冲突的重复类型定义）：
 
@@ -522,7 +522,7 @@ final class APIClient {
 }
 ```
 
-- [ ] **Step 7: 运行测试确认通过**
+- [x] **Step 7: 运行测试确认通过**
 
 ```bash
 cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:MallAppTests/ApiResponseTests
@@ -536,7 +536,7 @@ cd mall-ios && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destinatio
 
 预期：`** BUILD SUCCEEDED **`。
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 cd mall-ios && git add Core/Network/ApiResponse.swift Core/Network/HTTPMethod.swift Core/Network/APIError.swift Core/Network/APIClient.swift MallAppTests/Core/Network/ApiResponseTests.swift MallApp.xcodeproj
