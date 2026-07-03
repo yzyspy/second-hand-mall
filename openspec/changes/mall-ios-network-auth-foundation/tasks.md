@@ -24,7 +24,7 @@
 
 ## 5. 测试
 
-- [ ] 5.1 新增 `MallAppTests` XCTest target（写入 `project.yml`）
+- [x] 5.1 新增 `MallAppTests` XCTest target（写入 `project.yml`）
 - [ ] 5.2 编写自定义 `URLProtocol` 用于拦截网络请求 mock
 - [ ] 5.3 测试 `APIClient`：信封解码成功路径、`code != 0` 抛错、HTTP 401 → `.unauthorized`、`/user/save` 非信封响应解析
 - [ ] 5.4 测试 `AppSession`：`login`/`register`/`logout` 状态流转，以及 `bootstrap()` 从持久化存储恢复登录态

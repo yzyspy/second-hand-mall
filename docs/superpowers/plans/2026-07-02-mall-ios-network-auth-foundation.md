@@ -40,7 +40,7 @@ base-ref: 4c3249c052c8974429be9ffd66ed5e1ab858a4aa
 **Interfaces:**
 - Produces: 一个可运行的 `MallAppTests` XCTest target，`@testable import MallApp` 可用，供后续所有任务追加测试文件。
 
-- [ ] **Step 1: 编辑 `project.yml` 新增 `MallAppTests` target**
+- [x] **Step 1: 编辑 `project.yml` 新增 `MallAppTests` target**
 
 在 `mall-ios/project.yml` 的 `targets:` 下、`MallApp:` 定义之后追加 `MallAppTests` target，并新增顶层 `schemes:` 块让同一个 scheme 同时构建 App 和 Tests：
 
@@ -99,7 +99,7 @@ schemes:
 
 **验证要点（xcodegen 生成规则，已在隔离沙箱中验证过）：** `MallAppTests` 只需声明 `dependencies: [{target: MallApp}]`，XcodeGen 会自动为其生成 `TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MallApp.app/MallApp"` 与 `BUNDLE_LOADER = "$(TEST_HOST)"`，不需要额外的 `host:` 字段（XcodeGen 的 Target Spec 里没有这个字段名）。顶层 `schemes:` 一旦手写，会替代自动生成的 per-target scheme，因此显式把 `MallAppTests` 纳入同一个 `MallApp` scheme 的 build/test 阶段。
 
-- [ ] **Step 2: 创建占位测试文件**
+- [x] **Step 2: 创建占位测试文件**
 
 创建 `mall-ios/MallAppTests/SmokeTests.swift`：
 
@@ -114,7 +114,7 @@ final class SmokeTests: XCTestCase {
 }
 ```
 
-- [ ] **Step 3: 运行 `xcodegen generate` 重建 `.xcodeproj`**
+- [x] **Step 3: 运行 `xcodegen generate` 重建 `.xcodeproj`**
 
 ```bash
 cd mall-ios && xcodegen generate
@@ -122,7 +122,7 @@ cd mall-ios && xcodegen generate
 
 预期输出包含 `Created project at .../MallApp.xcodeproj`（或 `Updated project`），无报错。
 
-- [ ] **Step 4: 构建并运行测试验证管线打通**
+- [x] **Step 4: 构建并运行测试验证管线打通**
 
 ```bash
 cd mall-ios && xcrun simctl list devices available | grep iPhone
@@ -136,7 +136,7 @@ cd mall-ios && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destinatio
 
 预期看到 `Test Suite 'SmokeTests'` 通过，最终输出 `** TEST SUCCEEDED **`。
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd mall-ios && git add project.yml MallAppTests/SmokeTests.swift MallApp.xcodeproj
