@@ -3,7 +3,9 @@ import SwiftUI
 @main
 struct MallApp: App {
     init() {
-        AppSession.shared.bootstrap()
+        MainActor.assumeIsolated {
+            AppSession.shared.bootstrap()
+        }
     }
 
     var body: some Scene {

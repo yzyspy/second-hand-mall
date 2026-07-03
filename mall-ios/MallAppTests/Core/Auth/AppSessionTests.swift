@@ -1,6 +1,7 @@
 import XCTest
 @testable import MallApp
 
+@MainActor
 final class AppSessionTests: XCTestCase {
     private var apiClient: APIClient!
     private var defaults: UserDefaults!

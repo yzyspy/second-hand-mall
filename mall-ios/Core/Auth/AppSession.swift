@@ -3,6 +3,7 @@ import Observation
 
 /// App 唯一会话真源。login/register 成功后把 token 存入 Keychain，
 /// 用户信息存入 UserDefaults；bootstrap() 在启动时同步恢复，不发起网络请求。
+@MainActor
 @Observable
 final class AppSession {
     static let shared = AppSession()
