@@ -7,7 +7,7 @@
 
 ## 2. 账号会话
 
-- [ ] 2.1 新增 `Core/Auth/TokenStore.swift`：Keychain save/get/delete 封装
+- [x] 2.1 新增 `Core/Auth/TokenStore.swift`：Keychain save/get/delete 封装
 - [ ] 2.2 新增 `Core/Auth/AppSession.swift`：`@Observable` 会话状态，实现 `login`/`register`/`logout`/`bootstrap`
 - [ ] 2.3 在 `MallApp.swift` 启动时调用 `AppSession.shared.bootstrap()`
 

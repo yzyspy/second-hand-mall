@@ -256,7 +256,7 @@ git commit -m "test(ios): add MockURLProtocol harness for network stubbing"
   ```
 - Consumed by: Task 5（`APIClient.request` 的 `requiresAuth` 分支）、Task 7（`AppSession`）。
 
-- [ ] **Step 1: 写失败的测试**
+- [x] **Step 1: 写失败的测试**
 
 创建 `mall-ios/MallAppTests/Core/Auth/TokenStoreTests.swift`：
 
@@ -294,7 +294,7 @@ final class TokenStoreTests: XCTestCase {
 }
 ```
 
-- [ ] **Step 2: 运行测试确认编译失败（`TokenStore` 尚不存在）**
+- [x] **Step 2: 运行测试确认编译失败（`TokenStore` 尚不存在）**
 
 ```bash
 cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:MallAppTests/TokenStoreTests
@@ -302,7 +302,7 @@ cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -schem
 
 预期：编译失败，报 `cannot find 'TokenStore' in scope`。
 
-- [ ] **Step 3: 实现 `TokenStore`**
+- [x] **Step 3: 实现 `TokenStore`**
 
 创建 `mall-ios/Core/Auth/TokenStore.swift`：
 
@@ -359,7 +359,7 @@ final class TokenStore {
 }
 ```
 
-- [ ] **Step 4: 运行测试确认通过**
+- [x] **Step 4: 运行测试确认通过**
 
 ```bash
 cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:MallAppTests/TokenStoreTests
@@ -367,7 +367,7 @@ cd mall-ios && xcodegen generate && xcodebuild -project MallApp.xcodeproj -schem
 
 预期：`Test Suite 'TokenStoreTests' passed`，4 个测试全部通过。
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd mall-ios && git add Core/Auth/TokenStore.swift MallAppTests/Core/Auth/TokenStoreTests.swift MallApp.xcodeproj
