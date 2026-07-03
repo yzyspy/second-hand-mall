@@ -20,5 +20,5 @@ verified_at: null
 archived: false
 handoff_context: openspec/changes/mall-ios-network-auth-foundation/.comet/handoff/design-context.json
 handoff_hash: aaf33b15c286fabc6181f65380124045fc741a085b2526303955578f26c857a9
-build_command: cd mall-ios && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' build
-verify_command: cd mall-ios && xcodebuild -project MallApp.xcodeproj -scheme MallApp -destination 'platform=iOS Simulator,name=iPhone 17' test
+build_command: mall-ios/scripts/ci-build.sh
+verify_command: mall-ios/scripts/ci-test.sh
