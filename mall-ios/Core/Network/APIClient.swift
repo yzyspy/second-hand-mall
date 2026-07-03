@@ -76,4 +76,42 @@ final class APIClient {
             DecodingError.valueNotFound(T.self, DecodingError.Context(codingPath: [], debugDescription: "data 字段缺失"))
         )
     }
+
+    /// /user/save 不遵循信封格式，直接返回 {"message": String}。
+    /// 任何非 2xx 响应或缺少 message 字段均视为注册失败，不解析具体后端错误原因。
+    func register(username: String, password: String) async throws -> String {
+        guard let url = URL(string: baseURL + "/user/save") else {
+            throw APIError.transport(URLError(.badURL))
+        }
+
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = HTTPMethod.post.rawValue
+        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.httpBody = try JSONEncoder().encode([
+            "username": username,
+            "password": password
+        ])
+
+        let data: Data
+        let response: URLResponse
+        do {
+            (data, response) = try await session.data(for: urlRequest)
+        } catch {
+            throw APIError.transport(error)
+        }
+
+        guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
+            let code = (response as? HTTPURLResponse)?.statusCode ?? -1
+            throw APIError.server(code: code, msg: "注册失败")
+        }
+
+        struct RegisterResponse: Decodable {
+            let message: String
+        }
+        do {
+            return try JSONDecoder().decode(RegisterResponse.self, from: data).message
+        } catch {
+            throw APIError.decoding(error)
+        }
+    }
 }

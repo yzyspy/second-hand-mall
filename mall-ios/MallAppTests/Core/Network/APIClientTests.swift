@@ -150,4 +150,34 @@ final class APIClientTests: XCTestCase {
             XCTFail("unexpected error: \(error)")
         }
     }
+
+    func testRegister_returnsMessageOnSuccess() async throws {
+        MockURLProtocol.requestHandler = { request in
+            let json = """
+            {"message":"save user success kane"}
+            """.data(using: .utf8)!
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, json)
+        }
+
+        let message = try await apiClient.register(username: "kane", password: "111")
+
+        XCTAssertEqual(message, "save user success kane")
+    }
+
+    func testRegister_throwsOnNon2xxResponse() async {
+        MockURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 500, httpVersion: nil, headerFields: nil)!
+            return (response, Data())
+        }
+
+        do {
+            _ = try await apiClient.register(username: "kane", password: "111")
+            XCTFail("expected throw")
+        } catch APIError.server {
+            // expected
+        } catch {
+            XCTFail("unexpected error: \(error)")
+        }
+    }
 }
