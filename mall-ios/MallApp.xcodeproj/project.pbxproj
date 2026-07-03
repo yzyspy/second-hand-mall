@@ -9,8 +9,10 @@
 /* Begin PBXBuildFile section */
 		07CC2C8982B38FE0814378E0 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958EC6B605941705DAF2AF5C /* HomeViewModel.swift */; };
 		2626D57B59B6C728AE7E9A17 /* MockURLProtocolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5A6CCDB663C097ED91A6B2 /* MockURLProtocolTests.swift */; };
+		3973A160CCC2F5A082A452A3 /* AppSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902E031BC36AFD4EC546D9D8 /* AppSessionTests.swift */; };
 		3F7ABF7F98C9A9703FD81E79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EC6E7C0CC5C0DE584C27F730 /* Assets.xcassets */; };
 		40980EAE371314981A99D749 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E7F5F57DBCC0CE37AE4131 /* APIClient.swift */; };
+		47B618E55F1B44ABB491D014 /* AppSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3082C22D5428EB993DEC249 /* AppSession.swift */; };
 		58B30EA8911B340D4B8FA374 /* ApiResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731B287370C2AB239C0DBFC2 /* ApiResponse.swift */; };
 		60E196CF6CAB1AE195FA7D1A /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6626CD4CB8649D6332A41E74 /* HTTPMethod.swift */; };
 		6833172609BCDDB3BF16469E /* MallApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54166322E926DF7E6BF0739 /* MallApp.swift */; };
@@ -53,8 +55,10 @@
 		70E20DF4C4C1493BDCC1A4AA /* SmokeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeTests.swift; sourceTree = "<group>"; };
 		731B287370C2AB239C0DBFC2 /* ApiResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResponse.swift; sourceTree = "<group>"; };
 		7FDF069D3F5A53EE3720C8F8 /* ApiResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiResponseTests.swift; sourceTree = "<group>"; };
+		902E031BC36AFD4EC546D9D8 /* AppSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSessionTests.swift; sourceTree = "<group>"; };
 		958EC6B605941705DAF2AF5C /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		9EFD530406AE6C730E63D536 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
+		A3082C22D5428EB993DEC249 /* AppSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSession.swift; sourceTree = "<group>"; };
 		A613D40C7ABE586097A97B6F /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
 		B8C0814EBA8BCFA493C3A67E /* MallApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MallApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA5A6CCDB663C097ED91A6B2 /* MockURLProtocolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocolTests.swift; sourceTree = "<group>"; };
@@ -68,6 +72,7 @@
 		038F054F755BB8DCD3E65007 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				902E031BC36AFD4EC546D9D8 /* AppSessionTests.swift */,
 				4DC0D5FEAF564C8BBEB70F27 /* TokenStoreTests.swift */,
 			);
 			path = Auth;
@@ -201,6 +206,7 @@
 		D266AC47377E5E011B0017A7 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				A3082C22D5428EB993DEC249 /* AppSession.swift */,
 				3C2487E7A47C6F5D5A1CDFAB /* TokenStore.swift */,
 			);
 			path = Auth;
@@ -356,6 +362,7 @@
 			files = (
 				E94D9C61B2DCC6A86FDDAE39 /* APIClientTests.swift in Sources */,
 				CD960834E9CC4BC949556945 /* ApiResponseTests.swift in Sources */,
+				3973A160CCC2F5A082A452A3 /* AppSessionTests.swift in Sources */,
 				D6965E2B7FE6D8C06AD94B93 /* MockURLProtocol.swift in Sources */,
 				2626D57B59B6C728AE7E9A17 /* MockURLProtocolTests.swift in Sources */,
 				ED66BB484CA8EEC49CA7E199 /* SmokeTests.swift in Sources */,
@@ -370,6 +377,7 @@
 				40980EAE371314981A99D749 /* APIClient.swift in Sources */,
 				A4FEF8B6DE255AB7F25EBE20 /* APIError.swift in Sources */,
 				58B30EA8911B340D4B8FA374 /* ApiResponse.swift in Sources */,
+				47B618E55F1B44ABB491D014 /* AppSession.swift in Sources */,
 				F4DB27C568FA93321DDCBF4E /* ContentView.swift in Sources */,
 				60E196CF6CAB1AE195FA7D1A /* HTTPMethod.swift in Sources */,
 				DF2365526B83629AAA193C1B /* HomeView.swift in Sources */,
