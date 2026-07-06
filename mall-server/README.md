@@ -3,6 +3,12 @@
 nginx 安装路径 /usr/local/nginx
 重启nginx sudo /usr/local/nginx/sbin/nginx -s reload
 
+七牛云图床
+腾讯云域名和https证书
+腾讯容器镜像服务
+kind kubernetes 部署
+
+
 ubuntu 交叉编译
 ```shell
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o mall-server-linux

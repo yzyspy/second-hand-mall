@@ -2,6 +2,8 @@
 comet_change: mall-ios-network-auth-foundation
 role: technical-design
 canonical_spec: openspec
+archived-with: 2026-07-03-mall-ios-network-auth-foundation
+status: final
 ---
 
 # mall-ios-network-auth-foundation 技术设计

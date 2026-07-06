@@ -1,0 +1,15 @@
+{
+  "change": "mall-ios-network-auth-foundation",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "aaf33b15c286fabc6181f65380124045fc741a085b2526303955578f26c857a9",
+  "files": [
+    { "path": "openspec/changes/mall-ios-network-auth-foundation/proposal.md", "sha256": "e84050b9517ffd98d657adfb193bb4201f474ae8a15ff5eaaa1872fd61fc9f8c" },
+    { "path": "openspec/changes/mall-ios-network-auth-foundation/design.md", "sha256": "a3f9b913c905e6892cd142c87205fb808112b6ff9f5b56da8aa69876073339ab" },
+    { "path": "openspec/changes/mall-ios-network-auth-foundation/tasks.md", "sha256": "9707c2ee93b4d7b66550a348f7250b0b1c39f057f702c13eb2585845728c79c7" },
+    { "path": "openspec/changes/mall-ios-network-auth-foundation/specs/ios-account-session/spec.md", "sha256": "8ea92cbb8636f8ff7bdb1952e2de05d51dd22b6ee77c218716e7599b09acb480" },
+    { "path": "openspec/changes/mall-ios-network-auth-foundation/specs/ios-network-client/spec.md", "sha256": "f46464bb413b5bd222af962a97bcb0158b62c401f35cda42a2ea0f8fa9ebab1e" }
+  ]
+}

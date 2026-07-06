@@ -2,6 +2,7 @@
 change: mall-ios-network-auth-foundation
 design-doc: docs/superpowers/specs/2026-07-02-mall-ios-network-auth-foundation-design.md
 base-ref: 4c3249c052c8974429be9ffd66ed5e1ab858a4aa
+archived-with: 2026-07-03-mall-ios-network-auth-foundation
 ---
 
 # mall-ios-network-auth-foundation Implementation Plan
@@ -29,6 +30,7 @@ base-ref: 4c3249c052c8974429be9ffd66ed5e1ab858a4aa
 - 不修改 `mall-server/` 或 `mall-mini/` 下任何文件——它们只是本计划的行为参考。
 - 提交信息使用英文祈使句（沿用仓库现有提交历史风格，如 `feat(ios): ...` / `fix(ios): ...` / `test(ios): ...`）。
 
+archived-with: 2026-07-03-mall-ios-network-auth-foundation
 ---
 
 ## Task 1: 新增 `MallAppTests` 测试基础设施
@@ -143,6 +145,7 @@ cd mall-ios && git add project.yml MallAppTests/SmokeTests.swift MallApp.xcodepr
 git commit -m "test(ios): add MallAppTests target via xcodegen"
 ```
 
+archived-with: 2026-07-03-mall-ios-network-auth-foundation
 ---
 
 ## Task 2: 自定义 `URLProtocol` 网络 Mock
@@ -236,6 +239,7 @@ cd mall-ios && git add MallAppTests/Support/MockURLProtocol.swift MallAppTests/S
 git commit -m "test(ios): add MockURLProtocol harness for network stubbing"
 ```
 
+archived-with: 2026-07-03-mall-ios-network-auth-foundation
 ---
 
 ## Task 3: `TokenStore` Keychain 封装
@@ -374,6 +378,7 @@ cd mall-ios && git add Core/Auth/TokenStore.swift MallAppTests/Core/Auth/TokenSt
 git commit -m "feat(ios): add TokenStore Keychain wrapper"
 ```
 
+archived-with: 2026-07-03-mall-ios-network-auth-foundation
 ---
 
 ## Task 4: 网络基础类型 —— `ApiResponse` / `EmptyResponse` / `HTTPMethod` / `APIError`
@@ -543,6 +548,7 @@ cd mall-ios && git add Core/Network/ApiResponse.swift Core/Network/HTTPMethod.sw
 git commit -m "feat(ios): add ApiResponse envelope, HTTPMethod, and APIError types"
 ```
 
+archived-with: 2026-07-03-mall-ios-network-auth-foundation
 ---
 
 ## Task 5: `APIClient.request<T>` 通用请求方法
@@ -838,6 +844,7 @@ cd mall-ios && git add Core/Network/APIClient.swift MallAppTests/Core/Network/AP
 git commit -m "feat(ios): implement APIClient.request generic envelope handling"
 ```
 
+archived-with: 2026-07-03-mall-ios-network-auth-foundation
 ---
 
 ## Task 6: `APIClient.register` 非信封注册方法
@@ -957,6 +964,7 @@ cd mall-ios && git add Core/Network/APIClient.swift MallAppTests/Core/Network/AP
 git commit -m "feat(ios): add APIClient.register for non-envelope /user/save endpoint"
 ```
 
+archived-with: 2026-07-03-mall-ios-network-auth-foundation
 ---
 
 ## Task 7: `AppSession` 会话状态
@@ -1255,6 +1263,7 @@ cd mall-ios && git add Core/Auth/AppSession.swift MallAppTests/Core/Auth/AppSess
 git commit -m "feat(ios): add AppSession with login/register/logout/bootstrap"
 ```
 
+archived-with: 2026-07-03-mall-ios-network-auth-foundation
 ---
 
 ## Task 8: `MallApp.swift` 启动时恢复会话
@@ -1299,6 +1308,7 @@ cd mall-ios && git add MallApp.swift MallApp.xcodeproj
 git commit -m "feat(ios): call AppSession.bootstrap() on app launch"
 ```
 
+archived-with: 2026-07-03-mall-ios-network-auth-foundation
 ---
 
 ## Task 9: 四 Tab 壳与消息占位
@@ -1387,6 +1397,7 @@ cd mall-ios && git add Features/Chat ContentView.swift MallApp.xcodeproj
 git commit -m "feat(ios): add Chat tab placeholder, expand TabView to four tabs"
 ```
 
+archived-with: 2026-07-03-mall-ios-network-auth-foundation
 ---
 
 ## Task 10: `ProfileViewModel` 重写 —— 表单状态与错误反馈
@@ -1478,6 +1489,7 @@ final class ProfileViewModel {
 
 - [x] **Step 3: 不单独 commit，与 Task 11 合并提交**
 
+archived-with: 2026-07-03-mall-ios-network-auth-foundation
 ---
 
 ## Task 11: `ProfileView` 重写 —— 登录/注册表单 + 已登录态卡片
@@ -1597,6 +1609,7 @@ cd mall-ios && git add Features/Profile/ViewModel/ProfileViewModel.swift Feature
 git commit -m "feat(ios): implement Profile login/register form and logged-in state"
 ```
 
+archived-with: 2026-07-03-mall-ios-network-auth-foundation
 ---
 
 ## Task 12: 全量验证
@@ -1645,6 +1658,7 @@ cd mall-server && go build -o mall-server && ./mall-server web -config configs/c
 
 若手动验证全部通过，此计划的实现阶段完成，可以进入 Comet `verify` 阶段（`comet-verify`）做正式验证收尾；若发现偏差，参照 `superpowers:systematic-debugging` 定位根因后回到对应 Task 修复并重新提交。
 
+archived-with: 2026-07-03-mall-ios-network-auth-foundation
 ---
 
 ## Self-Review 备注（供执行者参考，无需重复劳动）
