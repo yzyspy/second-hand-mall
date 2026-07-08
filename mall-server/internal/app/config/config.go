@@ -63,7 +63,7 @@ func MustLoad(fpaths ...string) {
 			Loader:    multiconfig.MultiLoader(loaders...),
 			Validator: multiconfig.MultiValidator(&multiconfig.RequiredValidator{}),
 		}
-		fmt.Printf("must load config before: %v\n", C.Log)
+		fmt.Printf("v1.2.0 must load config before: %v\n", C.Log)
 		m.MustLoad(C) // 这个代码会给C的 Log Log `yaml:"log"` 赋值吗？？？？ 是的，会从config.yaml中读取log配置。
 		fmt.Printf("must load config after:  %v\n", C.Log)
 	})
@@ -84,7 +84,7 @@ type Config struct {
 	Consul     Consul     `yaml:"consul"`
 	GrpcClient GrpcClient `yaml:"grpc_client"`
 	Qiniu      Qiniu      `yaml:"qiniu"`
-	WxApp       WxApp      `yaml:"wx_app"`
+	WxApp      WxApp      `yaml:"wx_app"`
 }
 
 // // IsDebugMode 是否是debug模式

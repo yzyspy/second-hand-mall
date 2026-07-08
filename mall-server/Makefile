@@ -13,7 +13,7 @@ date=$(shell date +%Y%m%d%H%M%S)
 # GOBUILD = env CGO_ENABLED=0 go build -ldflags="-w -s" -trimpath -o $(BUILD_DIR)
 
 
-build
+build:
 	docker build -t myapp:v1.2.0 .
 	docker login -u=yzyspy@163.com -p YZYspy202502# crpi-7o15kx1cc25d6tg2.cn-hangzhou.personal.cr.aliyuncs.com
 	docker tag myapp:v1.2.0 crpi-7o15kx1cc25d6tg2.cn-hangzhou.personal.cr.aliyuncs.com/yangzhongyu/myapp:v1.2.0
