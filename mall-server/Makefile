@@ -13,12 +13,12 @@ date=$(shell date +%Y%m%d%H%M%S)
 # GOBUILD = env CGO_ENABLED=0 go build -ldflags="-w -s" -trimpath -o $(BUILD_DIR)
 
 
-build:
-	docker build -t myapp:v1.0.0 .
+build
+	docker build -t myapp:v1.2.0 .
 	docker login -u=yzyspy@163.com -p YZYspy202502# crpi-7o15kx1cc25d6tg2.cn-hangzhou.personal.cr.aliyuncs.com
-	docker tag myapp:v1.0.0 crpi-7o15kx1cc25d6tg2.cn-hangzhou.personal.cr.aliyuncs.com/yangzhongyu/myapp:v1.0.0
-	docker push crpi-7o15kx1cc25d6tg2.cn-hangzhou.personal.cr.aliyuncs.com/yangzhongyu/myapp:v1.0.0
-	@echo "image: registry.cn-hangzhou.aliyuncs.com/yangzhongyu/myapp:v1.0.0"
+	docker tag myapp:v1.2.0 crpi-7o15kx1cc25d6tg2.cn-hangzhou.personal.cr.aliyuncs.com/yangzhongyu/myapp:v1.2.0
+	docker push crpi-7o15kx1cc25d6tg2.cn-hangzhou.personal.cr.aliyuncs.com/yangzhongyu/myapp:v1.2.0
+	@echo "image: registry.cn-hangzhou.aliyuncs.com/yangzhongyu/myapp:v1.2.0"
 
 
 generate:

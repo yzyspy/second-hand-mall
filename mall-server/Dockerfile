@@ -35,4 +35,4 @@ COPY second-hand-mall.db .
 EXPOSE 8080
 
 # 启动应用
-CMD ["./myapp"]
+CMD ["./myapp", "web", "-config", "config.yaml"]
