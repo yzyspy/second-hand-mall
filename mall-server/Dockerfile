@@ -28,11 +28,12 @@ WORKDIR /app
 COPY --from=builder /app/myapp .
 
 # 拷贝配置文件和数据文件
-COPY configs/config.yaml .
+RUN mkdir -p /app/configs
+COPY configs/config.yaml configs/
 COPY second-hand-mall.db .
 
 # 暴露应用端口（根据你的实际端口修改，例如 8080）
 EXPOSE 8080
 
 # 启动应用
-CMD ["./myapp", "web", "-config", "config.yaml"]
+CMD ["./myapp", "web", "-config", "configs/config.yaml"]
