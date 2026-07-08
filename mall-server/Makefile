@@ -11,13 +11,13 @@ NEXT_VERSION=$(shell echo $(VERSION) | awk -F. '{printf "%d.%d.%d", $$1, $$2, $$
 
 date=$(shell date +%Y%m%d%H%M%S)
 
-IMAGE_VERSION := v1.4.0
+IMAGE_VERSION := v1.6.0
 
 # GOBUILD = env CGO_ENABLED=0 go build -ldflags="-w -s" -trimpath -o $(BUILD_DIR)
 
 
 build:
-	docker build -t myapp:$(IMAGE_VERSION) .
+	docker build --platform linux/amd64 -t myapp:$(IMAGE_VERSION) .
 	docker login -u=yzyspy@163.com -p YZYspy202502# crpi-7o15kx1cc25d6tg2.cn-hangzhou.personal.cr.aliyuncs.com
 	docker tag myapp:$(IMAGE_VERSION) crpi-7o15kx1cc25d6tg2.cn-hangzhou.personal.cr.aliyuncs.com/yangzhongyu/myapp:$(IMAGE_VERSION)
 	docker push crpi-7o15kx1cc25d6tg2.cn-hangzhou.personal.cr.aliyuncs.com/yangzhongyu/myapp:$(IMAGE_VERSION)
