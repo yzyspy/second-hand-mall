@@ -13,8 +13,8 @@ RUN go mod tidy
 # 复制全部源码
 COPY . .
 
-# 编译为静态二进制（禁用 CGO 以便在 alpine/scratch 中运行）
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o myapp .
+# 编译为静态二进制（禁用 CGO 以便在 alpine/scratch 中运行）,docker的架构一般是arm64
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o myapp .
 
 # ------------------- 运行阶段 -------------------
 FROM alpine:latest

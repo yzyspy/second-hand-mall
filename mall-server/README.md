@@ -9,7 +9,7 @@ nginx 安装路径 /usr/local/nginx
 kind kubernetes 部署
 
 
-ubuntu 交叉编译， 如果是部署到物理机，并且物理是x64或者amd架构，才使用amd64， 如果是部署到容器里面，pod一般是arm架构，需要改为
+ubuntu 交叉编译， 如果是部署到物理机，并且物理是x64或者amd架构，才使用amd64， 如果是部署到容器里面，pod一般是arm架构，需要改为arm64
 ```shell
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o mall-server-linux
 ```
