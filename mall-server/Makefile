@@ -4,21 +4,24 @@ BUILD_DIR := build
 
 ENV_FILE=.env
 
+
 include $(ENV_FILE)
 
 NEXT_VERSION=$(shell echo $(VERSION) | awk -F. '{printf "%d.%d.%d", $$1, $$2, $$3+1}')
 
 date=$(shell date +%Y%m%d%H%M%S)
 
+IMAGE_VERSION := v1.4.0
+
 # GOBUILD = env CGO_ENABLED=0 go build -ldflags="-w -s" -trimpath -o $(BUILD_DIR)
 
 
 build:
-	docker build -t myapp:v1.4.0 .
+	docker build -t myapp:$(IMAGE_VERSION) .
 	docker login -u=yzyspy@163.com -p YZYspy202502# crpi-7o15kx1cc25d6tg2.cn-hangzhou.personal.cr.aliyuncs.com
-	docker tag myapp:v1.4.0 crpi-7o15kx1cc25d6tg2.cn-hangzhou.personal.cr.aliyuncs.com/yangzhongyu/myapp:v1.4.0
-	docker push crpi-7o15kx1cc25d6tg2.cn-hangzhou.personal.cr.aliyuncs.com/yangzhongyu/myapp:v1.4.0
-	@echo "image: registry.cn-hangzhou.aliyuncs.com/yangzhongyu/myapp:v1.4.0"
+	docker tag myapp:$(IMAGE_VERSION) crpi-7o15kx1cc25d6tg2.cn-hangzhou.personal.cr.aliyuncs.com/yangzhongyu/myapp:$(IMAGE_VERSION)
+	docker push crpi-7o15kx1cc25d6tg2.cn-hangzhou.personal.cr.aliyuncs.com/yangzhongyu/myapp:$(IMAGE_VERSION)
+	@echo "image: registry.cn-hangzhou.aliyuncs.com/yangzhongyu/myapp:$(IMAGE_VERSION)"
 
 
 generate:

@@ -1,4 +1,4 @@
-FROM golang:1.24-alpine AS builder
+FROM --platform=linux/amd64 golang:1.24-alpine AS builder
 
 # 安装git
 RUN apk add --no-cache git
