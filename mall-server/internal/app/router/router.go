@@ -22,10 +22,7 @@ func App(ctx context.Context, svc *models.ServiceContext) *gin.Engine {
 	//curl -X POST -H "Content-Type: application/json" -d '{"username":"kane","password":"111"}' http://localhost:8080/user/save
 
 	r.POST("/user/save", func(c *gin.Context) {
-		result := service.SaveUser(ctx, c, svc)
-		c.JSON(200, gin.H{
-			"message": result,
-		})
+		service.SaveUser(ctx, c, svc)
 	})
 
 	// 用户登录接口

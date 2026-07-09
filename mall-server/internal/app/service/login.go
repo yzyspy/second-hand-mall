@@ -2,16 +2,15 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
-	"log"
 	"mall-server/internal/app/dao"
 	"mall-server/internal/app/models"
 	"mall-server/pkg/jwtx"
 	"mall-server/pkg/logger"
 	"net/http"
-	"time"
+	"strings"
 )
 
 func LoginPsw(ctx context.Context, c *gin.Context, svc *models.ServiceContext) {
@@ -44,8 +43,8 @@ func LoginPsw(ctx context.Context, c *gin.Context, svc *models.ServiceContext) {
 		return
 	}
 
-	// 验证密码
-	if user.Password != request.Password {
+	// 验证密码：优先 bcrypt；历史数据为明文，比对成功后原地升级为哈希
+	if !verifyAndUpgradePassword(svc.DB, user, request.Password) {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
 			"msg":  "密码错误",
@@ -83,43 +82,114 @@ func LoginPsw(ctx context.Context, c *gin.Context, svc *models.ServiceContext) {
 	})
 }
 
-func SaveUser(ctx context.Context, ginCtx *gin.Context, svc *models.ServiceContext) string {
+// SaveUser 用户名密码注册，成功后直接返回 token
+func SaveUser(ctx context.Context, c *gin.Context, svc *models.ServiceContext) {
 	request := new(LoginPswRequest)
-	// 绑定 POST 请求中的 JSON 数据到 request 对象
-	if err := ginCtx.ShouldBindJSON(request); err != nil {
-		return fmt.Sprintf("bind request error: %v", err)
-	}
-	//fmt.Printf("SaveUser request:%s, %s\n", request.Username, request.Password)
-	log.Printf("SaveUser request:%s, %s\n", request.Username, request.Password)
-	logger.Errorf("保存用户成功：%s\n", request.Username)
-	user := newUser(request.Username, request.Password)
-	err2 := user.Save(svc.DB)
-
-	if err2 != nil {
-		panic(fmt.Sprintf("db save error: %v", err2))
+	if err := c.ShouldBindJSON(request); err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "参数错误",
+		})
+		return
 	}
 
-	return "save user success " + request.Username
-}
+	username := strings.TrimSpace(request.Username)
+	if len(username) < 2 || len(username) > 50 {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "用户名长度需在2-50个字符之间",
+		})
+		return
+	}
+	if len(request.Password) < 6 {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "密码不能少于6位",
+		})
+		return
+	}
 
-// MockSysUser 返回一个填充了模拟数据的 SysUser 指针
-func newUser(username, password string) *dao.SysUser {
-	return &dao.SysUser{
-		Model: gorm.Model{
-			//		ID:        2,
-			CreatedAt: time.Now(),
-			UpdatedAt: time.Now(),
-			DeletedAt: gorm.DeletedAt{Valid: false}, // 未删除
-		},
+	// 用户名查重
+	_, err := dao.GetUserByUserName(svc.DB, username)
+	if err == nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "用户名已存在",
+		})
+		return
+	}
+	if err != gorm.ErrRecordNotFound {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "查询用户失败",
+		})
+		return
+	}
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(request.Password), bcrypt.DefaultCost)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "注册失败",
+		})
+		return
+	}
+
+	user := &dao.SysUser{
 		UserName: username,
-		Password: password, // 模拟密码，实际应加密
-		Phone:    "13800138000",
-		WxUserid: "wx_user_123",
-		WxOpenid: "openid_123",
-		Avatar:   "https://example.com/avatar.jpg",
-		Sex:      "male",
-		Email:    "test@example.com",
-		Remarks:  "这是一个用于测试的模拟用户",
+		Password: string(hash),
+		NickName: username,
 		RoleId:   1,
 	}
+	if err := user.Save(svc.DB); err != nil {
+		logger.WithContext(c).Errorf("SaveUser db error: %v", err)
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "注册失败",
+		})
+		return
+	}
+
+	logger.WithContext(c).Infof("SaveUser success: %s", username)
+
+	token, err := jwtx.GenerateToken(user.ID, user.UserName)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "生成token失败",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": 0,
+		"msg":  "注册成功",
+		"data": gin.H{
+			"user_id":   user.ID,
+			"user_name": user.UserName,
+			"avatar":    user.Avatar,
+			"token":     token,
+		},
+	})
+}
+
+// verifyAndUpgradePassword 校验密码。
+// 存量用户密码为明文，为兼容旧数据：bcrypt 比对失败时回退明文比对，
+// 明文比对成功则将密码原地升级为 bcrypt 哈希。
+func verifyAndUpgradePassword(db *gorm.DB, user *dao.SysUser, password string) bool {
+	if bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)) == nil {
+		return true
+	}
+
+	// 明文旧数据回退比对
+	if user.Password == "" || user.Password != password {
+		return false
+	}
+
+	if hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost); err == nil {
+		if err := db.Model(user).Update("password", string(hash)).Error; err != nil {
+			logger.Errorf("upgrade password hash failed for user %d: %v", user.ID, err)
+		}
+	}
+	return true
 }
