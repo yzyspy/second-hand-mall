@@ -1,6 +1,6 @@
 import Foundation
 
-/// POST /user/login、/user/save 的响应 data
+/// POST /api/user/login、/api/user/save 的响应 data
 struct AuthResult: Decodable {
     let userID: Int
     let userName: String
@@ -20,14 +20,14 @@ enum AuthAPI {
         let password: String
     }
 
-    /// POST /user/login 用户名密码登录
+    /// POST /api/user/login 用户名密码登录
     static func login(username: String, password: String) async throws -> AuthResult {
-        try await API.post("/user/login", body: Credentials(username: username, password: password))
+        try await API.post("/api/user/login", body: Credentials(username: username, password: password))
     }
 
-    /// POST /user/save 注册，成功直接返回 token
+    /// POST /api/user/save 注册，成功直接返回 token
     static func register(username: String, password: String) async throws -> AuthResult {
-        try await API.post("/user/save", body: Credentials(username: username, password: password))
+        try await API.post("/api/user/save", body: Credentials(username: username, password: password))
     }
 }
 

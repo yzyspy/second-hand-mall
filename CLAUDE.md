@@ -100,8 +100,8 @@ mall-mini/
 
 | Method | Path | Auth | Description |
 |--------|------|------|-------------|
-| POST | /user/save | No | Create user |
-| POST | /user/login | No | Login, returns JWT |
+| POST | /api/user/save | No | Create user |
+| POST | /api/user/login | No | Login, returns JWT |
 | POST | /api/upload/cos-signature-v2 | No | Get COS STS signature for upload |
 | GET | /ping | Yes | Health check (JWT required) |
 | GET | /actuator/health/readiness | No | K8s readiness probe |
