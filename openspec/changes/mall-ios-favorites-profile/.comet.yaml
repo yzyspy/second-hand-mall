@@ -1,5 +1,5 @@
 workflow: full
-phase: design
+phase: build
 context_compression: off
 build_mode: null
 build_pause: null
@@ -10,7 +10,7 @@ isolation: null
 verify_mode: null
 auto_transition: true
 base_ref: 4c3249c052c8974429be9ffd66ed5e1ab858a4aa
-design_doc: null
+design_doc: docs/superpowers/specs/2026-07-17-mall-ios-favorites-design.md
 plan: null
 verify_result: pending
 verification_report: null
@@ -18,3 +18,5 @@ branch_status: pending
 created_at: 2026-07-02
 verified_at: null
 archived: false
+handoff_context: openspec/changes/mall-ios-favorites-profile/.comet/handoff/design-context.json
+handoff_hash: 45e976fb0f8442fbd07e156f64499ef8965cb0b5cc7da297179690c0b7edae47

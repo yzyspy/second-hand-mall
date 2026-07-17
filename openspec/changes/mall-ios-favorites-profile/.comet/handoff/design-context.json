@@ -1,0 +1,15 @@
+{
+  "change": "mall-ios-favorites-profile",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "45e976fb0f8442fbd07e156f64499ef8965cb0b5cc7da297179690c0b7edae47",
+  "files": [
+    { "path": "openspec/changes/mall-ios-favorites-profile/proposal.md", "sha256": "b3a55744049a4e6e19e7e63419b00e05e06ff9b642a4ffd57ecd3b7c49297e2f" },
+    { "path": "openspec/changes/mall-ios-favorites-profile/design.md", "sha256": "031b0d05d16cd16b50fedf879b8967269c83f04acfdcf8df5cffdc37efb2092d" },
+    { "path": "openspec/changes/mall-ios-favorites-profile/tasks.md", "sha256": "7300492fef679eddf726bbe5b748f73536e0c94197dc9b40dba1eb27d465825d" },
+    { "path": "openspec/changes/mall-ios-favorites-profile/specs/ios-product-detail/spec.md", "sha256": "f615ce9f41d792ae87a238339967b89d2105644d81b6672ca5d3640631520e72" },
+    { "path": "openspec/changes/mall-ios-favorites-profile/specs/ios-product-favorite/spec.md", "sha256": "0c414d6e68e993e6c1e89539aedb682358c937b6f51c40160e1c9fe9c2bd3892" }
+  ]
+}
