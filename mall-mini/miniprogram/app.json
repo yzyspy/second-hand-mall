@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/gaokao/home/home",
     "pages/home/home",
     "pages/detail/detail",
     "pages/search/search",

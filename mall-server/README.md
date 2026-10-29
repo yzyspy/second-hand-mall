@@ -5,7 +5,7 @@ nginx 安装路径 /usr/local/nginx
 
 七牛云图床
 腾讯云域名和https证书
-腾讯容器镜像服务
+阿里云容器镜像服务
 kind kubernetes 部署
 
 

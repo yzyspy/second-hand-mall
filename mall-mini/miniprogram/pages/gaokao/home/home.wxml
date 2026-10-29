@@ -1,0 +1,6 @@
+<view class="container">
+  <text>hello world</text>
+  <navigator url="/pages/home/home" open-type="switchTab">
+    <button type="primary">进入旧首页</button>
+  </navigator>
+</view>
