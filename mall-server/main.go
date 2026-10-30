@@ -12,6 +12,7 @@ import (
 	"mall-server/internal/app/router"
 	"mall-server/pkg/logger"
 	"os"
+	_ "time/tzdata" // Embed timezone data for minimal container images.
 )
 
 func main() {

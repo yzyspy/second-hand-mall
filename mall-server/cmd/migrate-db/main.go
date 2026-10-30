@@ -14,6 +14,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	_ "time/tzdata" // Migration also needs named timezones in minimal images.
 )
 
 func main() {
