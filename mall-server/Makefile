@@ -11,7 +11,7 @@ NEXT_VERSION=$(shell echo $(VERSION) | awk -F. '{printf "%d.%d.%d", $$1, $$2, $$
 
 date=$(shell date +%Y%m%d%H%M%S)
 
-IMAGE_VERSION := v1.6.0
+IMAGE_VERSION := v3.0.0
 
 # GOBUILD = env CGO_ENABLED=0 go build -ldflags="-w -s" -trimpath -o $(BUILD_DIR)
 
