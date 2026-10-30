@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 type Product struct {
 	gorm.Model
 	Title        string  `gorm:"column:title;type:varchar(200);not null;default:''" json:"title" comment:"商品标题"`
-	Description  string  `gorm:"column:description;type:text;not null;default:''" json:"description" comment:"商品描述"`
+	Description  string  `gorm:"column:description;type:text;not null" json:"description" comment:"商品描述"`
 	Price        float64 `gorm:"column:price;type:decimal(10,2);not null;default:0" json:"price" comment:"价格"`
 	Images       string  `gorm:"column:images;type:varchar(1000);not null;default:''" json:"images" comment:"图片URL列表,逗号分隔"`
 	Location     string  `gorm:"column:location;type:varchar(100);not null;default:''" json:"location" comment:"交易地点"`

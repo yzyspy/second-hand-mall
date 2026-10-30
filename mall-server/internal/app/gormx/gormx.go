@@ -1,14 +1,16 @@
 package gormx
 
 import (
+	"fmt"
 	"github.com/glebarez/sqlite"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 	"strings"
 	"time"
 )
 
-// Config GORM Config
 type Config struct {
 	Debug        bool
 	DBType       string
@@ -19,69 +21,34 @@ type Config struct {
 	TablePrefix  string
 }
 
-// New CreateGuestUser gorm.DB instance
 func New(c *Config) (*gorm.DB, error) {
 	var dialector gorm.Dialector
-
 	switch strings.ToLower(c.DBType) {
-	case "mysql":
-		// create database if not exists
-		//cfg, err := mysqlDriver.ParseDSN(c.DSN)
-		//if err != nil {
-		//	return nil, err
-		//}
-		//
-		//err = createDatabaseWithMySQL(cfg)
-		//if err != nil {
-		//	return nil, err
-		//}
-		//dialector = mysql.Open(c.DSN)
-	case "postgres":
-	//	dialector = postgres.Open(c.DSN)
 	case "sqlite":
 		dialector = sqlite.Open(c.DSN)
-
+	case "mysql":
+		precision := 6
+		dialector = mysql.New(mysql.Config{DSN: c.DSN, DefaultDatetimePrecision: &precision})
 	default:
-		//	dialector = sqlite.Open(c.DSN)
+		return nil, fmt.Errorf("unsupported database type %q", c.DBType)
 	}
-
-	gconfig := &gorm.Config{
-		NamingStrategy: schema.NamingStrategy{
-			TablePrefix:   c.TablePrefix,
-			SingularTable: true,
-		},
+	level := logger.Silent
+	if c.Debug {
+		level = logger.Info
 	}
-
-	db, err := gorm.Open(dialector, gconfig)
+	db, err := gorm.Open(dialector, &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{TablePrefix: c.TablePrefix, SingularTable: true},
+		Logger:         logger.Default.LogMode(level),
+	})
 	if err != nil {
 		return nil, err
 	}
-
-	if c.Debug {
-		db = db.Debug()
-	}
-
 	sqlDB, err := db.DB()
 	if err != nil {
 		return nil, err
 	}
-
-	sqlDB.SetMaxIdleConns(c.MaxIdleConns)
 	sqlDB.SetMaxOpenConns(c.MaxOpenConns)
+	sqlDB.SetMaxIdleConns(c.MaxIdleConns)
 	sqlDB.SetConnMaxLifetime(time.Duration(c.MaxLifetime) * time.Second)
-
 	return db, nil
 }
-
-//func createDatabaseWithMySQL(cfg *mysqlDriver.Config) error {
-//	dsn := fmt.Sprintf("%s:%s@tcp(%s)/", cfg.User, cfg.Passwd, cfg.Addr)
-//	db, err := sql.Open("mysql", dsn)
-//	if err != nil {
-//		return err
-//	}
-//	defer db.Close()
-//
-//	query := fmt.Sprintf("CREATE DATABASE IF NOT EXISTS `%s` DEFAULT CHARACTER SET = `utf8mb4`;", cfg.DBName)
-//	_, err = db.Exec(query)
-//	return err
-//}

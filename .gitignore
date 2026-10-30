@@ -4,3 +4,6 @@ mall-server/.idea/
 logs
 configs
 .worktrees/
+
+# Offline database backups contain private application data.
+mall-server/backups/

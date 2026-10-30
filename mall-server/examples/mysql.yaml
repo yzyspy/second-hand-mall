@@ -1,0 +1,24 @@
+# Copy to configs/mysql.local.yaml; configs/ is ignored by Git.
+# Retain your existing wx_app/qiniu and other application settings.
+log:
+  level: 4
+  format: json
+  output: stderr
+gorm:
+  db_type: mysql
+  debug: false
+  max_lifetime: 1800
+  max_open_conns: 20
+  max_idle_conns: 5
+  table_prefix: ""
+  enable_auto_migrate: false
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  user: root
+  password: ""
+  db_name: second-mall
+  parameters: "charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai"
+sqlite:
+  file_path: ./second-hand-mall.db
+  parameters: ""

@@ -1,4 +1,6 @@
-这是二手交易平台服务端使用go + gorm + gin + sqlite实现
+这是二手交易平台服务端，使用 Go + GORM + Gin，支持 SQLite / MySQL。
+
+数据库切换与一次性数据迁移见 [MYSQL_MIGRATION.md](MYSQL_MIGRATION.md)。
 
 nginx 安装路径 /usr/local/nginx
 重启nginx sudo /usr/local/nginx/sbin/nginx -s reload

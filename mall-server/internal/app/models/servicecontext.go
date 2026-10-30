@@ -12,7 +12,10 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c context.Context) *ServiceContext {
-	db, _ := NewDB()
+	db, err := NewDB()
+	if err != nil {
+		panic(err)
+	}
 	//cache, _, _ := InitRedis(c)
 
 	return &ServiceContext{

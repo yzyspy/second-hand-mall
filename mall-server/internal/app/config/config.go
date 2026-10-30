@@ -78,6 +78,7 @@ type Config struct {
 	Log        Log        `yaml:"log"`
 	Gorm       Gorm       `yaml:"gorm"`
 	RunMode    string     `yaml:"run_mode"`
+	MySQL      MySQL      `yaml:"mysql"`
 	VpnMySQL   MySQL      `yaml:"vpn_mysql"`
 	Redis      Redis      `yaml:"redis"`
 	SQLite     SQLite     `yaml:"sqlite"`
